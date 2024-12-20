@@ -1,5 +1,3 @@
-
-
 const icon = document.getElementById("main-icon");
 const barraLateral=document.querySelector(".barra-lateral");
 const span = document.querySelector("span");
@@ -7,7 +5,11 @@ const spans = document.querySelectorAll("span");
 const menu = document.querySelector(".menu");
 const main = document.querySelector("main");
 
+const logout = document.getElementById("boton-nav");
 
+logout.addEventListener("click",()=>{
+    window.location.href="/";
+});
 menu.addEventListener("click",()=>{
     barraLateral.classList.toggle("max-barra-lateral");
     if(barraLateral.classList.contains("max-barra-lateral")){
