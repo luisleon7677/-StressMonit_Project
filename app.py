@@ -1,10 +1,35 @@
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+# Credenciales de prueba
+users = {"admin": "password123", "testuser": "mypassword"}
+
 @app.route("/")
+def home():
+    return redirect(url_for("login"))
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return send_file("index.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if username in users and users[username] == password:
+            return redirect(url_for("inicio"))
+        return "Credenciales inválidas", 401
+    return render_template("login.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        password = request.form["password"]
+        if username in users:
+            return "Usuario ya existe", 400
+        users[username] = password
+        return redirect(url_for("login"))
+    return render_template("register.html")
 
 @app.route("/inicio")
 def inicio():

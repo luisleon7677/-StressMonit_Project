@@ -14,12 +14,120 @@
     box-sizing: border-box;
 }
 
-body{
+/*body{
     
     height: 100vh;
     width: 100%;
     background-color: darkcyan;
+}*/
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
+
+.container {
+    display: flex;
+    background-color: #ffffff;
+    width: 900px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.login-container {
+    background-color: #fff;
+}
+
+.register-container {
+    background-color: #f8f8f8;
+}
+
+.form-content h2 {
+    margin-bottom: 20px;
+    color: #ff4c4c;
+}
+
+form input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4c4c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #ff3333;
+}
+
+.forgot {
+    display: block;
+    margin: 10px 0;
+    color: #ff4c4c;
+    text-decoration: none;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+p a {
+    color: #ff4c4c;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+.logo-container {
+    background-color: #ff4c4c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0.5;
+    flex-direction: column;
+}
+
+.logo-container img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+
 .menu{
    position: fixed;
    width: 50px;
@@ -38,16 +146,14 @@ body{
 
 }
 .barra-lateral{
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    width: 250px;
-    height: 100%;
-    padding: 20px 15px;
-    overflow: hidden;
-    background-color: var(--color-barra-lateral);
-    transition: width 0.5s ease, left 0.5s ease;
-    z-index: 50;
+    position: fixed; /* Fija el menú en la pantalla */
+    left: 0; /* Coloca el menú en la posición más a la izquierda */
+    top: 0; /* Asegura que comience desde la parte superior */
+    height: 100%; /* Ocupa toda la altura de la pantalla */
+    width: 250px; /* Ancho deseado del menú */
+    background-color: #f8f9fa; /* Cambia al color que desees */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Agrega un sombreado opcional */
 }
 .mini-barra-lateral{
     width: 80px;
