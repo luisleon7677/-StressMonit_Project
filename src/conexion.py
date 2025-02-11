@@ -1,6 +1,6 @@
 import psycopg2
 
-try:
+def consultaSQL(consulta):
     conection = psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -8,18 +8,10 @@ try:
         database='dbstressmonit'
         
     )
-    print("conexion exitosa")
     #creamos un cursor para interacturar con la base de datos
     cursor=conection.cursor()
-    cursor.execute("SELECT * FROM usuarios")
-    #imprimimos las filas
+    cursor.execute(consulta)
+    #Obtenemos todos los registros
     rows=cursor.fetchall()
-    for row in rows:
-        print(row)
-        
-except Exception as ex:
-    print(ex)
     
-finally:
-    conection.close()
-    print("Conexion finalizada")
+    return rows 

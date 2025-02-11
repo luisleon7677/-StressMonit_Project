@@ -4,6 +4,25 @@
 <h1>Usuarios</h1>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni nihil voluptas nobis quidem natus repudiandae quis dolore molestias ratione possimus?</p>
 
+<h2>Tabla</h2>
+
+<table class="table">
+ <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+    </tr>
+ </thead>
+ <tbody>
+    {% for usuario in usuarios %}
+    <tr>
+        <td>{{usuario[0]}}</td><!--ID-->
+        <td>{{usuario[1]}}</td><!--Nombre-->
+    </tr>
+    {% endfor%}
+    
+ </tbody>
+</table>
 
 
 {%endblock%}
