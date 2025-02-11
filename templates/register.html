@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - StressMonit</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container register-container">
+            <div class="form-content">
+                <h2>Regístrate</h2>
+                <form id="register-form" action="/register" method="POST">
+                    <input type="text" name="username" placeholder="Usuario" required>
+                    <input type="email" name="email" placeholder="Correo Electrónico" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <button type="submit">Registrar</button>
+                </form>
+                <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
+            </div>
+        </div>
+        <div class="logo-container">
+            <img src="/static/logo.png" alt="StressMonit Logo">
+        </div>
+    </div>
+</body>
+</html>
