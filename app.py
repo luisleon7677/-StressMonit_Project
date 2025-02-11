@@ -1,4 +1,5 @@
 from flask import Flask, render_template, send_file
+import src.querys
 
 app = Flask(__name__)
 
@@ -12,7 +13,9 @@ def inicio():
 
 @app.route("/usuarios")
 def usuarios():
-    return render_template("usuarios.html",title="Usuarios")
+    listaUsuarios=src.querys.listarUsuarios()
+    print(listaUsuarios)
+    return render_template("usuarios.html",title="Usuarios",usuarios=listaUsuarios)
 
 @app.route("/actividades")
 def actividades():
@@ -25,7 +28,6 @@ def recursos():
 @app.route("/soporte")
 def soporte():
     return render_template("soporte.html",title="Soporte")
-
 
 
 if __name__ == "__main__":
