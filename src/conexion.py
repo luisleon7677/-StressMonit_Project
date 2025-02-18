@@ -2,7 +2,7 @@ import psycopg2
 
 def consultaSQL(consulta):
     conection = psycopg2.connect(
-        host='localhost',
+        host='192.168.2.26',
         user='postgres',
         password='1234',
         database='dbstressmonit'
