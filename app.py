@@ -39,9 +39,7 @@ def inicio():
 
 @app.route("/usuarios")
 def usuarios():
-    listaUsuarios=src.querys.listarUsuarios()
-    print(listaUsuarios)
-    return render_template("usuarios.html",title="Usuarios",usuarios=listaUsuarios)
+    return render_template("usuarios.html",title="Usuarios")
 
 @app.route("/actividades")
 def actividades():
