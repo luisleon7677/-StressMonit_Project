@@ -1,9 +1,51 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 
-{% block content%}
-<h1>Actividades</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni nihil voluptas nobis quidem natus repudiandae quis dolore molestias ratione possimus?</p>
-
-
-
-{%endblock%}
+{% block content %}
+<div class="actividades-container">
+    <div class="actividades-header">
+        <h1>Actividades</h1>
+    </div>
+    <div class="actividades-content">
+        <div class="actividades-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Actividad</th>
+                        <th>Presente</th>
+                        <th>Duración</th>
+                        <th>GD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td>123</td>
+                        <td>65.7 min</td>
+                        <td>3 Año</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>124</td>
+                        <td>54.3 min</td>
+                        <td>2 Miedo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="actividades-resumen">
+            <h2>Resumen</h2>
+            <p>N° Usuarios: 4</p>
+            <p>EMD máximo: 2.8</p>
+            <p>EMD mínimo: 1.3</p>
+            <p>Balanceo: $3,000.00</p>
+            <p>Expired Date: March 24th, 2024</p>
+            <p>Type Card: Master Card</p>
+            <p>Bank: Larano Bank</p>
+        </div>
+    </div>
+    <div class="actividades-botones">
+        <button class="btn-agregar">Agregar</button>
+        <button class="btn-eliminar">Eliminar</button>
+    </div>
+</div>
+{% endblock %}

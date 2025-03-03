@@ -272,3 +272,66 @@ main.min-main{
         margin-left: 0;
     }
 }
+
+.usuarios-container, .actividades-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.usuarios-content, .actividades-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.usuarios-list, .actividades-list {
+    flex: 3;
+    margin-right: 20px;
+}
+
+.usuarios-resumen, .actividades-resumen {
+    flex: 1;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.details-row {
+    display: none;
+}
+
+.btn-agregar, .btn-eliminar {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-agregar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-eliminar {
+    background-color: #f44336;
+    color: white;
+}
+
+.emp-btn {
+    background: none;
+    border: none;
+    color: blue;
+    cursor: pointer;
+}
