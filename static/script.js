@@ -1,4 +1,5 @@
 const icon = document.getElementById("main-icon");
+const botonLateral = document.getElementById("enlace");
 const barraLateral=document.querySelector(".barra-lateral");
 const span = document.querySelector("span");
 const spans = document.querySelectorAll("span");
@@ -38,3 +39,7 @@ icon.addEventListener("click",()=>{
     });
     
 });
+botonLateral.addEventListener("click",()=>{
+       
+}
+)

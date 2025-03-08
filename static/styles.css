@@ -1,10 +1,10 @@
 :root{
-    --color-barra-lateral: rgb(255,255,255);
-    --color-texto: rgb(0,0,0);
-    --colortexto-menu: rgb(134,136,144);
+    --color-barra-lateral: #f04158;
+    --color-texto: white;
+    --colortexto-menu: white;
     --color-menu-hover:rgb(238,238,238);
     --color-menu-hover-texto:rgb(0,0,0);
-    --color-boton:rgb(0,0,0);
+    --color-boton:#f04158;
     --color-boton-texto:rgb(255,255,255);
 }
 /*Generales*/
@@ -12,6 +12,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 /*body{
@@ -151,7 +152,7 @@ p a:hover {
     top: 0; /* Asegura que comience desde la parte superior */
     height: 100%; /* Ocupa toda la altura de la pantalla */
     width: 250px; /* Ancho deseado del menú */
-    background-color: #f8f9fa; /* Cambia al color que desees */
+    background-color: #252525; /* Cambia al color que desees */
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Agrega un sombreado opcional */
 }
@@ -178,6 +179,7 @@ p a:hover {
     height: 45px;
     display: flex;
     align-items: center;
+    color: white;
 }
 .barra-lateral .nombre-pagina ion-icon{
  
@@ -201,6 +203,9 @@ p a:hover {
     border-radius: 10px;
     background-color: var(--color-boton);
     color: var(--color-boton-texto);
+}
+.barra-lateral .boton a{
+    color: white;
 }
 .barra-lateral .boton ion-icon{
     min-width: 50px;
@@ -237,14 +242,15 @@ p a:hover {
     margin-bottom: 50px;
 }
 
-#inicio{
-    background-color: var(--color-menu-hover);
-    color: var(--color-menu-hover-texto);
-}
+
 main{
+    height: 100%;
+    width: 100%;
+    background:#1f1f1f;
     margin-left: 250px;
     padding: 20px;
     transition: margin-left 0.5s ease;
+    position: relative;
 }
 main.min-main{
     margin-left: 80px;

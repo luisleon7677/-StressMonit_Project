@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file
-import src.querys
+from src.querys import listarQuerys
 from flask import request, redirect, url_for
 
 app = Flask(__name__)
@@ -47,6 +47,15 @@ def actividades():
 
 @app.route("/recursos")
 def recursos():
+    query = "select *from recursos;"
+    resultados = listarQuerys(query)
+    
+    if resultados:
+        for row in resultados:
+            print(row)  # Imprimir cada fila de los resultados
+    else:
+        print("No se obtuvieron resultados.")
+        
     return render_template("recursos.html",title="Recursos")
 
 @app.route("/soporte")

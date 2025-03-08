@@ -1,0 +1,78 @@
+.container-recursos{
+    background: #252525;
+    color: white;
+    width: 700px;
+    height: auto;
+    position: absolute;
+    border-radius: 15px;
+    padding: 30px 30px;
+    margin-left: 50px;
+   
+}
+.titulo-principal{
+    color: white; 
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.container-recursos .titulo{
+    margin-bottom: 20px;
+}
+.material-symbols--book-4::after {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: -0.125em;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M7 16h2V4H7zm-1 6q-1.25 0-2.125-.875T3 19V5q0-1.25.875-2.125T6 2h11v16H6q-.425 0-.712.288T5 19t.288.713T6 20h13V4h2v18z'/%3E%3C/svg%3E");
+  }
+
+.container-recursos .contenido ul{
+    list-style-type: none;  /* Elimina los puntos (bullets) */
+    margin: 0;              /* Elimina el margen por defecto */
+    padding: 0;
+    list-style: none;
+}
+.container-recursos .contenido ul li{
+    margin: 8px 0;
+    cursor: pointer; 
+}
+.container-recursos .contenido ul a{
+    text-decoration: none;
+}
+.container-recursos .boton button{
+    
+    all: unset;                /* Elimina todos los estilos por defecto */
+    background: #f04158;          /* Elimina el color de fondo */
+    border: none;              /* Elimina los bordes */
+    padding: 0;                /* Elimina el padding predeterminado */
+    font: inherit;             /* Hereda el tipo de fuente del contenedor */
+    color: white;            /* Hereda el color del texto */
+    cursor: pointer;           /* Mantiene el cursor como puntero */
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+        
+}
+.container-recursos .boton a{
+    text-decoration: none;
+}
+@media(max-width:1100px){
+    
+    .container-recursos{
+        width: 80%;
+        
+    }
+    
+}
+
+
+@media(max-width:600px){
+    
+    .container-recursos{
+        margin-left: 0;
+    }
+    .titulo-principal{
+        margin-left: 0;
+    }
+}
