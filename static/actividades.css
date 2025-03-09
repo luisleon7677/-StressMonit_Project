@@ -1,0 +1,63 @@
+.container {
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.content-grid {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.users-list {
+    flex: 2;
+}
+
+.summary {
+    flex: 1;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #444;
+}
+
+.high { color: red; }
+.medium { color: yellow; }
+.low { color: green; }
+
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: blue;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.delete {
+    background: darkblue;
+}

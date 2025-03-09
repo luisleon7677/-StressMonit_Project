@@ -36,3 +36,15 @@ if __name__ == "__main__":
     if result:
         for row in result:
             print(row)
+
+    query = "SELECT * FROM actividades;"
+    result = listarQuerys(query)
+    if result:
+        for row in result:
+            print(row)
+    
+    query = "SELECT * FROM usuarios;"
+    result = listarQuerys(query)
+    if result:
+        for row in result:
+            print(row)

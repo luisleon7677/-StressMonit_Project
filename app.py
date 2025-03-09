@@ -39,10 +39,26 @@ def inicio():
 
 @app.route("/usuarios")
 def usuarios():
+    query = "select *from usuarios;"
+    resultados1 = listarQuerys(query)
+    
+    if resultados1:
+        for row in resultados1:
+            print(row)  # Imprimir cada fila de los resultados
+    else:
+        print("No se obtuvieron resultados.")
     return render_template("usuarios.html",title="Usuarios")
 
 @app.route("/actividades")
 def actividades():
+    query = "select *from actividades;"
+    resultados2 = listarQuerys(query)
+    
+    if resultados2:
+        for row in resultados2:
+            print(row)  # Imprimir cada fila de los resultados
+    else:
+        print("No se obtuvieron resultados.")
     return render_template("actividades.html",title="Actividades")
 
 @app.route("/recursos")
