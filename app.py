@@ -49,14 +49,13 @@ def actividades():
 def recursos():
     query = "select *from recursos;"
     resultados = listarQuerys(query)
-    
-    if resultados:
-        for row in resultados:
-            print(row)  # Imprimir cada fila de los resultados
-    else:
-        print("No se obtuvieron resultados.")
-        
-    return render_template("recursos.html",title="Recursos")
+    #convertimos la tupla en diccionario
+    recursos =[
+        {'id':row[0],'titulo':row[1],'autor':row[2],'contenido':row[3]}
+        for row in resultados
+    ]
+  
+    return render_template("recursos.html",title="Recursos",resultados = recursos)
 
 @app.route("/soporte")
 def soporte():

@@ -238,6 +238,10 @@ p a:hover {
     font-size: 20px;
 
 }
+#item-activo{
+    background-color: white;
+    color: #1f1f1f;
+}
 .barra-lateral .navegacion{
     margin-bottom: 50px;
 }

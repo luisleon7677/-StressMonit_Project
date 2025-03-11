@@ -11,10 +11,10 @@
     </div>
     <div class="contenido">
         <ul>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</li>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</a></li>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</a></li>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</a></li>
+            {% for recurso in resultados %}
+                <li><a href="#"><span class="material-symbols--book-4"></span></a>{{recurso.titulo}}</li>
+            {% endfor %}
+
         </ul>
     </div>
     <div class="boton">
