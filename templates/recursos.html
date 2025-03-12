@@ -10,18 +10,46 @@
         <h3>Articulos de estres</h3>
     </div>
     <div class="contenido">
-        <ul>
+        
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
             {% for recurso in resultados %}
-                <li><a href="#"><span class="material-symbols--book-4"></span></a>{{recurso.titulo}}</li>
+              <tr>
+                <th scope="row">{{recurso.id}}</th>
+                <td>{{recurso.titulo}}</td>
+                <td>{{recurso.autor}}</td>
+                <td>
+                  <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post"><button>Eliminar</button></form>
+                    <button>Descargar</button>
+                    <button class="mostrarModal">Ver</button>
+                </td>
+              </tr>
             {% endfor %}
-
-        </ul>
+            </tbody>
+          </table>
     </div>
     <div class="boton">
-        <a href="#">
+        <a href="/recursos/registrar">
             <button>Agregar</button>
         </a>
     </div>
+</div>
+
+<div class="modal-recurso" id="modal-recurso">
+  <div class="modal-contenido">
+    <span id="cerrarModal" class="cerrar">&times;</span>
+    <h2>Titulo de modal</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, assumenda!</p>
+  </div>
+
 </div>
 
 

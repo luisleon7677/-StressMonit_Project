@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file
-from src.querys import listarQuerys
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso
 from flask import request, redirect, url_for
 
 app = Flask(__name__)
@@ -56,6 +56,29 @@ def recursos():
     ]
   
     return render_template("recursos.html",title="Recursos",resultados = recursos)
+
+@app.route("/recursos/eliminar/<int:id>",methods=['POST'])
+def eliminar_recursos(id):
+    eliminarRecurso(id)
+    return redirect(url_for('recursos'))
+    
+    
+    
+@app.route("/recursos/registrar/submit" , methods=['post'])
+def submit_recurso():
+    titulo = request.form["titulo"]
+    autor = request.form["autor"]
+    contenido = request.form["contenido"]
+    
+    insertarRecursos(titulo,autor,contenido)
+    
+    
+    return redirect(url_for('recursos'))
+    
+@app.route("/recursos/registrar")
+def registrar_recursos():
+    return render_template("recurso_registrar.html",title="Registro Recursos")
+
 
 @app.route("/soporte")
 def soporte():
