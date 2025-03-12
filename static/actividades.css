@@ -1,63 +1,72 @@
-.container {
+/* Estilos generales */
+body {
+    background-color: #121212; /* Fondo oscuro */
     color: white;
     font-family: Arial, sans-serif;
-    padding: 20px;
+    text-align: left; /* Asegura que el texto se alinee correctamente */
 }
 
-.content-grid {
+/* Contenedor principal */
+.container {
+    width: 60%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #1E1E1E; /* Caja oscura */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
-    gap: 20px;
+    justify-content: flex-start; /* Alinear elementos a la izquierda */
 }
 
-.card {
-    background: #2a2a2a;
-    padding: 20px;
-    border-radius: 8px;
+/* Sección de la tabla alineada a la izquierda */
+.left-section {
+    width: 50%; /* O el tamaño que prefieras */
 }
 
-.users-list {
-    flex: 2;
+/* Títulos */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
-.summary {
-    flex: 1;
-}
-
-table {
+/* Estilos de la tabla */
+.styled-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    padding: 10px;
+    margin: 10px 0;
+    font-size: 18px;
     text-align: left;
 }
 
-th {
-    background: #444;
+.styled-table th, .styled-table td {
+    padding: 12px;
+    border-bottom: 1px solid #444;
 }
 
-.high { color: red; }
-.medium { color: yellow; }
-.low { color: green; }
-
-.buttons {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    border: none;
-    background: blue;
+.styled-table th {
+    background-color: #333;
     color: white;
-    font-weight: bold;
+}
+
+.styled-table tr:hover {
+    background-color: #2A2A2A;
+}
+
+/* Estilos del botón */
+.btn-agregar {
+    display: inline-block;
+    background-color: #FF3B5C;
+    color: white;
+    padding: 10px 15px;
+    margin-top: 15px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
 }
 
-button.delete {
-    background: darkblue;
+.btn-agregar:hover {
+    background-color: #E60040;
 }

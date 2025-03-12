@@ -1,93 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="usuarios-container">
-    <div class="usuarios-header">
-        <h1>Usuarios</h1>
-    </div>
-    <div class="usuarios-content">
-        <div class="usuarios-list">
-            <table>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="/static/usuarios.css">
+</head>
+<div class="titulo-principal">
+    <h1>Lista de Usuarios</h1>
+</div>
+<body>
+    <div class="container">
+            <table class="styled-table">
                 <thead>
                     <tr>
-                        <th>Lista de Usuarios</th>
-                        <th>HRVm</th>
-                        <th>EMP</th>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>contraseña</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for usuario in usuarios %}
                     <tr>
-                        <td>Miguel Arce</td>
-                        <td>65 min</td>
-                        <td><button class="emp-btn" onclick="toggleDetails('miguel')">v 2.34</button></td>
+                        <td>{{ usuario[0] }}</td>
+                        <td>{{ usuario[1] }}</td>
+                        <td>{{ usuario[2] }}</td>
+                        <td>{{ usuario[3] }}</td>
                     </tr>
-                    <tr id="miguel-details" class="details-row">
-                        <td colspan="3">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Actividades</th>
-                                        <th>HRVm</th>
-                                        <th>Duración</th>
-                                        <th>Frecuencia</th>
-                                        <th>QD</th>
-                                        <th>EMP</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Actividad 1</td>
-                                        <td>65 min</td>
-                                        <td>654 min</td>
-                                        <td>7 veces</td>
-                                        <td>4</td>
-                                        <td>2.34</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Actividad 2</td>
-                                        <td>72 min</td>
-                                        <td>368 min</td>
-                                        <td>12 veces</td>
-                                        <td>6</td>
-                                        <td>2.83</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Alfredo Torres</td>
-                        <td>72 min</td>
-                        <td><button class="emp-btn" onclick="toggleDetails('alfredo')">v 2.83</button></td>
-                    </tr>
-                    <tr id="alfredo-details" class="details-row">
-                        <td colspan="3">
-                            Detalles de Alfredo Torres...
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
-        </div>
-        <div class="usuarios-resumen">
-            <h2>Resumen</h2>
-            <p>EMD máximo: 2.8</p>
-            <p>EMD mínimo: 1.3</p>
-        </div>
-    </div>
-    <div class="usuarios-botones">
-        <button class="btn-agregar">Agregar</button>
-        <button class="btn-eliminar">Eliminar</button>
-    </div>
-</div>
 
-<script>
-function toggleDetails(user) {
-    var details = document.getElementById(user + '-details');
-    if (details.style.display === 'none') {
-        details.style.display = 'table-row';
-    } else {
-        details.style.display = 'none';
-    }
-}
-</script>
+            <!-- Botón Agregar Usuario -->
+            <a href="/agregar_usuario" class="btn-agregar">Agregar</a>
+    </div>
+
+</body>
+</html>
 {% endblock %}

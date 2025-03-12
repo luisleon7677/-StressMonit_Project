@@ -39,27 +39,27 @@ def inicio():
 
 @app.route("/usuarios")
 def usuarios():
-    query = "select *from usuarios;"
-    resultados1 = listarQuerys(query)
+    query = "SELECT id, nombre, username, password FROM usuarios;"
+    usuarios = listarQuerys(query)
     
-    if resultados1:
-        for row in resultados1:
+    if usuarios:
+        for row in usuarios:
             print(row)  # Imprimir cada fila de los resultados
     else:
         print("No se obtuvieron resultados.")
-    return render_template("usuarios.html",title="Usuarios")
+    return render_template("usuarios.html",usuarios=usuarios)
 
 @app.route("/actividades")
 def actividades():
-    query = "select *from actividades;"
-    resultados2 = listarQuerys(query)
+    query = "SELECT nombre, descripcion, grado_dif FROM actividades"
+    actividades = listarQuerys(query)
     
-    if resultados2:
-        for row in resultados2:
+    if actividades:
+        for row in actividades:
             print(row)  # Imprimir cada fila de los resultados
     else:
         print("No se obtuvieron resultados.")
-    return render_template("actividades.html",title="Actividades")
+    return render_template("actividades.html",actividades=actividades)
 
 @app.route("/recursos")
 def recursos():
