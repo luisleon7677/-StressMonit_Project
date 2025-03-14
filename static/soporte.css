@@ -1,0 +1,21 @@
+
+body{
+    color: white;
+}
+.contenedor-soporte{
+    
+    max-width: 850px;
+    padding: 40px 5%;
+    background-color: #252525;
+    margin-bottom: 50px;
+    border-radius: 15px;
+}
+.accordion-item{
+    background-color: white;
+    color: #252525;
+}
+.accordion-button{
+    background-color:#252525 ;
+    color: white;
+
+}
