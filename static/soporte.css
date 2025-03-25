@@ -19,3 +19,23 @@ body{
     color: white;
 
 }
+
+/*diseño de contenedor de acordeones*/
+.accordion-item:first-of-type {
+    background: #252525;
+    color: white;
+}
+.accordion-item:not(:first-of-type) {
+    background: #252525;
+    color: white;
+}
+.accordion-item:first-of-type>.accordion-header .accordion-button{
+    background-color:#f04158;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    background-color:#f04158;
+}
+
+.btn-soporte{
+    width: 250px;
+}
