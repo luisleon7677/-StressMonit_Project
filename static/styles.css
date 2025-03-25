@@ -25,12 +25,13 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f3f3f3;
+    background-color:#1f1f1f;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    
+    
 }
 
 .container {
@@ -251,6 +252,7 @@ main{
     height: 100%;
     width: 100%;
     background:#1f1f1f;
+   
     margin-left: 250px;
     padding: 20px;
     transition: margin-left 0.5s ease;

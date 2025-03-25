@@ -22,14 +22,24 @@
             </thead>
             <tbody>
             {% for recurso in resultados %}
-              <tr>
+              <tr >
                 <th scope="row">{{recurso.id}}</th>
                 <td>{{recurso.titulo}}</td>
                 <td>{{recurso.autor}}</td>
-                <td>
-                  <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post"><button>Eliminar</button></form>
-                    <button>Descargar</button>
-                    <button class="mostrarModal">Ver</button>
+                <td >
+                  <div class="column-btns">
+                    <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post">
+                      <button class="btn-recursos">Eliminar</button>
+                    </form>
+                    <form action="">
+                      <button class="btn-recursos">Descargar</button>
+                    </form>
+                    <form action="">
+                      <button class="mostrarModal btn-recursos">Ver</button>
+                    </form>
+                  
+                  </div>
+                  
                 </td>
               </tr>
             {% endfor %}
@@ -46,8 +56,10 @@
 <div class="modal-recurso" id="modal-recurso">
   <div class="modal-contenido">
     <span id="cerrarModal" class="cerrar">&times;</span>
-    <h2>Titulo de modal</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, assumenda!</p>
+    
+    <h2>titulo</h2>
+    <p>contenido</p>
+    
   </div>
 
 </div>
