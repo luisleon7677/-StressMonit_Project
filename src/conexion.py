@@ -2,6 +2,7 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
+
 # Load environment variables from .env
 load_dotenv()
 
@@ -26,3 +27,5 @@ def conectar_db():
     except Exception as e:
         print(f"Error al conectar a la base de datos: {e}")
         return None
+    
+

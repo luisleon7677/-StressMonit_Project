@@ -1,33 +1,40 @@
 # querys.py
 from src.conexion import conectar_db  # Importación relativa
 
-def listarQuerys(query):
-    # Verificar que se haya pasado una consulta
-    if not query:
-        print("No se proporcionó ninguna consulta.")
+from werkzeug.security import generate_password_hash, check_password_hash
+
+def listarQuerys(query, params=None):
+    connection = conectar_db()
+    if not connection:
+        print("Error: No se pudo conectar a la base de datos")
         return None
 
-    connection = conectar_db()
-    if connection:
-        try:
-            cursor = connection.cursor()
-            
-            # Ejecutar la consulta proporcionada
+    try:
+        cursor = connection.cursor()
+        
+        if params:
+            cursor.execute(query, params)
+        else:
             cursor.execute(query)
-            rows = cursor.fetchall()  # Obtener todas las filas resultantes
+        
+        if query.strip().upper().startswith('SELECT'):
+            rows = cursor.fetchall()
+            return rows
+        else:
+            connection.commit()
+            return True
             
+    except Exception as e:
+        print(f"Error en la consulta: {str(e)}")
+        connection.rollback()
+        return None
+    finally:
+        if connection:
             cursor.close()
             connection.close()
 
-            return rows  # Retornar las filas obtenidas
 
-        except Exception as e:
-            print(f"Error al realizar la consulta: {e}")
-            return None
-    else:
-        print("No se pudo establecer la conexión con la base de datos.")
-        return None
-
+            
 # Llamamos a la función principal solo si este archivo es ejecutado directamente
 if __name__ == "__main__":
     # Ejemplo de llamada a la función con una consulta
@@ -48,3 +55,19 @@ if __name__ == "__main__":
     if result:
         for row in result:
             print(row)
+
+
+
+
+def create_user(username, password):
+    hashed_pw = generate_password_hash(password)
+    # Guardar hashed_pw en lugar de la contraseña en texto plano
+    query = f"INSERT INTO usuarios (username, password) VALUES ('{username}', '{hashed_pw}');"
+    # Ejecutar query...
+
+def verify_password(username, password):
+    query = f"SELECT password FROM usuarios WHERE username = '{username}';"
+    result = listarQuerys(query)
+    if result and len(result) > 0:
+        return check_password_hash(result[0][0], password)
+    return False

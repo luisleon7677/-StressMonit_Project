@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - StressMonit</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="form-container register-container">
             <div class="form-content">
                 <h2>Regístrate</h2>
+                
+                <!-- Mensajes Flash -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
                 <form id="register-form" action="/register" method="POST">
-                    <input type="text" name="username" placeholder="Usuario" required>
-                    <input type="email" name="email" placeholder="Correo Electrónico" required>
-                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <input type="text" name="nombre" placeholder="Nombre completo" required>
+                    <input type="text" name="username" placeholder="Nombre de usuario" required minlength="4">
+                    <input type="email" name="correo" placeholder="Correo electrónico" required>
+                    <input type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" required minlength="8">
                     <button type="submit">Registrar</button>
                 </form>
                 <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
@@ -24,5 +39,7 @@
             <img src="/static/logo.png" alt="StressMonit Logo">
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
