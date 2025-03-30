@@ -341,3 +341,28 @@ th, td {
     color: blue;
     cursor: pointer;
 }
+
+
+/* Estilos para el nombre de usuario a la derecha */
+.user-header-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Alinea a la derecha */
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.user-name-right {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: rgba(37, 37, 37, 0.8);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.main-content {
+    margin-top: 10px; /* Espacio entre el nombre y el contenido */
+    padding: 20px;
+}

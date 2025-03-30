@@ -9,18 +9,20 @@
     <title>Usuarios</title>
     <link rel="stylesheet" href="/static/usuarios.css">
 </head>
-<div class="titulo-principal">
-    <h1>Lista de Usuarios</h1>
-</div>
-<body>
-    <div class="container">
+<div class="usuarios-container">
+    <div class="titulo-principal">
+        <h1>Lista de Usuarios</h1>
+    </div>
+    
+        <!-- Tabla de usuarios -->
+        <div class="tabla-container">
             <table class="styled-table">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Usuario</th>
-                        <th>contraseña</th>
+                        <th>Contraseña</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,11 +36,33 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        
+        <div class="separador"></div>
+        
+        <!-- Formulario separado -->
+        <div class="formulario-container">
+            <h2>Agregar Nuevo Usuario</h2>
+            <form action="/crear_usuario" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Nombre de usuario:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn-agregar">Agregar Usuario</button>
+            </form>
+        </div>
+</div>
 
-            <!-- Botón Agregar Usuario -->
-            <a href="/agregar_usuario" class="btn-agregar">Agregar</a>
-    </div>
-
-</body>
 </html>
 {% endblock %}

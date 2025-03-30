@@ -64,8 +64,10 @@
         <div>
             <button class="boton">
                 
-                <a href="/"><ion-icon name="exit-outline"></ion-icon></a>
-                <span>Logout</span>
+                <a href="{{ url_for('logout') }}">
+                    <ion-icon name="exit-outline"></ion-icon>
+                    <span>Logout</span>
+                </a>
                 
     
             </button>
@@ -73,24 +75,20 @@
     </div>
 
     <main>
+        <!-- Contenedor del nombre de usuario (arriba a la derecha) -->
         {% if 'nombre' in session %}
-        <div class="user-header">
-            <div class="user-info">
-                <span class="user-name">{{ session.nombre }}</span>
-                <span class="user-role">{{ session.cargo }}</span>
+        <div class="user-header-container">
+            <div class="user-name-right">
+                {{ session.nombre }}
             </div>
-            <a href="{{ url_for('logout') }}" class="logout-btn">
-                <ion-icon name="log-out-outline"></ion-icon> Salir
-            </a>
         </div>
         {% endif %}
-
+    
         <!-- Contenido principal -->
         <div class="main-content">
             {% block content %}
             {% endblock %}
         </div>
-        
     </main>
 
     

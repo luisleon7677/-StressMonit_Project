@@ -1,72 +1,192 @@
-/* Estilos generales */
-body {
-    background-color: #121212; /* Fondo oscuro */
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: left; /* Asegura que el texto se alinee correctamente */
+/* Estilos generales - consistentes con usuarios */
+.actividades-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
 }
 
-/* Contenedor principal */
-.container {
-    width: 60%;
-    margin: 50px auto;
+/* Titulo principal - mismo estilo que usuarios */
+.titulo-principal h1 {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Tabla de actividades - estilo idéntico a usuarios */
+.tabla-container {
+    background-color: #1E1E1E;
     padding: 20px;
-    background-color: #1E1E1E; /* Caja oscura */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: flex-start; /* Alinear elementos a la izquierda */
+    margin-bottom: 30px;
+    overflow-x: auto; /* Para tablas responsivas */
 }
 
-/* Sección de la tabla alineada a la izquierda */
-.left-section {
-    width: 50%; /* O el tamaño que prefieras */
-}
-
-/* Títulos */
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-/* Estilos de la tabla */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 10px 0;
-    font-size: 18px;
-    text-align: left;
+    font-size: 16px;
+    color:white;
 }
 
 .styled-table th, .styled-table td {
-    padding: 12px;
+    padding: 12px 15px;
     border-bottom: 1px solid #444;
+    text-align: left;
 }
 
 .styled-table th {
     background-color: #333;
     color: white;
+    font-weight: bold;
 }
 
 .styled-table tr:hover {
     background-color: #2A2A2A;
 }
 
-/* Estilos del botón */
-.btn-agregar {
-    display: inline-block;
+/* Botones de acción */
+.btn-editar {
+    background-color: #4A90E2;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-editar:hover {
+    background-color: #357ABD;
+}
+
+.btn-eliminar {
     background-color: #FF3B5C;
     color: white;
-    padding: 10px 15px;
-    margin-top: 15px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn-eliminar:hover {
+    background-color: #E60040;
+}
+
+/* Separador - mismo estilo */
+.separador {
+    height: 1px;
+    background-color: #444;
+    margin: 30px 0;
+    width: 100%;
+}
+
+/* Formulario - estilo idéntico al de usuarios */
+.formulario-container {
+    background-color: #1E1E1E;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.formulario-container h2 {
+    margin-bottom: 20px;
+    color: white;
+    font-size: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px 15px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #252525;
+    color: white;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #FF3B5C;
+}
+
+.btn-agregar {
+    background-color: #FF3B5C;
+    color: white;
+    padding: 14px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    width: 100%;
 }
 
 .btn-agregar:hover {
     background-color: #E60040;
+}
+
+/* Responsive - mismos breakpoints */
+@media (max-width: 768px) {
+    .actividades-container {
+        width: 95%;
+        padding: 10px;
+    }
+    
+    .styled-table {
+        font-size: 14px;
+    }
+    
+    .styled-table th, .styled-table td {
+        padding: 10px 12px;
+    }
+    
+    .btn-editar, .btn-eliminar {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+}
+
+/* Efectos adicionales para mejor interactividad */
+.styled-table tr {
+    transition: background-color 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #666;
 }
