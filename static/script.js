@@ -43,3 +43,15 @@ botonLateral.addEventListener("click",()=>{
        
 }
 )
+
+// Confirmación antes de eliminar (versión mejorada)
+document.addEventListener('DOMContentLoaded', function() {
+    // Manejar todos los formularios de eliminación
+    document.querySelectorAll('form[action^="/eliminar_actividad"]').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('¿Estás seguro de que quieres eliminar esta actividad permanentemente?')) {
+                e.preventDefault();
+            }
+        });
+    });
+});

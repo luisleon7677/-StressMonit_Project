@@ -160,6 +160,8 @@
     background-color: #E60040;
 }
 
+
+
 /* Responsive - mismos breakpoints */
 @media (max-width: 768px) {
     .actividades-container {
@@ -181,12 +183,3 @@
     }
 }
 
-/* Efectos adicionales para mejor interactividad */
-.styled-table tr {
-    transition: background-color 0.2s ease;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #666;
-}
