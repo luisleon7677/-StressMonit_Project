@@ -23,54 +23,83 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
         
-        # Consulta segura con parámetros
-        query = "SELECT id, username, password FROM usuarios WHERE username = %s;"
-        user_data = listarQuerys(query, (username,))
+        if not username or not password:
+            flash("Usuario y contraseña son requeridos", "danger")
+            return render_template("login.html", username=username)
         
-        if user_data:
-            # Comparación directa de contraseñas (TEXTO PLANO)
-            if user_data[0][2] == password:
-                session["user_id"] = user_data[0][0]
-                session["username"] = user_data[0][1]
-                flash("Inicio de sesión exitoso", "success")
+        query = "SELECT id, nombre, username, password, cargo FROM administrador WHERE username = %s;"
+        admin_data = listarQuerys(query, (username,))
+        
+        if admin_data:
+            if admin_data[0][3] == password:  # Comparación directa
+                # Configuración COMPLETA de la sesión
+                session.permanent = True
+                session["user_type"] = "admin"  # Tipo de usuario
+                session["user_id"] = admin_data[0][0]
+                session["nombre"] = admin_data[0][1]
+                session["username"] = admin_data[0][2]
+                session["cargo"] = admin_data[0][4]
+                
+                print("Sesión establecida:", session)  # Depuración
                 return redirect(url_for("inicio"))
+            else:
+                flash("Contraseña incorrecta", "danger")
+        else:
+            flash("Usuario no encontrado en administradores", "danger")
         
-        flash("Usuario o contraseña incorrectos", "danger")
+        return render_template("login.html", username=username)
     
     return render_template("login.html")
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    flash("Has cerrado sesión correctamente", "info")
-    return redirect(url_for("login"))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        nombre = request.form.get("nombre")
         username = request.form.get("username")
         password = request.form.get("password")
+        correo = request.form.get("correo")
+        cargo = request.form.get("cargo")
+        departamento = request.form.get("departamento")
+        edad = request.form.get("edad")
         
-        # Verificar si el usuario ya existe
-        query = "SELECT id FROM usuarios WHERE username = %s;"
-        if listarQuerys(query, (username,)):
-            flash("El usuario ya está registrado", "danger")
+        # Verificar si el administrador ya existe
+        query = "SELECT id FROM administrador WHERE username = %s OR correo = %s;"
+        if listarQuerys(query, (username, correo)):
+            flash("El usuario o correo ya están registrados", "danger")
             return render_template("register.html")
             
-        # Crear usuario con contraseña en texto plano (NO RECOMENDADO PARA PRODUCCIÓN)
-        query = "INSERT INTO usuarios (username, password) VALUES (%s, %s);"
-        if listarQuerys(query, (username, password)):
-            flash("Registro exitoso. Por favor inicia sesión", "success")
+        # Crear administrador (CONTRASEÑA EN TEXTO PLANO - SOLO DESARROLLO)
+        query = """
+            INSERT INTO administrador 
+            (nombre, username, password, correo, cargo, departamento, edad) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s);
+        """
+        params = (nombre, username, password, correo, cargo, departamento, edad)
+        if listarQuerys(query, params):
+            flash("Registro de administrador exitoso", "success")
             return redirect(url_for("login"))
     
     return render_template("register.html")
 
 @app.route("/inicio")
 def inicio():
-    return render_template("inicio.html", title="Inicio")
+    # Verificación MEJORADA de sesión
+    if not session.get("user_type") == "admin":
+        print("Redirección a login - Sesión inválida:", session)
+        flash("Debes iniciar sesión como administrador", "warning")
+        return redirect(url_for("login"))
+    
+    print("Acceso concedido a inicio. Sesión:", session)
+    return render_template("inicio.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Sesión cerrada correctamente", "info")
+    return redirect(url_for("login"))
 
 @app.route("/usuarios")
 def usuarios():

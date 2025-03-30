@@ -73,10 +73,23 @@
     </div>
 
     <main>
+        {% if 'nombre' in session %}
+        <div class="user-header">
+            <div class="user-info">
+                <span class="user-name">{{ session.nombre }}</span>
+                <span class="user-role">{{ session.cargo }}</span>
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <ion-icon name="log-out-outline"></ion-icon> Salir
+            </a>
+        </div>
+        {% endif %}
 
-        {% block content %}
-
-        {% endblock %}
+        <!-- Contenido principal -->
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
         
     </main>
 
