@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, flash
-from src.querys import listarQuerys
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso
 from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
@@ -147,14 +147,36 @@ def actividades():
 def recursos():
     query = "select *from recursos;"
     resultados = listarQuerys(query)
+    #convertimos la tupla en diccionario
+    recursos =[
+        {'id':row[0],'titulo':row[1],'autor':row[2],'contenido':row[3]}
+        for row in resultados
+    ]
+  
+    return render_template("recursos.html",title="Recursos",resultados = recursos)
+
+@app.route("/recursos/eliminar/<int:id>",methods=['POST'])
+def eliminar_recursos(id):
+    eliminarRecurso(id)
+    return redirect(url_for('recursos'))
     
-    if resultados:
-        for row in resultados:
-            print(row)  # Imprimir cada fila de los resultados
-    else:
-        print("No se obtuvieron resultados.")
-        
-    return render_template("recursos.html",title="Recursos")
+    
+    
+@app.route("/recursos/registrar/submit" , methods=['post'])
+def submit_recurso():
+    titulo = request.form["titulo"]
+    autor = request.form["autor"]
+    contenido = request.form["contenido"]
+    
+    insertarRecursos(titulo,autor,contenido)
+    
+    
+    return redirect(url_for('recursos'))
+    
+@app.route("/recursos/registrar")
+def registrar_recursos():
+    return render_template("recurso_registrar.html",title="Registro Recursos")
+
 
 @app.route("/soporte")
 def soporte():

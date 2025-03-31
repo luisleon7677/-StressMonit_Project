@@ -1,11 +1,62 @@
 from src.conexion import get_connection, return_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+
+def eliminarRecurso(id):
+    #me conecto a base de datos
+    conexion = get_connection()
+    if conexion:
+        try:
+            #creamos el cursor
+            cursor = conexion.cursor()
+            #preparamos la query
+            query = """
+            delete from recursos where id = %s;
+            """
+            #ingresamos la consulta
+            cursor.execute(query,(id,))
+            #confirmo la insersion a base de datos (IMPORTANTE)
+            conexion.commit()
+            #cerrar la conexion
+            cursor.close()
+            conexion.close()
+            print("recurso eliminado")
+            return "Recurso elimindo",200
+            
+        except Exception as e:
+            print(f"Error al eliminar registro: {e}")
+            return None
+def insertarRecursos(titulo,autor, contenido):
+    #me conecto a base de datos
+    conexion = get_connection()
+    if conexion:
+        try:
+            #creamos el cursor
+            cursor = conexion.cursor()
+            #preparamos la query
+            query = """
+            insert into recursos (titulo,autor,contenido) values(%s,%s,%s);
+            """
+            #ingresamos la consulta
+            cursor.execute(query,(titulo,autor,contenido))
+            #confirmo la insersion a base de datos (IMPORTANTE)
+            conexion.commit()
+            #cerrar la conexion
+            cursor.close()
+            conexion.close()
+            print("recurso insertado")
+            return "Recurso insertado",200
+            
+        except Exception as e:
+            print(f"Error al insertar registro: {e}")
+            return None
+
+
 def listarQuerys(query, params=None):
     connection = get_connection()
     if not connection:
         print("Error: No se pudo obtener conexión del pool")
-        return None
 
     try:
         with connection:
@@ -50,3 +101,12 @@ def crear_actividad(nombre, descripcion, grado_dif, id_administrador):
     """
     params = (nombre, descripcion, float(grado_dif), int(id_administrador))
     return listarQuerys(query, params)
+# Llamamos a la función principal solo si este archivo es ejecutado directamente
+if __name__ == "__main__":
+    # Ejemplo de llamada a la función con una consulta
+    titulo = 'redes'
+    autor = 'anonymus'
+    contenido = 'contenido red'
+    
+    insertarRecursos(titulo,autor,contenido)
+    

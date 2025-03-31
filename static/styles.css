@@ -25,12 +25,13 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f3f3f3;
+    background-color:#1f1f1f;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    
+    
 }
 
 .container {
@@ -40,6 +41,8 @@ body {
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    margin-top: 200px;
+    
 }
 
 .form-container {
@@ -49,6 +52,7 @@ body {
     align-items: center;
     flex-direction: column;
     padding: 40px;
+    
 }
 
 .login-container {
@@ -140,7 +144,7 @@ p a:hover {
    border-radius: 50%;
    cursor: pointer;
    background-color: var(--color-boton);
-   color: var(--color-boton-texto);
+   color: white;
    right: 15px;
    top: 15px;
    z-index: 100;
@@ -186,6 +190,10 @@ p a:hover {
     min-width: 50px;
     font-size: 40px;
     cursor: pointer;
+    z-index: 200;
+}
+#main-icon{
+   
 }
 .barra-lateral .nombre-pagina span{
     margin-left: 5px;
@@ -238,6 +246,10 @@ p a:hover {
     font-size: 20px;
 
 }
+#item-activo{
+    background-color: white;
+    color: #1f1f1f;
+}
 .barra-lateral .navegacion{
     margin-bottom: 50px;
 }
@@ -247,6 +259,7 @@ main{
     height: 100%;
     width: 100%;
     background:#1f1f1f;
+   
     margin-left: 250px;
     padding: 20px;
     transition: margin-left 0.5s ease;

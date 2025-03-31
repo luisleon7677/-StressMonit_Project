@@ -10,18 +10,58 @@
         <h3>Articulos de estres</h3>
     </div>
     <div class="contenido">
-        <ul>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</li>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</a></li>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</a></li>
-            <li><a href="#"><span class="material-symbols--book-4"></span></a> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, vitae.</a></li>
-        </ul>
+        
+        <table class="table custom-table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for recurso in resultados %}
+              <tr >
+                <th scope="row">{{recurso.id}}</th>
+                <td>{{recurso.titulo}}</td>
+                <td>{{recurso.autor}}</td>
+                <td >
+                  <div class="column-btns">
+                    <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post">
+                      <button class="btn-recursos">Eliminar</button>
+                    </form>
+                    <form action="">
+                      <button class="btn-recursos">Descargar</button>
+                    </form>
+                    <form action="">
+                      <button class="mostrarModal btn-recursos">Ver</button>
+                    </form>
+                  
+                  </div>
+                  
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
     </div>
     <div class="boton">
-        <a href="#">
+        <a href="/recursos/registrar">
             <button>Agregar</button>
         </a>
     </div>
+</div>
+
+<div class="modal-recurso" id="modal-recurso">
+  <div class="modal-contenido">
+    <span id="cerrarModal" class="cerrar">&times;</span>
+    
+    <h2>titulo</h2>
+    <p>contenido</p>
+    
+  </div>
+
 </div>
 
 

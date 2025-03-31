@@ -7,7 +7,8 @@
     border-radius: 15px;
     padding: 30px 30px;
     margin-left: 50px;
-   
+    
+
 }
 .titulo-principal{
     color: white; 
@@ -35,10 +36,16 @@
 }
 .container-recursos .contenido ul li{
     margin: 8px 0;
-    cursor: pointer; 
+    cursor: pointer;
+   
 }
 .container-recursos .contenido ul a{
     text-decoration: none;
+    color: white;
+    
+}
+.container-recursos .contenido span{
+    margin-right: 15px;
 }
 .container-recursos .boton button{
     
@@ -57,11 +64,94 @@
 .container-recursos .boton a{
     text-decoration: none;
 }
+#myTextarea{
+     
+    all: unset;
+    background: white;
+    width: 99%;
+    border-radius: 5px;
+    color: #252525;
+    overflow-x: hidden;
+    padding-left: 11px;
+}
+#button_form{
+    background: #f04158;
+    width: 120px;
+    margin-top: 30px;
+}
+
+.table>:not(caption)>*>*{
+    background: #252525;
+    color: white;
+}
+.container-recursos .column-btns{
+    display: flex;
+}
+.container-recursos .btn-recursos{
+    all: unset;          /* Elimina todos los estilos por defecto */
+  background: none;    /* Elimina el fondo */
+  border: none;        /* Elimina el borde */
+  padding: 0;          /* Elimina cualquier relleno por defecto */
+  margin: 0;           /* Elimina cualquier margen por defecto */
+  font: inherit;       /* Hereda la fuente del contenedor */
+  text-align: inherit; /* Hereda la alineación del texto */
+  cursor: pointer;     /* Mantiene el cursor como puntero */
+  background-color:#f04158;
+  margin: 5px 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  text-align: center;
+  width: 80px;
+}
+/*MODAL*/
+
+
+/* El modal está oculto por defecto */
+.modal-recurso {
+    display: none; /* Ocultarlo inicialmente */
+    position: fixed;
+    z-index: 1; /* Establece que esté encima del contenido */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo translúcido */
+    overflow: auto;
+}
+
+/* Contenido del modal */
+.modal-contenido {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Puedes ajustar el tamaño */
+    max-width: 600px;
+    color: #252525;
+}
+
+/* Estilo para el botón de cerrar */
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 @media(max-width:1100px){
     
     .container-recursos{
         width: 80%;
         
+    }
+    .contenido .custom-table{
+       
     }
     
 }
