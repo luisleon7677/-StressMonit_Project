@@ -145,8 +145,8 @@ def actividades():
 
 @app.route("/recursos")
 def recursos():
-    query = "select *from recursos;"
-    resultados = listarQuerys(query)
+    query = "select *from recursos WHERE id_administrador = %s;"
+    resultados = listarQuerys(query, (session["user_id"],))
     #convertimos la tupla en diccionario
     recursos =[
         {'id':row[0],'titulo':row[1],'autor':row[2],'contenido':row[3]}
@@ -157,18 +157,19 @@ def recursos():
 
 @app.route("/recursos/eliminar/<int:id>",methods=['POST'])
 def eliminar_recursos(id):
-    eliminarRecurso(id)
+    eliminarRecurso(id,session['user_id'])
     return redirect(url_for('recursos'))
     
-    
+#query = "DELETE FROM actividades WHERE id = %s AND id_administrador = %s"
+ #   params = (id, session['user_id'])
     
 @app.route("/recursos/registrar/submit" , methods=['post'])
 def submit_recurso():
     titulo = request.form["titulo"]
     autor = request.form["autor"]
     contenido = request.form["contenido"]
-    
-    insertarRecursos(titulo,autor,contenido)
+    id_admin=session["user_id"]
+    insertarRecursos(titulo,autor,contenido,id_admin)
     
     
     return redirect(url_for('recursos'))

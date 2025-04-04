@@ -1,9 +1,7 @@
 from src.conexion import get_connection, return_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-
-def eliminarRecurso(id):
+def eliminarRecurso(id,id_admin):
     #me conecto a base de datos
     conexion = get_connection()
     if conexion:
@@ -12,10 +10,10 @@ def eliminarRecurso(id):
             cursor = conexion.cursor()
             #preparamos la query
             query = """
-            delete from recursos where id = %s;
+            delete from recursos where id = %s AND id_administrador = %s;
             """
             #ingresamos la consulta
-            cursor.execute(query,(id,))
+            cursor.execute(query,(id,id_admin,))
             #confirmo la insersion a base de datos (IMPORTANTE)
             conexion.commit()
             #cerrar la conexion
@@ -27,7 +25,7 @@ def eliminarRecurso(id):
         except Exception as e:
             print(f"Error al eliminar registro: {e}")
             return None
-def insertarRecursos(titulo,autor, contenido):
+def insertarRecursos(titulo,autor, contenido,id_admin):
     #me conecto a base de datos
     conexion = get_connection()
     if conexion:
@@ -36,10 +34,10 @@ def insertarRecursos(titulo,autor, contenido):
             cursor = conexion.cursor()
             #preparamos la query
             query = """
-            insert into recursos (titulo,autor,contenido) values(%s,%s,%s);
+            insert into recursos (titulo,autor,contenido,id_administrador) values(%s,%s,%s,%s);
             """
             #ingresamos la consulta
-            cursor.execute(query,(titulo,autor,contenido))
+            cursor.execute(query,(titulo,autor,contenido,id_admin))
             #confirmo la insersion a base de datos (IMPORTANTE)
             conexion.commit()
             #cerrar la conexion
