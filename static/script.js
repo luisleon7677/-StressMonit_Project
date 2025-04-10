@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (logout) {
         logout.addEventListener("click", (event) => {
             event.preventDefault(); // Evita la recarga de la página
-            window.location.href = "/"; // Redirige al logout
+            window.location.href = "/logout"; // Redirige al logout
         });
     } else {
         console.log("Elemento de logout no encontrado");
