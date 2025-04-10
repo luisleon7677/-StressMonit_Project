@@ -24,6 +24,7 @@
                     <th>Descripción</th>
                     <th>Grado de Dificultad</th>
                     <th>Acciones</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +40,7 @@
                             {% elif actividad[3] == 3.0 %}Alto
                             {% endif %}
                         </td>
-                        <td>{{ actividad[4] }}</td>  <!-- Administrador -->
+                        <!-- <td>{{ actividad[4] }}</td> -->  <!-- Administrador -->
                         <td class="acciones-cell">
                             <a href="/editar_actividad/{{ actividad[0] }}" class="btn-accion btn-editar">Editar</a>
                             <form action="/eliminar_actividad/{{ actividad[0] }}" method="POST" style="display: inline;">

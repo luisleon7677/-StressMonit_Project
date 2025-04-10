@@ -50,6 +50,35 @@ def insertarRecursos(titulo,autor, contenido,id_admin):
             print(f"Error al insertar registro: {e}")
             return None
 
+#funcion para obtener data de estres por usuarios
+def estresByUsers(id_admin):
+    #me conecto a base de datos
+    conexion = get_connection()
+    if conexion:
+        try:
+            #creamos el cursor
+            cursor = conexion.cursor()
+            #preparamos la query
+            query = """
+            select id,nombre_usuario,nombre_actividades,humedad,temperatura,pasos,estres from proceso where id_administrador=%s;
+            """
+            #ingresamos la consulta
+            cursor.execute(query,(id_admin,))
+            
+             # Recuperamos los resultados
+            resultados = cursor.fetchall()
+                
+            # Si hay resultados, los retornamos
+            if resultados:
+                    print("Lista de usuarios por estrés:")
+                    return resultados # Devolver los resultados con un código de éxito
+            else:
+                    print("No se encontraron resultados")
+                    return "No se encontraron datos", 404  # Código de error si no hay datos
+            
+        except Exception as e:
+            print(f"Error al realizar consulta: {e}")
+            return None
 
 def listarQuerys(query, params=None):
     connection = get_connection()
@@ -102,9 +131,8 @@ def crear_actividad(nombre, descripcion, grado_dif, id_administrador):
 # Llamamos a la función principal solo si este archivo es ejecutado directamente
 if __name__ == "__main__":
     # Ejemplo de llamada a la función con una consulta
-    titulo = 'redes'
-    autor = 'anonymus'
-    contenido = 'contenido red'
     
-    insertarRecursos(titulo,autor,contenido)
+    id_user = 1
+    
+    estresByUsers(id_user)
     

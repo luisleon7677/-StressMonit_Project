@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, flash
-from src.querys import listarQuerys,insertarRecursos,eliminarRecurso
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers
 from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
@@ -108,12 +108,18 @@ def register():
 def inicio():
     # Verificación MEJORADA de sesión
     if not session.get("user_type") == "admin":
-        print("Redirección a login - Sesión inválida:", session)
+        #print("Redirección a login - Sesión inválida:", session)
         flash("Debes iniciar sesión como administrador", "warning")
         return redirect(url_for("login"))
     
-    print("Acceso concedido a inicio. Sesión:", session)
-    return render_template("inicio.html")
+    
+    # Obtener usuarios desde la base de datos
+    usuarios = estresByUsers(session["user_id"])
+    
+    
+    #print("Acceso concedido a inicio. Sesión:", session)
+    
+    return render_template("inicio.html",usuarios=usuarios)
 
 @app.route("/logout")
 def logout():
@@ -131,6 +137,7 @@ def usuarios():
     usuarios = listarQuerys(query, (session["user_id"],))
     
     return render_template("usuarios.html", usuarios=usuarios)
+
 
 @app.route("/actividades")
 def actividades():
