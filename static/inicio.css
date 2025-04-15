@@ -6,3 +6,15 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-bottom: 30px;
 }
+.estres-verde {
+    background-color: #d4edda;
+    color: #155724;
+}
+.estres-amarillo {
+    background-color: #fff3cd;
+    color: #856404;
+}
+.estres-rojo {
+    background-color: #f8d7da;
+    color: #721c24;
+}
