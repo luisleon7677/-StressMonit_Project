@@ -51,11 +51,12 @@
 .btn-editar {
     background-color: #4A90E2;
     color: white;
-    padding: 8px 12px;
+    padding: 8px 28px;
     border-radius: 5px;
     text-decoration: none;
     margin-right: 5px;
     transition: background-color 0.3s;
+   
 }
 
 .btn-editar:hover {
@@ -65,10 +66,12 @@
 .btn-eliminar {
     background-color: #FF3B5C;
     color: white;
+    margin-top: 10px;
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s;
+    width: 90px;
 }
 
 .btn-eliminar:hover {
