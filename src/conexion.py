@@ -12,6 +12,7 @@ connection_pool = None
 
 def initialize_pool():
     global connection_pool
+    print("📡 Intentando conectar con Supabase...")
     try:
         connection_pool = psycopg2.pool.SimpleConnectionPool(
             minconn=1,

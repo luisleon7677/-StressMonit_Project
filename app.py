@@ -333,7 +333,10 @@ def eliminar_actividad(id):
     
     return redirect(url_for('actividades'))
 
-
+#prueba
+@app.route("/ping")
+def ping():
+    return "pong"
 
 
 
