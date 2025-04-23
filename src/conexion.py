@@ -10,6 +10,9 @@ load_dotenv()
 # Pool de conexiones
 connection_pool = None
 
+
+
+
 def initialize_pool():
     global connection_pool
     print("📡 Intentando conectar con Supabase...")

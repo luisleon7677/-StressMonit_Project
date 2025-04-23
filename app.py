@@ -8,6 +8,11 @@ import os
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
 
+
+@app.route("/health")
+def health():
+    return "OK", 200
+
 # Middleware para verificar autenticación
 @app.before_request
 def require_login():
