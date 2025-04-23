@@ -44,7 +44,7 @@ jobs:
     needs: build
     container: ghcr.io/railwayapp/cli:latest  # Usamos el contenedor oficial de Railway CLI
     env:
-      SVC_ID: 'your-service-id'  # Reemplaza con el ID de tu servicio en Railway
+      SVC_ID: '8b3ee3fb-35d3-4e68-8f23-69a8f9d23761'  # Reemplaza con el ID de tu servicio en Railway
       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}  # Secreto con tu token de Railway
 
     steps:
