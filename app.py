@@ -22,7 +22,7 @@ def require_login():
 
 @app.route("/")
 def home():
-    return redirect(url_for("usuarios"))#modifcacion momentaena
+    return redirect(url_for("login"))
 
 # app.py (parte relevante para el login)
 @app.route("/login", methods=["GET", "POST"])

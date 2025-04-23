@@ -7,6 +7,8 @@ import atexit
 # Configuración inicial
 load_dotenv()
 
+
+
 # Pool de conexiones
 connection_pool = None
 
