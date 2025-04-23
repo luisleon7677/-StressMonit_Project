@@ -1,5 +1,6 @@
 from src.conexion import get_connection, return_connection
 from werkzeug.security import generate_password_hash, check_password_hash
+import time
 
 def eliminarRecurso(id,id_admin):
     #me conecto a base de datos
@@ -18,7 +19,8 @@ def eliminarRecurso(id,id_admin):
             conexion.commit()
             #cerrar la conexion
             cursor.close()
-            conexion.close()
+            return_connection(conexion) #reemplaza al conexion.close()
+
             print("recurso eliminado")
             return "Recurso elimindo",200
             
@@ -42,7 +44,7 @@ def insertarRecursos(titulo,autor, contenido,id_admin):
             conexion.commit()
             #cerrar la conexion
             cursor.close()
-            conexion.close()
+            return_connection(conexion)
             print("recurso insertado")
             return "Recurso insertado",200
             
@@ -52,33 +54,40 @@ def insertarRecursos(titulo,autor, contenido,id_admin):
 
 #funcion para obtener data de estres por usuarios
 def estresByUsers(id_admin):
-    #me conecto a base de datos
     conexion = get_connection()
     if conexion:
         try:
-            #creamos el cursor
+            start_time = time.time()  # ⏱️ Inicio del temporizador
+            
             cursor = conexion.cursor()
-            #preparamos la query
             query = """
-            select id,nombre_usuario,nombre_actividades,humedad,temperatura,pasos,estres from proceso where id_administrador=%s;
+            SELECT id, nombre_usuario, nombre_actividades, humedad, temperatura, pasos, estres 
+            FROM proceso 
+            WHERE id_administrador = %s;
             """
-            #ingresamos la consulta
-            cursor.execute(query,(id_admin,))
-            
-             # Recuperamos los resultados
+            cursor.execute(query, (id_admin,))
             resultados = cursor.fetchall()
-                
-            # Si hay resultados, los retornamos
-            if resultados:
-                    print("Lista de usuarios por estrés:")
-                    return resultados # Devolver los resultados con un código de éxito
-            else:
-                    print("No se encontraron resultados")
-                    return "No se encontraron datos", 404  # Código de error si no hay datos
             
+            duration = time.time() - start_time  # ⏱️ Fin del temporizador
+            print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
+
+            if resultados:
+                print("Lista de usuarios por estrés:")
+                return resultados
+            else:
+                print("No se encontraron resultados")
+                return "No se encontraron datos", 404
+
         except Exception as e:
             print(f"Error al realizar consulta: {e}")
             return None
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conexion:
+                return_connection(conexion)
+
 
 def listarQuerys(query, params=None):
     connection = get_connection()
