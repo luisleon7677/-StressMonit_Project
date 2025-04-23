@@ -42,5 +42,3 @@ def close_pool():
         connection_pool.closeall()
         print("Pool de conexiones cerrado")
 
-# Inicializa el pool al importar el módulo
-initialize_pool()

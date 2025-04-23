@@ -128,11 +128,11 @@ def crear_actividad(nombre, descripcion, grado_dif, id_administrador):
     """
     params = (nombre, descripcion, float(grado_dif), int(id_administrador))
     return listarQuerys(query, params)
+
+
 # Llamamos a la función principal solo si este archivo es ejecutado directamente
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Ejemplo de llamada a la función con una consulta
-    
-    id_user = 1
-    
-    estresByUsers(id_user)
+#    id_user = 1   
+#    estresByUsers(id_user)
     
