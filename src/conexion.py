@@ -46,3 +46,4 @@ def close_pool():
         connection_pool.closeall()
         print("Pool de conexiones cerrado")
 
+initialize_pool()
