@@ -1,39 +1,47 @@
 {%extends "base.html"%}
 
 {% block content%}
-<h1>Monitoreo Estres</h1>
 
+ 
 <div class="container-fluid inicio">
-    
 
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Usuario</th>
-            <th scope="col">Actividad</th>
-            <th scope="col">Humedad</th>
-            <th scope="col">Temperatura</th>
-            <th scope="col">Pasos</th>
-            <th scope="col">Estres</th>
-          </tr>
-        </thead>
-        <tbody>
-            <!-- Iterar sobre los usuarios y mostrarlos en filas de la tabla -->
-            {% for usuario in usuarios %}
-            <tr>
-                <td>{{ usuario[0] }}</td>  <!-- ID -->
-                <td>{{ usuario[1] }}</td>  <!-- Usuario -->
-                <td>{{ usuario[2] }}</td>  <!-- Actividad -->
-                <td>{{ usuario[3] }}</td>  <!-- Humedad -->
-                <td>{{ usuario[4] }}</td>  <!-- Temperatura -->
-                <td>{{ usuario[5] }}</td>  <!-- Pasos -->
-                <td>{{ usuario[6] }}</td>  <!-- Estrés -->
-            </tr>
-            {% endfor %}
-        
-        </tbody>
-      </table>
+  <h1>Monitoreo Estres</h1>
+
+  <div class="mapa-calor">
+    <img src="{{ url_for('static', filename='heatmap_estres.png') }}?v={{ time }}" alt="mapa de calor">
+  </div> 
+
+<div class="tabla-inicio">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Actividad</th>
+        <th scope="col">Humedad</th>
+        <th scope="col">Temperatura</th>
+        <th scope="col">Pasos</th>
+        <th scope="col">Estres</th>
+      </tr>
+    </thead>
+    <tbody>
+        <!-- Iterar sobre los usuarios y mostrarlos en filas de la tabla -->
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario[0] }}</td>  <!-- ID -->
+            <td>{{ usuario[1] }}</td>  <!-- Usuario -->
+            <td>{{ usuario[2] }}</td>  <!-- Actividad -->
+            <td>{{ usuario[3] }}</td>  <!-- Humedad -->
+            <td>{{ usuario[4] }}</td>  <!-- Temperatura -->
+            <td>{{ usuario[5] }}</td>  <!-- Pasos -->
+            <td>{{ usuario[6] }}</td>  <!-- Estrés -->
+        </tr>
+        {% endfor %}
+    
+    </tbody>
+  </table>
+</div>
+    
 
 
 </div>
