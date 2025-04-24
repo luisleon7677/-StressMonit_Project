@@ -9,16 +9,13 @@ app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
 
 
-@app.route("/health")
-def health():
-    return "OK", 200
-
 # Middleware para verificar autenticación
 @app.before_request
 def require_login():
     allowed_routes = ['login', 'register', 'static']
-    if request.endpoint and request.endpoint not in allowed_routes and 'user_id' not in session:
+    if request.endpoint not in allowed_routes and 'user_id' not in session:
         return redirect(url_for('login'))
+
 
 @app.route("/")
 def home():
@@ -122,6 +119,9 @@ def inicio():
     usuarios = estresByUsers(session["user_id"])
     
     
+    print(usuarios)
+    # Resultado: Esta es la lista de usuarios: Ana, Juan, Pedro
+
     #print("Acceso concedido a inicio. Sesión:", session)
     
     return render_template("inicio.html",usuarios=usuarios)
