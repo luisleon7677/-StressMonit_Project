@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_file, flash
 from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 import os
@@ -12,11 +12,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
 
-
-
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
-
 
 # Middleware para verificar autenticación
 @app.before_request
@@ -24,7 +21,6 @@ def require_login():
     allowed_routes = ['login', 'register', 'static']
     if request.endpoint not in allowed_routes and 'user_id' not in session:
         return redirect(url_for('login'))
-
 
 @app.route("/")
 def home():
@@ -42,41 +38,30 @@ def login():
             return render_template("login.html", username=username)
         
         # Consulta a la tabla administrador
-        query = """
-            SELECT id, nombre, username, password, cargo 
-            FROM administrador 
+        query = '''
+            SELECT id, nombre, username, password, cargo, correo, departamento, edad
+            FROM administrador
             WHERE username = %s;
-        """
+        '''
         admin_data = listarQuerys(query, (username,))
-        
-        if admin_data:
-            # Comparación directa (texto plano - solo para desarrollo)
-            if admin_data[0][3] == password:
-                # Configuración de la sesión
-                session.clear()  # Limpiar sesión previa
-                session.permanent = True
+
+        if admin_data and admin_data[0][3] == password:
+            # Configuración de la sesión con nuevos campos
+            session.clear()
+            session['admin_id']      = admin_data[0][0]
+            session['admin_nombre']  = admin_data[0][1]
+            session['admin_username']= admin_data[0][2]
+            session['admin_cargo']   = admin_data[0][4]
+            session['correo']        = admin_data[0][5]
+            session['departamento']  = admin_data[0][6]
+            session['edad']          = admin_data[0][7]
+            session['user_id']       = admin_data[0][0]
+            session['user_type']     = 'admin'
                 
-                # Datos esenciales para el sistema
-                session["admin_id"] = admin_data[0][0]  # ID del administrador
-                session["admin_nombre"] = admin_data[0][1]  # Nombre completo
-                session["admin_username"] = admin_data[0][2]  # Username
-                session["admin_cargo"] = admin_data[0][4]  # Cargo
-                session["logged_in"] = True
-                
-                # Compatibilidad con tu sistema actual
-                session["user_id"] = admin_data[0][0]  # Mismo ID para compatibilidad
-                session["user_type"] = "admin"
-                session["nombre"] = admin_data[0][1]
-                session["username"] = admin_data[0][2]
-                session["cargo"] = admin_data[0][4]
-                
-                print(f"Sesión establecida para admin ID: {admin_data[0][0]}")  # Depuración
-                flash(f"Bienvenido {admin_data[0][1]}", "success")
-                return redirect(url_for("inicio"))
-            else:
-                flash("Contraseña incorrecta", "danger")
+            flash(f"Bienvenido {admin_data[0][1]}", "success")
+            return redirect(url_for("inicio"))
         else:
-            flash("Credenciales de administrador inválidas", "danger")
+                flash("Contraseña incorrecta", "danger")
         
         return render_template("login.html", username=username)
     
@@ -362,6 +347,49 @@ def eliminar_actividad(id):
         flash("Error al eliminar la actividad o no tienes permisos", "danger")
     
     return redirect(url_for('actividades'))
+
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    if 'admin_id' not in session:
+        flash("Debes iniciar sesión primero", "danger")
+        return redirect(url_for('login'))
+
+    # Obtiene datos del formulario
+    admin_id     = session['admin_id']
+    nombre       = request.form['nombre'].strip()
+    username     = request.form['username'].strip()
+    correo       = request.form['correo'].strip()
+    cargo        = request.form['cargo'].strip()
+    departamento = request.form['departamento'].strip()
+    edad         = request.form['edad'].strip()
+
+    # Ejecuta UPDATE en la tabla administrador
+    update_q = '''
+        UPDATE administrador
+        SET nombre=%s, username=%s, correo=%s, cargo=%s, departamento=%s, edad=%s
+        WHERE id = %s;
+    '''
+    success = listarQuerys(update_q, (nombre, username, correo, cargo, departamento, edad, admin_id))
+
+    if success:
+        # Sincroniza la sesión con los nuevos datos
+        session['admin_nombre']   = nombre
+        session['admin_username'] = username
+        session['correo']         = correo
+        session['cargo']          = cargo
+        session['departamento']   = departamento
+        session['edad']           = edad
+        flash("Perfil actualizado", "success")
+    else:
+        flash("Error al actualizar perfil", "danger")
+
+    return redirect(url_for('inicio'))
+
+@app.route('/edit_profile', methods=['GET'])
+def edit_profile():
+    # Muestra el formulario de edición completo
+    return render_template('edit_profile.html', title='Editar Perfil')
+
 
 
 
