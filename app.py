@@ -7,6 +7,7 @@ import os
 #librerias para mapa de calor
 import pandas as pd
 import seaborn as sns
+import plotly.express as px
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -134,22 +135,16 @@ def inicio():
     df = pd.DataFrame(usuarios, columns=columnas)
     #privoteamos la tabla
     df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
-    print(df)
-    #genero el mapa con los parametros
-    sns.heatmap(df,cmap="RdYlGn_r",center=1,annot=True,annot_kws={"size":10})
-    #customizar las columnas
-    plt.title("Niveles de Estrés en Usuarios vs Actividades")  # le pongo un titulo
-    plt.xticks(fontsize=8, ha='right')
-    plt.yticks(fontsize=8)
-    plt.tight_layout()
-    #Guardamos la imagen generada
-    plt.savefig("static/heatmap_estres.png", bbox_inches='tight', transparent=True) # Guardamos la imagen
-    plt.close()  # Cierra la figura para liberar memoria
-    # Resultado: Esta es la lista de usuarios: Ana, Juan, Pedro
-
-    #print("Acceso concedido a inicio. Sesión:", session)
+    #Genero el mapa de calor con plotly
+    fig = px.imshow(df,
+                text_auto=True,
+                color_continuous_scale='RdYlGn_r',
+                aspect='auto',
+                title="Mapa de Calor de Estrés")
+    # Guardar como archivo HTML (para web)
+    fig.write_html("static/heatmap_interactivo.html")
     
-    return render_template("inicio.html",usuarios=usuarios, time=int(time.time()))
+    return render_template("inicio.html",usuarios=usuarios)
 
 @app.route("/logout")
 def logout():

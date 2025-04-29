@@ -5,6 +5,8 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-bottom: 30px;
+    width: 90%;
+    margin-top: 50px;
 }
 .estres-verde {
     background-color: #d4edda;
@@ -19,14 +21,18 @@
     color: #721c24;
 }
 .mapa-calor{
-    background-color: white;
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: center;
-    margin-left: 20%;
-    margin-right: 20%;
-    border-radius: 5px;
+    width: 80%;
+    background: white;
+    border-radius: 15px;
 }
 .inicio{
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+iframe {
+    width: 100%;
+    height: 90vh;
+    border: none;
 }
