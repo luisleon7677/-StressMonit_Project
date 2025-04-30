@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, flash
-from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad
 from flask import request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
@@ -11,6 +11,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
+import json
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
@@ -73,32 +74,44 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        nombre = request.form.get("nombre")
-        username = request.form.get("username")
-        password = request.form.get("password")
-        correo = request.form.get("correo")
-        cargo = request.form.get("cargo")
-        departamento = request.form.get("departamento")
-        edad = request.form.get("edad")
-        
+        nombre = request.form.get("nombre", "").strip()
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
+        correo = request.form.get("correo", "").strip()
+        cargo = request.form.get("cargo", "").strip()
+        departamento = request.form.get("departamento", "").strip()
+        edad = request.form.get("edad", "").strip()
+
+        # Validación: edad numérica y ≥ 18
+        try:
+            edad_int = int(edad)
+        except ValueError:
+            flash("La edad debe ser un número válido", "danger")
+            return render_template("regiser.html")
+        if edad_int < 18:
+            flash("Debes tener al menos 18 años para registrarte", "danger")
+            return render_template("regiser.html")
+
         # Verificar si el administrador ya existe
         query = "SELECT id FROM administrador WHERE username = %s OR correo = %s;"
         if listarQuerys(query, (username, correo)):
             flash("El usuario o correo ya están registrados", "danger")
-            return render_template("register.html")
-            
+            return render_template("regiser.html")
+
         # Crear administrador (CONTRASEÑA EN TEXTO PLANO - SOLO DESARROLLO)
         query = """
             INSERT INTO administrador 
             (nombre, username, password, correo, cargo, departamento, edad) 
             VALUES (%s, %s, %s, %s, %s, %s, %s);
         """
-        params = (nombre, username, password, correo, cargo, departamento, edad)
+        params = (nombre, username, password, correo, cargo, departamento, edad_int)
         if listarQuerys(query, params):
             flash("Registro de administrador exitoso", "success")
             return redirect(url_for("login"))
-    
-    return render_template("register.html")
+
+    # GET o fallo en POST
+    return render_template("regiser.html")
+
 
 @app.route("/inicio")
 def inicio():
@@ -252,48 +265,42 @@ def crear_usuario():
     
     return redirect(url_for("usuarios"))
 
+@app.route('/crear_actividad', methods=['GET', 'POST'])
+def crear_actividad_route():
+    if request.method == 'GET':
+        # GET: solo renderiza el formulario
+        return render_template('crear_actividad.html', title='Crear Actividad')
 
-@app.route('/crear_actividad', methods=['POST'])
-def crear_actividad_route():  # Cambiamos el nombre para evitar conflicto
+    # POST: procesa el envío del formulario
+    nombre      = request.form.get('nombre', '').strip()
+    descripcion = request.form.get('descripcion', '').strip()
     try:
-        if 'user_id' not in session:
-            flash("Debes iniciar sesión primero", "danger")
-            return redirect(url_for('login'))
+        grado_dif = float(request.form.get('grado_dif', 0))
+    except ValueError:
+        grado_dif = 0.0
 
-        # Obtener datos del formulario
-        nombre = request.form.get('nombre', '').strip()
-        descripcion = request.form.get('descripcion', '').strip()
-        grado_dif = request.form.get('grado_dif', '2.0')
-        admin_id = session['user_id']  # ID del administrador logueado
+    # Validación de campos obligatorios
+    if not nombre or not descripcion or grado_dif not in [1.0, 2.0, 3.0]:
+        flash("Campos requeridos a completar", "danger")
+        return redirect(url_for('crear_actividad_route'))
 
-        # Validaciones
-        if not all([nombre, descripcion]):
-            flash("Nombre y descripción son requeridos", "danger")
-            return redirect(url_for('actividades'))
+    # Validación de duplicado
+    existe = listarQuerys(
+        "SELECT 1 FROM actividades WHERE nombre = %s AND id_administrador = %s",
+        (nombre, session['user_id'])
+    )
+    if existe:
+        flash("Una actividad ya tiene ese nombre", "danger")
+        return redirect(url_for('crear_actividad_route'))
 
-        try:
-            grado_dif = float(grado_dif)
-            if grado_dif not in [1.0, 2.0, 3.0]:
-                flash("Grado de dificultad no válido", "danger")
-                return redirect(url_for('actividades'))
-        except ValueError:
-            flash("Valor de dificultad no válido", "danger")
-            return redirect(url_for('actividades'))
-
-        # Llamar a la función de creación
-        from src.querys import crear_actividad  # Importar la función
-        resultado = crear_actividad(nombre, descripcion, grado_dif, admin_id)
-        
-        if resultado:
-            flash("Actividad creada exitosamente", "success")
-        else:
-            flash("Error al crear actividad", "danger")
-
-    except Exception as e:
-        print(f"Error inesperado: {str(e)}")
-        flash("Ocurrió un error al crear la actividad", "danger")
-    
-    return redirect(url_for('actividades'))
+    # Inserción en la base de datos
+    resultado = crear_actividad(nombre, descripcion, grado_dif, session['user_id'])
+    if resultado:
+        flash("Actividad creada exitosamente", "success")
+        return redirect(url_for('actividades'))
+    else:
+        flash("Error al crear actividad", "danger")
+        return redirect(url_for('crear_actividad_route'))
 
 @app.route('/editar_actividad/<int:id>', methods=['GET', 'POST'])
 def editar_actividad(id):
