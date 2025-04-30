@@ -360,6 +360,11 @@ def eliminar_actividad(id):
 
 
 
+#Capturamos cualquier error
+try:
+    print("===> Flask app importada correctamente")
+except Exception as e:
+    print(f"===> Error al importar Flask app: {e}")
 
 
 if __name__ == "__main__":
