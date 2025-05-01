@@ -82,23 +82,23 @@ def register():
         departamento = request.form.get("departamento", "").strip()
         edad = request.form.get("edad", "").strip()
 
-        # Validación: edad numérica y ≥ 18
+        # Validación de edad ≥ 18
         try:
             edad_int = int(edad)
         except ValueError:
             flash("La edad debe ser un número válido", "danger")
-            return render_template("regiser.html")
+            return render_template("register.html")
         if edad_int < 18:
             flash("Debes tener al menos 18 años para registrarte", "danger")
-            return render_template("regiser.html")
+            return render_template("register.html")
 
         # Verificar si el administrador ya existe
         query = "SELECT id FROM administrador WHERE username = %s OR correo = %s;"
         if listarQuerys(query, (username, correo)):
             flash("El usuario o correo ya están registrados", "danger")
-            return render_template("regiser.html")
+            return render_template("register.html")
 
-        # Crear administrador (CONTRASEÑA EN TEXTO PLANO - SOLO DESARROLLO)
+        # Crear administrador
         query = """
             INSERT INTO administrador 
             (nombre, username, password, correo, cargo, departamento, edad) 
@@ -110,44 +110,45 @@ def register():
             return redirect(url_for("login"))
 
     # GET o fallo en POST
-    return render_template("regiser.html")
-
+    return render_template("register.html")
 
 @app.route("/inicio")
 def inicio():
-    # Verificación MEJORADA de sesión
-    if not session.get("user_type") == "admin":
-        #print("Redirección a login - Sesión inválida:", session)
+    # Verificación de sesión
+    if session.get("user_type") != "admin":
         flash("Debes iniciar sesión como administrador", "warning")
         return redirect(url_for("login"))
     
+    # Obtiene la lista (ahora siempre lista, aunque vacía)
+    usuarios = estresByUsers(session["user_id"])
     
-    # Obtener usuarios desde la base de datos
-    usuarios = estresByUsers(session["user_id"]) #usuarios es una lista de tuplas
-    
-    #defino columnas
+    # Columnas esperadas en el DataFrame
     columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
-    #creo el dataframe
-    # Crear el DataFrame , pero es un promedio de cada columna
-    df = pd.DataFrame(usuarios, columns=columnas)
-    #privoteamos la tabla
-    df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
-    print(df)
-    #genero el mapa con los parametros
-    sns.heatmap(df,cmap="RdYlGn_r",center=1,annot=True,annot_kws={"size":10})
-    #customizar las columnas
-    plt.title("Niveles de Estrés en Usuarios vs Actividades")  # le pongo un titulo
-    plt.xticks(fontsize=8, ha='right')
-    plt.yticks(fontsize=8)
-    plt.tight_layout()
-    #Guardamos la imagen generada
-    plt.savefig("static/heatmap_estres.png", bbox_inches='tight', transparent=True) # Guardamos la imagen
-    plt.close()  # Cierra la figura para liberar memoria
-    # Resultado: Esta es la lista de usuarios: Ana, Juan, Pedro
-
-    #print("Acceso concedido a inicio. Sesión:", session)
     
-    return render_template("inicio.html",usuarios=usuarios, time=int(time.time()))
+    if usuarios:
+        # Sólo si hay datos válidos (tuplas de longitud 7)
+        try:
+            df = pd.DataFrame(usuarios, columns=columnas)
+            pivot = df.pivot_table(
+                index="Actividad",
+                columns="Nombre",
+                values="Estres",
+                aggfunc="mean"
+            )
+            sns.heatmap(pivot, cmap="RdYlGn_r", center=1, annot=True, annot_kws={"size":10})
+            plt.title("Niveles de Estrés en Usuarios vs Actividades")
+            plt.xticks(fontsize=8, ha='right')
+            plt.yticks(fontsize=8)
+            plt.tight_layout()
+            plt.savefig("static/heatmap_estres.png", bbox_inches='tight', transparent=True)
+            plt.close()
+        except Exception as e:
+            print(f"Error generando heatmap: {e}")
+            flash("No se pudo generar el mapa de calor", "warning")
+    else:
+        flash("No hay datos de monitoreo para mostrar", "info")
+    
+    return render_template("inicio.html", usuarios=usuarios, time=int(time.time()))
 
 @app.route("/logout")
 def logout():
