@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/usuarios.css">
+
+<div class="usuarios-container">
+  <div class="titulo-principal">
+    <h1>Editar Usuario</h1>
+  </div>
+
+  <div class="separador"></div>
+
+  <div class="formulario-container">
+    <form method="POST" action="{{ url_for('editar_usuario_route', id=usuario.id) }}">
+      <div class="form-group">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+      </div>
+      <div class="form-group">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" value="{{ usuario.username }}" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Nueva Contraseña (opcional):</label>
+        <input type="password" id="password" name="password" placeholder="Dejar vacío para mantener">
+      </div>
+
+      <div class="botones-container">
+        <button type="submit" class="btn-agregar">Guardar Cambios</button>
+        <a href="{{ url_for('usuarios') }}" class="btn-eliminar">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

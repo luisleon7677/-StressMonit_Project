@@ -158,15 +158,11 @@ def logout():
 
 @app.route("/usuarios")
 def usuarios():
-    query = """
-        SELECT id, nombre, username, password 
-        FROM usuarios 
-        WHERE id_administrador = %s;
-    """
-    usuarios = listarQuerys(query, (session["user_id"],))
-    
-    return render_template("usuarios.html", usuarios=usuarios)
-
+    usuarios = listarQuerys(
+        "SELECT id, nombre, username, password FROM usuarios WHERE id_administrador = %s",
+        (session['user_id'],)
+    ) or []
+    return render_template("usuarios.html", usuarios=usuarios, title="Usuarios")
 
 @app.route("/actividades")
 def actividades():
@@ -221,50 +217,103 @@ def soporte():
 
 
 # Crear usuarios
-@app.route("/crear_usuario", methods=["POST"])
-def crear_usuario():
-    try:
-        # Obtener datos del formulario
-        nombre = request.form.get("nombre", "").strip()
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "").strip()
-        
-        # Validación básica de campos
-        if not all([nombre, username, password]):
-            flash("Todos los campos son requeridos", "danger")
-            return redirect(url_for("usuarios"))
-        
-        # Verificar si el usuario ya existe
-        check_query = "SELECT id FROM usuarios WHERE username = %s"
-        if listarQuerys(check_query, (username,)):
-            flash("El nombre de usuario ya está en uso", "danger")
-            return redirect(url_for("usuarios"))
-        
-        # Obtener ID del administrador de la sesión (sin validar si es admin)
-        admin_id = session.get("admin_id") or session.get("user_id")
-        
-        if not admin_id:
-            flash("No se pudo identificar al administrador", "danger")
-            return redirect(url_for("usuarios"))
-        
-        # Insertar nuevo usuario con el ID del admin
-        insert_query = """
-            INSERT INTO usuarios 
-            (nombre, username, password, id_administrador) 
-            VALUES (%s, %s, %s, %s)
+@app.route('/crear_usuario', methods=['GET', 'POST'])
+def crear_usuario_route():
+    if request.method == 'GET':
+        return render_template('crear_usuario.html', title='Crear Usuario')
+
+    # POST: procesa creación
+    nombre   = request.form.get('nombre', '').strip()
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '').strip()
+
+    # Validación básica
+    if not nombre or not username or not password:
+        flash("Campos requeridos a completar", "danger")
+        return redirect(url_for('crear_usuario_route'))
+
+    # Inserción directa
+    insert_query = """
+        INSERT INTO usuarios
+        (nombre, username, password, id_administrador)
+        VALUES (%s, %s, %s, %s)
+    """
+    params = (nombre, username, password, session['user_id'])
+    resultado = listarQuerys(insert_query, params)
+
+    if resultado:
+        flash("Usuario creado exitosamente", "success")
+        return redirect(url_for('usuarios'))
+    else:
+        flash("Error al crear usuario", "danger")
+        return redirect(url_for('crear_usuario_route'))
+
+# EDITAR usuario (GET muestra formulario; POST procesa)
+@app.route('/editar_usuario/<int:id>', methods=['GET', 'POST'])
+def editar_usuario_route(id):
+    if request.method == 'GET':
+        row = listarQuerys(
+            "SELECT id, nombre, username, password FROM usuarios WHERE id = %s AND id_administrador = %s",
+            (id, session['user_id'])
+        )
+        if not row:
+            flash("Usuario no encontrado o sin permisos", "danger")
+            return redirect(url_for('usuarios'))
+        usuario = {'id': row[0][0], 'nombre': row[0][1], 'username': row[0][2]}
+        return render_template('editar_usuario.html', usuario=usuario, title='Editar Usuario')
+
+    # POST: procesar edición
+    nombre   = request.form.get('nombre', '').strip()
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '').strip()
+
+    # Campos obligatorios
+    if not nombre or not username:
+        flash("Nombre y usuario son requeridos", "danger")
+        return redirect(url_for('editar_usuario_route', id=id))
+
+    # Duplicado (exceptuando al propio usuario)
+    exists = listarQuerys(
+        "SELECT 1 FROM usuarios WHERE username = %s AND id_administrador = %s AND id <> %s",
+        (username, session['user_id'], id)
+    )
+    if exists:
+        flash("Un usuario ya tiene ese nombre", "danger")
+        return redirect(url_for('editar_usuario_route', id=id))
+
+    # Construir query
+    if password:
+        query = """
+            UPDATE usuarios
+            SET nombre = %s, username = %s, password = %s
+            WHERE id = %s AND id_administrador = %s
         """
-        params = (nombre, username, password, admin_id)
-        
-        if listarQuerys(insert_query, params):
-            flash("Usuario creado exitosamente", "success")
-        else:
-            flash("Error al crear usuario", "danger")
-            
-    except Exception as e:
-        print(f"Error al crear usuario: {str(e)}")
-        flash("Ocurrió un error al crear el usuario", "danger")
-    
-    return redirect(url_for("usuarios"))
+        params = (nombre, username, password, id, session['user_id'])
+    else:
+        query = """
+            UPDATE usuarios
+            SET nombre = %s, username = %s
+            WHERE id = %s AND id_administrador = %s
+        """
+        params = (nombre, username, id, session['user_id'])
+
+    if listarQuerys(query, params):
+        flash("Usuario actualizado exitosamente", "success")
+    else:
+        flash("Error al actualizar usuario", "danger")
+    return redirect(url_for('usuarios'))
+
+# ELIMINAR usuario
+@app.route('/eliminar_usuario/<int:id>', methods=['POST'])
+def eliminar_usuario_route(id):
+    if listarQuerys(
+        "DELETE FROM usuarios WHERE id = %s AND id_administrador = %s",
+        (id, session['user_id'])
+    ):
+        flash("Usuario eliminado exitosamente", "success")
+    else:
+        flash("Error al eliminar usuario o sin permisos", "danger")
+    return redirect(url_for('usuarios'))
 
 @app.route('/crear_actividad', methods=['GET', 'POST'])
 def crear_actividad_route():

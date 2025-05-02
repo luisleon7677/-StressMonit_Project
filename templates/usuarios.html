@@ -1,68 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios</title>
-    <link rel="stylesheet" href="/static/usuarios.css">
-</head>
-<div class="usuarios-container">
-    <div class="titulo-principal">
-        <h1>Lista de Usuarios</h1>
-    </div>
-    
-        <!-- Tabla de usuarios -->
-        <div class="tabla-container">
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Usuario</th>
-                        <th>Contraseña</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for usuario in usuarios %}
-                    <tr>
-                        <td>{{ usuario[0] }}</td>
-                        <td>{{ usuario[1] }}</td>
-                        <td>{{ usuario[2] }}</td>
-                        <td>{{ usuario[3] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="separador"></div>
-        
-        <!-- Formulario separado -->
-        <div class="formulario-container">
-            <h2>Agregar Nuevo Usuario</h2>
-            <form action="/crear_usuario" method="POST">
-                <div class="form-group">
-                    <label for="nombre">Nombre completo:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="username">Nombre de usuario:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                
-                <button type="submit" class="btn-agregar">Agregar Usuario</button>
-            </form>
-        </div>
-</div>
+<link rel="stylesheet" href="/static/usuarios.css">
 
-</html>
+<div class="usuarios-container">
+  <div class="titulo-principal">
+    <h1>Lista de Usuarios</h1>
+  </div>
+
+  <div class="tabla-container">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Usuario</th>
+          <th>Contraseña</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+          <td>{{ usuario[0] }}</td>
+          <td>{{ usuario[1] }}</td>
+          <td>{{ usuario[2] }}</td>
+          <td>{{ usuario[3] }}</td>
+          <td class="acciones-cell">
+            <a href="{{ url_for('editar_usuario_route', id=usuario[0]) }}" class="btn-accion btn-editar">Editar</a>
+            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}" method="POST" style="display:inline;">
+              <button type="submit" class="btn-accion btn-eliminar"
+                      onclick="return confirm('¿Eliminar este usuario?')">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="botones-container" style="text-align:center; margin-top:20px;">
+    <a href="{{ url_for('crear_usuario_route') }}" class="btn-agregar">Agregar Usuario</a>
+  </div>
+</div>
 {% endblock %}

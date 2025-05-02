@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/usuarios.css">
+
+<div class="usuarios-container">
+  <div class="titulo-principal">
+    <h1>Crear Nuevo Usuario</h1>
+  </div>
+
+  <div class="separador"></div>
+
+  <div class="formulario-container">
+    <form id="create-user-form" method="POST" action="{{ url_for('crear_usuario_route') }}">
+      <div class="form-group">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <p id="mensaje-error" style="display:none; color:#E60040; margin-top:10px;"></p>
+
+      <div class="botones-container">
+        <button type="submit" id="btn-submit" class="btn-agregar">Guardar Usuario</button>
+        <a href="{{ url_for('usuarios') }}" class="btn-eliminar">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const nombreInput   = document.getElementById('nombre');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const submitBtn     = document.getElementById('btn-submit');
+  const mensaje       = document.getElementById('mensaje-error');
+
+  function validar() {
+    let error = '';
+    if (!nombreInput.value.trim() || !usernameInput.value.trim() || !passwordInput.value.trim()) {
+      error = 'Campos requeridos a completar';
+    }
+    submitBtn.disabled = !!error;
+    if (error) {
+      mensaje.textContent = error;
+      mensaje.style.display = 'block';
+    } else {
+      mensaje.style.display = 'none';
+    }
+  }
+
+  [nombreInput, usernameInput, passwordInput].forEach(el =>
+    el.addEventListener('input', validar)
+  );
+  validar();
+});
+</script>
+{% endblock %}
