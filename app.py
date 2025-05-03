@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_file, flash
-from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers
-from flask import request, redirect, url_for
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad
+from flask import request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 import os
@@ -12,12 +12,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
-
-
+import json
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
-
 
 # Middleware para verificar autenticación
 @app.before_request
@@ -25,7 +23,6 @@ def require_login():
     allowed_routes = ['login', 'register', 'static']
     if request.endpoint not in allowed_routes and 'user_id' not in session:
         return redirect(url_for('login'))
-
 
 @app.route("/")
 def home():
@@ -43,41 +40,30 @@ def login():
             return render_template("login.html", username=username)
         
         # Consulta a la tabla administrador
-        query = """
-            SELECT id, nombre, username, password, cargo 
-            FROM administrador 
+        query = '''
+            SELECT id, nombre, username, password, cargo, correo, departamento, edad
+            FROM administrador
             WHERE username = %s;
-        """
+        '''
         admin_data = listarQuerys(query, (username,))
-        
-        if admin_data:
-            # Comparación directa (texto plano - solo para desarrollo)
-            if admin_data[0][3] == password:
-                # Configuración de la sesión
-                session.clear()  # Limpiar sesión previa
-                session.permanent = True
+
+        if admin_data and admin_data[0][3] == password:
+            # Configuración de la sesión con nuevos campos
+            session.clear()
+            session['admin_id']      = admin_data[0][0]
+            session['admin_nombre']  = admin_data[0][1]
+            session['admin_username']= admin_data[0][2]
+            session['admin_cargo']   = admin_data[0][4]
+            session['correo']        = admin_data[0][5]
+            session['departamento']  = admin_data[0][6]
+            session['edad']          = admin_data[0][7]
+            session['user_id']       = admin_data[0][0]
+            session['user_type']     = 'admin'
                 
-                # Datos esenciales para el sistema
-                session["admin_id"] = admin_data[0][0]  # ID del administrador
-                session["admin_nombre"] = admin_data[0][1]  # Nombre completo
-                session["admin_username"] = admin_data[0][2]  # Username
-                session["admin_cargo"] = admin_data[0][4]  # Cargo
-                session["logged_in"] = True
-                
-                # Compatibilidad con tu sistema actual
-                session["user_id"] = admin_data[0][0]  # Mismo ID para compatibilidad
-                session["user_type"] = "admin"
-                session["nombre"] = admin_data[0][1]
-                session["username"] = admin_data[0][2]
-                session["cargo"] = admin_data[0][4]
-                
-                print(f"Sesión establecida para admin ID: {admin_data[0][0]}")  # Depuración
-                flash(f"Bienvenido {admin_data[0][1]}", "success")
-                return redirect(url_for("inicio"))
-            else:
-                flash("Contraseña incorrecta", "danger")
+            flash(f"Bienvenido {admin_data[0][1]}", "success")
+            return redirect(url_for("inicio"))
         else:
-            flash("Credenciales de administrador inválidas", "danger")
+                flash("Contraseña incorrecta", "danger")
         
         return render_template("login.html", username=username)
     
@@ -89,48 +75,62 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        nombre = request.form.get("nombre")
-        username = request.form.get("username")
-        password = request.form.get("password")
-        correo = request.form.get("correo")
-        cargo = request.form.get("cargo")
-        departamento = request.form.get("departamento")
-        edad = request.form.get("edad")
-        
+        nombre = request.form.get("nombre", "").strip()
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
+        correo = request.form.get("correo", "").strip()
+        cargo = request.form.get("cargo", "").strip()
+        departamento = request.form.get("departamento", "").strip()
+        edad = request.form.get("edad", "").strip()
+
+        # Validación de edad ≥ 18
+        try:
+            edad_int = int(edad)
+        except ValueError:
+            flash("La edad debe ser un número válido", "danger")
+            return render_template("register.html")
+        if edad_int < 18:
+            flash("Debes tener al menos 18 años para registrarte", "danger")
+            return render_template("register.html")
+
         # Verificar si el administrador ya existe
         query = "SELECT id FROM administrador WHERE username = %s OR correo = %s;"
         if listarQuerys(query, (username, correo)):
             flash("El usuario o correo ya están registrados", "danger")
             return render_template("register.html")
-            
-        # Crear administrador (CONTRASEÑA EN TEXTO PLANO - SOLO DESARROLLO)
+
+        # Crear administrador
         query = """
             INSERT INTO administrador 
             (nombre, username, password, correo, cargo, departamento, edad) 
             VALUES (%s, %s, %s, %s, %s, %s, %s);
         """
-        params = (nombre, username, password, correo, cargo, departamento, edad)
+        params = (nombre, username, password, correo, cargo, departamento, edad_int)
         if listarQuerys(query, params):
             flash("Registro de administrador exitoso", "success")
             return redirect(url_for("login"))
-    
+
+    # GET o fallo en POST
     return render_template("register.html")
 
 @app.route("/inicio")
 def inicio():
-    # Verificación MEJORADA de sesión
-    if not session.get("user_type") == "admin":
-        #print("Redirección a login - Sesión inválida:", session)
+    # Verificación de sesión
+    if session.get("user_type") != "admin":
         flash("Debes iniciar sesión como administrador", "warning")
         return redirect(url_for("login"))
     
+    # Obtiene la lista (ahora siempre lista, aunque vacía)
+    usuarios = estresByUsers(session["user_id"])
     
-    # Obtener usuarios desde la base de datos
-    usuarios = estresByUsers(session["user_id"]) #usuarios es una lista de tuplas
-    
-    #defino columnas
+    # Columnas esperadas en el DataFrame
     columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
     #creo el dataframe
+    print("Tipo de usuarios:", type(usuarios))
+    print("Primer elemento:", usuarios[0])
+    print("Tipo de primer elemento:", type(usuarios[0]))
+
+
     # Crear el DataFrame , pero es un promedio de cada columna
     df = pd.DataFrame(usuarios, columns=columnas)
     #privoteamos la tabla
@@ -154,15 +154,11 @@ def logout():
 
 @app.route("/usuarios")
 def usuarios():
-    query = """
-        SELECT id, nombre, username, password 
-        FROM usuarios 
-        WHERE id_administrador = %s;
-    """
-    usuarios = listarQuerys(query, (session["user_id"],))
-    
-    return render_template("usuarios.html", usuarios=usuarios)
-
+    usuarios = listarQuerys(
+        "SELECT id, nombre, username, password FROM usuarios WHERE id_administrador = %s",
+        (session['user_id'],)
+    ) or []
+    return render_template("usuarios.html", usuarios=usuarios, title="Usuarios")
 
 @app.route("/actividades")
 def actividades():
@@ -217,93 +213,140 @@ def soporte():
 
 
 # Crear usuarios
-@app.route("/crear_usuario", methods=["POST"])
-def crear_usuario():
-    try:
-        # Obtener datos del formulario
-        nombre = request.form.get("nombre", "").strip()
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "").strip()
-        
-        # Validación básica de campos
-        if not all([nombre, username, password]):
-            flash("Todos los campos son requeridos", "danger")
-            return redirect(url_for("usuarios"))
-        
-        # Verificar si el usuario ya existe
-        check_query = "SELECT id FROM usuarios WHERE username = %s"
-        if listarQuerys(check_query, (username,)):
-            flash("El nombre de usuario ya está en uso", "danger")
-            return redirect(url_for("usuarios"))
-        
-        # Obtener ID del administrador de la sesión (sin validar si es admin)
-        admin_id = session.get("admin_id") or session.get("user_id")
-        
-        if not admin_id:
-            flash("No se pudo identificar al administrador", "danger")
-            return redirect(url_for("usuarios"))
-        
-        # Insertar nuevo usuario con el ID del admin
-        insert_query = """
-            INSERT INTO usuarios 
-            (nombre, username, password, id_administrador) 
-            VALUES (%s, %s, %s, %s)
+@app.route('/crear_usuario', methods=['GET', 'POST'])
+def crear_usuario_route():
+    if request.method == 'GET':
+        return render_template('crear_usuario.html', title='Crear Usuario')
+
+    # POST: procesa creación
+    nombre   = request.form.get('nombre', '').strip()
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '').strip()
+
+    # Validación básica
+    if not nombre or not username or not password:
+        flash("Campos requeridos a completar", "danger")
+        return redirect(url_for('crear_usuario_route'))
+
+    # Inserción directa
+    insert_query = """
+        INSERT INTO usuarios
+        (nombre, username, password, id_administrador)
+        VALUES (%s, %s, %s, %s)
+    """
+    params = (nombre, username, password, session['user_id'])
+    resultado = listarQuerys(insert_query, params)
+
+    if resultado:
+        flash("Usuario creado exitosamente", "success")
+        return redirect(url_for('usuarios'))
+    else:
+        flash("Error al crear usuario", "danger")
+        return redirect(url_for('crear_usuario_route'))
+
+# EDITAR usuario (GET muestra formulario; POST procesa)
+@app.route('/editar_usuario/<int:id>', methods=['GET', 'POST'])
+def editar_usuario_route(id):
+    if request.method == 'GET':
+        row = listarQuerys(
+            "SELECT id, nombre, username, password FROM usuarios WHERE id = %s AND id_administrador = %s",
+            (id, session['user_id'])
+        )
+        if not row:
+            flash("Usuario no encontrado o sin permisos", "danger")
+            return redirect(url_for('usuarios'))
+        usuario = {'id': row[0][0], 'nombre': row[0][1], 'username': row[0][2]}
+        return render_template('editar_usuario.html', usuario=usuario, title='Editar Usuario')
+
+    # POST: procesar edición
+    nombre   = request.form.get('nombre', '').strip()
+    username = request.form.get('username', '').strip()
+    password = request.form.get('password', '').strip()
+
+    # Campos obligatorios
+    if not nombre or not username:
+        flash("Nombre y usuario son requeridos", "danger")
+        return redirect(url_for('editar_usuario_route', id=id))
+
+    # Duplicado (exceptuando al propio usuario)
+    exists = listarQuerys(
+        "SELECT 1 FROM usuarios WHERE username = %s AND id_administrador = %s AND id <> %s",
+        (username, session['user_id'], id)
+    )
+    if exists:
+        flash("Un usuario ya tiene ese nombre", "danger")
+        return redirect(url_for('editar_usuario_route', id=id))
+
+    # Construir query
+    if password:
+        query = """
+            UPDATE usuarios
+            SET nombre = %s, username = %s, password = %s
+            WHERE id = %s AND id_administrador = %s
         """
-        params = (nombre, username, password, admin_id)
-        
-        if listarQuerys(insert_query, params):
-            flash("Usuario creado exitosamente", "success")
-        else:
-            flash("Error al crear usuario", "danger")
-            
-    except Exception as e:
-        print(f"Error al crear usuario: {str(e)}")
-        flash("Ocurrió un error al crear el usuario", "danger")
-    
-    return redirect(url_for("usuarios"))
+        params = (nombre, username, password, id, session['user_id'])
+    else:
+        query = """
+            UPDATE usuarios
+            SET nombre = %s, username = %s
+            WHERE id = %s AND id_administrador = %s
+        """
+        params = (nombre, username, id, session['user_id'])
 
+    if listarQuerys(query, params):
+        flash("Usuario actualizado exitosamente", "success")
+    else:
+        flash("Error al actualizar usuario", "danger")
+    return redirect(url_for('usuarios'))
 
-@app.route('/crear_actividad', methods=['POST'])
-def crear_actividad_route():  # Cambiamos el nombre para evitar conflicto
+# ELIMINAR usuario
+@app.route('/eliminar_usuario/<int:id>', methods=['POST'])
+def eliminar_usuario_route(id):
+    if listarQuerys(
+        "DELETE FROM usuarios WHERE id = %s AND id_administrador = %s",
+        (id, session['user_id'])
+    ):
+        flash("Usuario eliminado exitosamente", "success")
+    else:
+        flash("Error al eliminar usuario o sin permisos", "danger")
+    return redirect(url_for('usuarios'))
+
+@app.route('/crear_actividad', methods=['GET', 'POST'])
+def crear_actividad_route():
+    if request.method == 'GET':
+        # GET: solo renderiza el formulario
+        return render_template('crear_actividad.html', title='Crear Actividad')
+
+    # POST: procesa el envío del formulario
+    nombre      = request.form.get('nombre', '').strip()
+    descripcion = request.form.get('descripcion', '').strip()
     try:
-        if 'user_id' not in session:
-            flash("Debes iniciar sesión primero", "danger")
-            return redirect(url_for('login'))
+        grado_dif = float(request.form.get('grado_dif', 0))
+    except ValueError:
+        grado_dif = 0.0
 
-        # Obtener datos del formulario
-        nombre = request.form.get('nombre', '').strip()
-        descripcion = request.form.get('descripcion', '').strip()
-        grado_dif = request.form.get('grado_dif', '2.0')
-        admin_id = session['user_id']  # ID del administrador logueado
+    # Validación de campos obligatorios
+    if not nombre or not descripcion or grado_dif not in [1.0, 2.0, 3.0]:
+        flash("Campos requeridos a completar", "danger")
+        return redirect(url_for('crear_actividad_route'))
 
-        # Validaciones
-        if not all([nombre, descripcion]):
-            flash("Nombre y descripción son requeridos", "danger")
-            return redirect(url_for('actividades'))
+    # Validación de duplicado
+    existe = listarQuerys(
+        "SELECT 1 FROM actividades WHERE nombre = %s AND id_administrador = %s",
+        (nombre, session['user_id'])
+    )
+    if existe:
+        flash("Una actividad ya tiene ese nombre", "danger")
+        return redirect(url_for('crear_actividad_route'))
 
-        try:
-            grado_dif = float(grado_dif)
-            if grado_dif not in [1.0, 2.0, 3.0]:
-                flash("Grado de dificultad no válido", "danger")
-                return redirect(url_for('actividades'))
-        except ValueError:
-            flash("Valor de dificultad no válido", "danger")
-            return redirect(url_for('actividades'))
-
-        # Llamar a la función de creación
-        from src.querys import crear_actividad  # Importar la función
-        resultado = crear_actividad(nombre, descripcion, grado_dif, admin_id)
-        
-        if resultado:
-            flash("Actividad creada exitosamente", "success")
-        else:
-            flash("Error al crear actividad", "danger")
-
-    except Exception as e:
-        print(f"Error inesperado: {str(e)}")
-        flash("Ocurrió un error al crear la actividad", "danger")
-    
-    return redirect(url_for('actividades'))
+    # Inserción en la base de datos
+    resultado = crear_actividad(nombre, descripcion, grado_dif, session['user_id'])
+    if resultado:
+        flash("Actividad creada exitosamente", "success")
+        return redirect(url_for('actividades'))
+    else:
+        flash("Error al crear actividad", "danger")
+        return redirect(url_for('crear_actividad_route'))
 
 @app.route('/editar_actividad/<int:id>', methods=['GET', 'POST'])
 def editar_actividad(id):
@@ -357,6 +400,49 @@ def eliminar_actividad(id):
         flash("Error al eliminar la actividad o no tienes permisos", "danger")
     
     return redirect(url_for('actividades'))
+
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    if 'admin_id' not in session:
+        flash("Debes iniciar sesión primero", "danger")
+        return redirect(url_for('login'))
+
+    # Obtiene datos del formulario
+    admin_id     = session['admin_id']
+    nombre       = request.form['nombre'].strip()
+    username     = request.form['username'].strip()
+    correo       = request.form['correo'].strip()
+    cargo        = request.form['cargo'].strip()
+    departamento = request.form['departamento'].strip()
+    edad         = request.form['edad'].strip()
+
+    # Ejecuta UPDATE en la tabla administrador
+    update_q = '''
+        UPDATE administrador
+        SET nombre=%s, username=%s, correo=%s, cargo=%s, departamento=%s, edad=%s
+        WHERE id = %s;
+    '''
+    success = listarQuerys(update_q, (nombre, username, correo, cargo, departamento, edad, admin_id))
+
+    if success:
+        # Sincroniza la sesión con los nuevos datos
+        session['admin_nombre']   = nombre
+        session['admin_username'] = username
+        session['correo']         = correo
+        session['cargo']          = cargo
+        session['departamento']   = departamento
+        session['edad']           = edad
+        flash("Perfil actualizado", "success")
+    else:
+        flash("Error al actualizar perfil", "danger")
+
+    return redirect(url_for('inicio'))
+
+@app.route('/edit_profile', methods=['GET'])
+def edit_profile():
+    # Muestra el formulario de edición completo
+    return render_template('edit_profile.html', title='Editar Perfil')
+
 
 
 

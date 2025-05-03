@@ -1,4 +1,8 @@
-/* Estilos generales - consistentes con usuarios */
+/* ---------------------------------------- */
+/* estilos para la vista de Actividades     */
+/* ---------------------------------------- */
+
+/* Contenedor general */
 .actividades-container {
     width: 90%;
     max-width: 1000px;
@@ -6,7 +10,7 @@
     padding: 20px;
 }
 
-/* Titulo principal - mismo estilo que usuarios */
+/* Título principal */
 .titulo-principal h1 {
     color: white;
     font-size: 28px;
@@ -14,21 +18,21 @@
     margin-bottom: 30px;
 }
 
-/* Tabla de actividades - estilo idéntico a usuarios */
+/* Tabla de actividades */
 .tabla-container {
     background-color: #1E1E1E;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-bottom: 30px;
-    overflow-x: auto; /* Para tablas responsivas */
+    overflow-x: auto;
 }
 
 .styled-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 16px;
-    color:white;
+    color: white;
 }
 
 .styled-table th, .styled-table td {
@@ -47,7 +51,7 @@
     background-color: #2A2A2A;
 }
 
-/* Botones de acción */
+/* Botones de acción en la tabla */
 .btn-editar {
     background-color: #4A90E2;
     color: white;
@@ -56,9 +60,7 @@
     text-decoration: none;
     margin-right: 5px;
     transition: background-color 0.3s;
-   
 }
-
 .btn-editar:hover {
     background-color: #357ABD;
 }
@@ -66,19 +68,17 @@
 .btn-eliminar {
     background-color: #FF3B5C;
     color: white;
-    margin-top: 10px;
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s;
     width: 90px;
 }
-
 .btn-eliminar:hover {
     background-color: #E60040;
 }
 
-/* Separador - mismo estilo */
+/* Separador */
 .separador {
     height: 1px;
     background-color: #444;
@@ -86,18 +86,16 @@
     width: 100%;
 }
 
-/* Formulario - estilo idéntico al de usuarios */
+/* ---------------------------------------- */
+/* estilos para el formulario (parte baja)  */
+/* ---------------------------------------- */
+
 .formulario-container {
     background-color: #1E1E1E;
     padding: 25px;
     border-radius: 10px;
     margin-top: 20px;
-}
-
-.formulario-container h2 {
-    margin-bottom: 20px;
-    color: white;
-    font-size: 22px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .form-group {
@@ -106,12 +104,10 @@
     gap: 8px;
     margin-bottom: 15px;
 }
-
 .form-group label {
     font-size: 16px;
     color: #ccc;
 }
-
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -124,12 +120,10 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 .form-group textarea {
     min-height: 100px;
     resize: vertical;
 }
-
 .form-group select {
     appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
@@ -137,7 +131,6 @@
     background-position: right 10px center;
     background-size: 20px;
 }
-
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
@@ -145,7 +138,15 @@
     border-color: #FF3B5C;
 }
 
+.botones-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
 .btn-agregar {
+    flex: 1;
     background-color: #FF3B5C;
     color: white;
     padding: 14px 20px;
@@ -154,35 +155,40 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
+    text-decoration: none;
     transition: background-color 0.3s;
-    margin-top: 10px;
-    width: 100%;
 }
-
 .btn-agregar:hover {
     background-color: #E60040;
 }
 
-
-
-/* Responsive - mismos breakpoints */
-@media (max-width: 768px) {
-    .actividades-container {
-        width: 95%;
-        padding: 10px;
-    }
-    
-    .styled-table {
-        font-size: 14px;
-    }
-    
-    .styled-table th, .styled-table td {
-        padding: 10px 12px;
-    }
-    
-    .btn-editar, .btn-eliminar {
-        padding: 6px 10px;
-        font-size: 14px;
-    }
+.btn-eliminar /* botón “Cancelar” en formulario */ {
+    flex: 1;
+    background-color: #4A90E2;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.btn-eliminar:hover {
+    background-color: #357ABD;
 }
 
+#mensaje-error {
+    color: #E60040;
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .botones-container {
+        flex-direction: column;
+    }
+}

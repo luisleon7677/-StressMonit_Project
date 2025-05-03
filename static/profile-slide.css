@@ -1,0 +1,69 @@
+/* profile-slide.css */
+
+/* Panel deslizable (oculto al inicio) */
+.user-slide-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #1E1E1E;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transform: translateX(100%);        /* fuera de la pantalla */
+    transition: transform 0.3s ease-in-out;
+    z-index: 200;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  /* Cuando se añade .open, el panel se desplaza a la vista */
+  .user-slide-panel.open {
+    transform: translateX(0);
+  }
+  
+  /* Cabecera del slide */
+  .user-slide-panel .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-slide-panel .slide-header h3 {
+    color: white;
+    margin: 0;
+  }
+  
+  .user-slide-panel .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  /* Detalles de perfil */
+  .user-slide-panel .profile-details p {
+    color: white;
+    margin-bottom: 12px;
+  }
+  
+  /* Botón de “Editar Perfil” dentro del slide */
+  .user-slide-panel .botones-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .user-slide-panel .btn-editar {
+    background-color: #4A90E2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .user-slide-panel .btn-editar:hover {
+    background-color: #357ABD;
+  }
+  
