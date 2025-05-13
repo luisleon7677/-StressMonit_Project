@@ -47,21 +47,54 @@
 
 <div class="contenedor-soporte">
     <h3>Creación de Tickets</h3>
-    <form>
+    <form class="needs-validation" novalidate>
         <div class="mb-1">
           <label for="exampleInputEmail1" class="form-label">Asunto</label>
-          <input class="form-control" type="text"  aria-label="default input example">
+          <input class="form-control" type="text"  aria-label="default input example" required>
           <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <div class="valid-feedback">
+            Campo correcto!
+          </div>
+          <div class="invalid-feedback">
+            No debe dejar el campo vacio!
+          </div>
         </div>
         <div class="mb-5">
             <label for="exampleFormControlTextarea1" class="form-label">Detalle</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            <div class="valid-feedback">
+              Campo correcto!
+            </div>
+            <div class="invalid-feedback">
+              No debe dejar el campo vacio!
+            </div>
         </div>
         
-        <button type="submit" class="btn btn-primary btn-soporte">Submit</button>
+        <button type="submit" class="btn btn-primary btn-soporte">Enviar</button>
       </form>
 
       
 </div>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
 
 {%endblock%}
