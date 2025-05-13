@@ -47,6 +47,10 @@
 
 <div class="contenedor-soporte">
     <h3>Creación de Tickets</h3>
+    <!-- Mensaje de confirmación oculto -->
+    <div id="mensajeConfirmacion" class="alert alert-success d-none" role="alert">
+    ¡Formulario enviado con éxito!
+    </div>
     <form class="needs-validation" novalidate>
         <div class="mb-1">
           <label for="exampleInputEmail1" class="form-label">Asunto</label>
@@ -76,25 +80,37 @@
       
 </div>
 <script>
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
-</script>
+  (() => {
+    'use strict';
+  
+    const forms = document.querySelectorAll('.needs-validation');
+    const mensaje = document.getElementById('mensajeConfirmacion');
+  
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        event.preventDefault(); // Evita el envío por defecto
+  
+        if (!form.checkValidity()) {
+          event.stopPropagation();
+          form.classList.add('was-validated');
+          return;
+        }
+  
+        // Si es válido
+        form.classList.add('was-validated');
+  
+        // Mostrar el mensaje de confirmación
+        mensaje.classList.remove('d-none');
+  
+        // Opcional: limpiar el formulario después de un tiempo
+        setTimeout(() => {
+          mensaje.classList.add('d-none');
+          form.reset();
+          form.classList.remove('was-validated');
+        }, 3000);
+      }, false);
+    });
+  })();
+  </script>
 
 {%endblock%}
