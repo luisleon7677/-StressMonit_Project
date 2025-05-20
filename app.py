@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, flash
-from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,recursosByIdVer
 from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
@@ -184,8 +184,12 @@ def recursos():
         {'id':row[0],'titulo':row[1],'autor':row[2],'contenido':row[3]}
         for row in resultados
     ]
+    
+    titulo = request.args.get('titulo')
+    autor=request.args.get('autor')
+    contenido=request.args.get('contenido')
   
-    return render_template("recursos.html",title="Recursos",resultados = recursos)
+    return render_template("recursos.html",title="Recursos",resultados = recursos,titulo=titulo,autor=autor,contenido=contenido)
 
 @app.route("/recursos/eliminar/<int:id>",methods=['POST'])
 def eliminar_recursos(id):
@@ -194,7 +198,20 @@ def eliminar_recursos(id):
     
 #query = "DELETE FROM actividades WHERE id = %s AND id_administrador = %s"
  #   params = (id, session['user_id'])
-    
+ 
+
+@app.route("/recursos/get/<int:id>",methods=['POST'])
+def obtenerRecursoById(id):
+    #necesito crear una funcion que obtenga el titulo, autos y contenido de un recurso
+    #mediante el id
+    print(f"este es el id: {id}")
+    data=recursosByIdVer(id)
+    titulo= data[0][0]
+    autor=data[0][1]
+    contenido=data[0][2]
+    return redirect(url_for('recursos',titulo= titulo,autor=autor,contenido=contenido)) #probemos con el titulo
+
+  
 @app.route("/recursos/registrar/submit" , methods=['post'])
 def submit_recurso():
     titulo = request.form["titulo"]
@@ -361,7 +378,14 @@ def eliminar_actividad(id):
 
 
 
+#esta configuracion debe ativarse cuando subimos a producción
+#if __name__ == "__main__":
+#    port = int(os.environ.get("PORT", 8000))
+#    app.run(host="0.0.0.0", port=port)
+    
 
+#esta otra configuracion es para modo desarrollo
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+

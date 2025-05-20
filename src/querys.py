@@ -52,6 +52,40 @@ def insertarRecursos(titulo,autor, contenido,id_admin):
             print(f"Error al insertar registro: {e}")
             return None
 
+#funcion para obtener datos de recursos
+def recursosByIdVer(id_recurso):
+    conexion = get_connection()
+    if conexion:
+        try:
+            start_time = time.time()  # ⏱️ Inicio del temporizador
+            
+            cursor = conexion.cursor()
+            query = """
+            select titulo,autor,contenido from recursos where id=%s; 
+            """
+            cursor.execute(query, (id_recurso,))
+            resultados = cursor.fetchall()
+            
+            duration = time.time() - start_time  # ⏱️ Fin del temporizador
+            print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
+
+            if resultados:
+                print("Recurso por id:")
+                return resultados
+            else:
+                print("No se encontraron resultados")
+                return "No se encontraron datos", 404
+
+        except Exception as e:
+            print(f"Error al realizar consulta: {e}")
+            return None
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conexion:
+                return_connection(conexion)
+
 #funcion para obtener data de estres por usuarios
 def estresByUsers(id_admin):
     conexion = get_connection()
