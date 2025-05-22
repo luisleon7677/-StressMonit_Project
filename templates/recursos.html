@@ -39,11 +39,8 @@
                     <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post">
                       <button class="btn-recursos">Eliminar</button>
                     </form>
-                    <form action="">
-                      <button class="btn-recursos">Descargar</button>
-                    </form>
                     <form action="{{ url_for('obtenerRecursoById', id=recurso.id) }}" method = "post" class="btnVer">
-                      <button >Ver</button>
+                      <button class="btn-recursos">Ver</button>
                     </form>
                   
                   </div>
