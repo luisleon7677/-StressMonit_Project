@@ -1,17 +1,17 @@
 from flask import Flask, render_template, send_file, flash
 from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad
-from flask import request, redirect, url_for, flash, session
+from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 import os
 #librerias para mapa de calor
 import pandas as pd
 import seaborn as sns
+import plotly.express as px
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
-import json
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
@@ -203,18 +203,15 @@ def submit_recurso():
     id_admin=session["user_id"]
     insertarRecursos(titulo,autor,contenido,id_admin)
     
-    
     return redirect(url_for('recursos'))
     
 @app.route("/recursos/registrar")
 def registrar_recursos():
     return render_template("recurso_registrar.html",title="Registro Recursos")
 
-
 @app.route("/soporte")
 def soporte():
     return render_template("soporte.html",title="Soporte")
-
 
 # Crear usuarios
 @app.route('/crear_usuario', methods=['GET', 'POST'])
@@ -314,6 +311,7 @@ def eliminar_usuario_route(id):
     else:
         flash("Error al eliminar usuario o sin permisos", "danger")
     return redirect(url_for('usuarios'))
+
 
 @app.route('/crear_actividad', methods=['GET', 'POST'])
 def crear_actividad_route():
@@ -449,9 +447,17 @@ def edit_profile():
 
 
 
+#Capturamos cualquier error
+try:
+    print("===> Flask app importada correctamente")
+except Exception as e:
+    print(f"===> Error al importar Flask app: {e}")
 
 
+#if __name__ == "__main__":
+#    port = int(os.environ.get("PORT", 8000))
+#    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
