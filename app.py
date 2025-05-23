@@ -125,22 +125,21 @@ def inicio():
         usuarios = estresByUsers(session["user_id"])
         print("Tipo de usuarios:", type(usuarios))
         
-        # Verifica si la lista está vacía
+         # Columnas esperadas
+        columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
+
+        # Si no hay usuarios, se crea un DataFrame vacío con las columnas esperadas
         if not usuarios:
             flash("No hay datos de usuarios para mostrar.", "info")
-            return render_template("inicio.html", usuarios=[])
-        
-        
-        print("Primer elemento:", usuarios[0])
-        print("Tipo de primer elemento:", type(usuarios[0]))
-        # Columnas esperadas en el DataFrame
-        columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
-        # Crear el DataFrame , pero es un promedio de cada columna
-        df = pd.DataFrame(usuarios, columns=columnas)
-        #privoteamos la tabla
-        df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
+            df = pd.DataFrame(columns=columnas)
+        else:
+            print("Primer elemento:", usuarios[0])
+            print("Tipo de primer elemento:", type(usuarios[0]))
+            df = pd.DataFrame(usuarios, columns=columnas)
+            df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
         #Genero el mapa de calor con plotly
-        fig = px.imshow(df,
+        fig = px.imshow(df if not df.empty else [[None]],
+                    labels=dict(x="Nombre", y="Actividad", color="Estrés"),
                     text_auto=True,
                     color_continuous_scale='RdYlGn_r',
                     aspect='auto',
