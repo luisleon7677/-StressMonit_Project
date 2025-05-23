@@ -114,36 +114,45 @@ def register():
 
 @app.route("/inicio")
 def inicio():
-    # Verificación de sesión
-    if session.get("user_type") != "admin":
-        flash("Debes iniciar sesión como administrador", "warning")
-        return redirect(url_for("login"))
     
-    # Obtiene la lista (ahora siempre lista, aunque vacía)
-    usuarios = estresByUsers(session["user_id"])
-    
-    # Columnas esperadas en el DataFrame
-    columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
-    #creo el dataframe
-    print("Tipo de usuarios:", type(usuarios))
-    print("Primer elemento:", usuarios[0])
-    print("Tipo de primer elemento:", type(usuarios[0]))
-
-
-    # Crear el DataFrame , pero es un promedio de cada columna
-    df = pd.DataFrame(usuarios, columns=columnas)
-    #privoteamos la tabla
-    df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
-    #Genero el mapa de calor con plotly
-    fig = px.imshow(df,
-                text_auto=True,
-                color_continuous_scale='RdYlGn_r',
-                aspect='auto',
-                title="Mapa de Calor de Estrés")
-    # Guardar como archivo HTML (para web)
-    fig.write_html("static/heatmap_interactivo.html")
-    
-    return render_template("inicio.html",usuarios=usuarios)
+    try:
+        # Verificación de sesión
+        if session.get("user_type") != "admin":
+            flash("Debes iniciar sesión como administrador", "warning")
+            return redirect(url_for("login"))
+        
+        # Obtiene la lista (ahora siempre lista, aunque vacía)
+        usuarios = estresByUsers(session["user_id"])
+        print("Tipo de usuarios:", type(usuarios))
+        
+        # Verifica si la lista está vacía
+        if not usuarios:
+            flash("No hay datos de usuarios para mostrar.", "info")
+            return render_template("inicio.html", usuarios=[])
+        
+        
+        print("Primer elemento:", usuarios[0])
+        print("Tipo de primer elemento:", type(usuarios[0]))
+        # Columnas esperadas en el DataFrame
+        columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
+        # Crear el DataFrame , pero es un promedio de cada columna
+        df = pd.DataFrame(usuarios, columns=columnas)
+        #privoteamos la tabla
+        df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
+        #Genero el mapa de calor con plotly
+        fig = px.imshow(df,
+                    text_auto=True,
+                    color_continuous_scale='RdYlGn_r',
+                    aspect='auto',
+                    title="Mapa de Calor de Estrés")
+        # Guardar como archivo HTML (para web)
+        fig.write_html("static/heatmap_interactivo.html")
+        
+        return render_template("inicio.html",usuarios=usuarios)
+    except Exception as e:
+        # Captura cualquier error inesperado y lo muestra
+        flash(f"Ocurrió un error al generar el mapa de calor: {str(e)}", "danger")
+        return render_template("inicio.html", usuarios=[])
 
 @app.route("/logout")
 def logout():
