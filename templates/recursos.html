@@ -1,11 +1,19 @@
 {%extends "base.html"%}
 
 {% block content%}
+
 <div class="titulo-principal">
     <h1>Recursos</h1>
 </div>
-
+<div id="modalTab" class="modal">
+  <button  id="modal" class="close-modal">X</button>
+  <h1>{{titulo}}</h1>
+  <p>{{contenido}}</p>
+  <h6>{{autor}}</h6>
+  
+</div>
 <div class="container-recursos">
+
     <div class="titulo">
         <h3>Articulos de estres</h3>
     </div>
@@ -31,11 +39,8 @@
                     <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post">
                       <button class="btn-recursos">Eliminar</button>
                     </form>
-                    <form action="">
-                      <button class="btn-recursos">Descargar</button>
-                    </form>
-                    <form action="">
-                      <button class="mostrarModal btn-recursos">Ver</button>
+                    <form action="{{ url_for('obtenerRecursoById', id=recurso.id) }}" method = "post" class="btnVer">
+                      <button class="btn-recursos">Ver</button>
                     </form>
                   
                   </div>
@@ -51,18 +56,11 @@
             <button>Agregar</button>
         </a>
     </div>
+  
+
+    
 </div>
 
-<div class="modal-recurso" id="modal-recurso">
-  <div class="modal-contenido">
-    <span id="cerrarModal" class="cerrar">&times;</span>
-    
-    <h2>titulo</h2>
-    <p>contenido</p>
-    
-  </div>
-
-</div>
 
 
 {%endblock%}

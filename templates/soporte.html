@@ -46,9 +46,14 @@
 </div>
 
 <div class="contenedor-soporte">
-    <h3>Escribe a nuestro equipo</h3>
-    <form>
+    <h3>Creación de Tickets</h3>
+    <!-- Mensaje de confirmación oculto -->
+    <div id="mensajeConfirmacion" class="alert alert-success d-none" role="alert">
+    ¡Formulario enviado con éxito!
+    </div>
+    <form class="needs-validation" novalidate>
         <div class="mb-1">
+<<<<<<< HEAD
           <label for="exampleInputEmail1" class="form-label">Direccion de Correo</label>
           <input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
           <div id="emailHelp" class="form-text">Nosotros nunca compartiremos tu correo con ninguna otra persona.</div>
@@ -56,6 +61,27 @@
         <div class="mb-5">
             <label for="exampleFormControlTextarea1" class="form-label">Area para el mensaje</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+=======
+          <label for="exampleInputEmail1" class="form-label">Asunto</label>
+          <input class="form-control" type="text"  aria-label="default input example" required>
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <div class="valid-feedback">
+            Campo correcto!
+          </div>
+          <div class="invalid-feedback">
+            No debe dejar el campo vacio!
+          </div>
+        </div>
+        <div class="mb-5">
+            <label for="exampleFormControlTextarea1" class="form-label">Detalle</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            <div class="valid-feedback">
+              Campo correcto!
+            </div>
+            <div class="invalid-feedback">
+              No debe dejar el campo vacio!
+            </div>
+>>>>>>> luis
         </div>
         
         <button type="submit" class="btn btn-primary btn-soporte">Enviar</button>
@@ -63,5 +89,38 @@
 
       
 </div>
+<script>
+  (() => {
+    'use strict';
+  
+    const forms = document.querySelectorAll('.needs-validation');
+    const mensaje = document.getElementById('mensajeConfirmacion');
+  
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        event.preventDefault(); // Evita el envío por defecto
+  
+        if (!form.checkValidity()) {
+          event.stopPropagation();
+          form.classList.add('was-validated');
+          return;
+        }
+  
+        // Si es válido
+        form.classList.add('was-validated');
+  
+        // Mostrar el mensaje de confirmación
+        mensaje.classList.remove('d-none');
+  
+        // Opcional: limpiar el formulario después de un tiempo
+        setTimeout(() => {
+          mensaje.classList.add('d-none');
+          form.reset();
+          form.classList.remove('was-validated');
+        }, 3000);
+      }, false);
+    });
+  })();
+  </script>
 
 {%endblock%}
