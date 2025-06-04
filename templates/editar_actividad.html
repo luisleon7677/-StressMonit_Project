@@ -1,33 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="editar-actividad-container">
+<link rel="stylesheet" href="/static/actividades.css">
+
+<div class="actividades-container">
+  <!-- Título principal -->
+  <div class="titulo-principal">
+    <h1>Editar Actividad</h1>
+  </div>
+
+  <div class="separador"></div>
+
+  <!-- Formulario de edición con estilo idéntico a actividades -->
+  <div class="formulario-container">
     <h2>Editar Actividad</h2>
-    
     <form method="POST">
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="{{ actividad[1] }}" required class="form-control">
-        </div>
-        
-        <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" required class="form-control">{{ actividad[2] }}</textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="grado_dif">Grado de dificultad:</label>
-            <select id="grado_dif" name="grado_dif" required class="form-control">
-                <option value="1.0" {% if actividad[3] == 1.0 %}selected{% endif %}>Bajo</option>
-                <option value="2.0" {% if actividad[3] == 2.0 %}selected{% endif %}>Medio</option>
-                <option value="3.0" {% if actividad[3] == 3.0 %}selected{% endif %}>Alto</option>
-            </select>
-        </div>
-        
-        <div class="botones-container">
-            <button type="submit" class="btn-agregar">Guardar Cambios</button>
-            <a href="{{ url_for('actividades') }}" class="btn-cancelar">Cancelar</a>
-        </div>
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ actividad[1] }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required>{{ actividad[2] }}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="grado_dif">Grado de dificultad:</label>
+        <select id="grado_dif" name="grado_dif" required>
+          <option value="1.0" {% raw %}{% if actividad[3] == 1.0 %}selected{% endif %}{% endraw %}>Bajo</option>
+          <option value="2.0" {% raw %}{% if actividad[3] == 2.0 %}selected{% endif %}{% endraw %}>Medio</option>
+          <option value="3.0" {% raw %}{% if actividad[3] == 3.0 %}selected{% endif %}{% endraw %}>Alto</option>
+        </select>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="botones-container">
+        <button type="submit" class="btn-agregar">Guardar Cambios</button>
+        <a href="{{ url_for('actividades') }}" class="btn-eliminar">Cancelar</a>
+      </div>
     </form>
+  </div>
 </div>
+
 {% endblock %}

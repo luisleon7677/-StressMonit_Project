@@ -89,38 +89,29 @@ def recursosByIdVer(id_recurso):
 #funcion para obtener data de estres por usuarios
 def estresByUsers(id_admin):
     conexion = get_connection()
-    if conexion:
-        try:
-            start_time = time.time()  # ⏱️ Inicio del temporizador
-            
-            cursor = conexion.cursor()
-            query = """
-            SELECT id, nombre_usuario, nombre_actividades, humedad, temperatura, pasos, estres 
-            FROM proceso 
-            WHERE id_administrador = %s;
-            """
-            cursor.execute(query, (id_admin,))
-            resultados = cursor.fetchall()
-            
-            duration = time.time() - start_time  # ⏱️ Fin del temporizador
-            print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
-
-            if resultados:
-                print("Lista de usuarios por estrés:")
-                return resultados
-            else:
-                print("No se encontraron resultados")
-                return "No se encontraron datos", 404
-
-        except Exception as e:
-            print(f"Error al realizar consulta: {e}")
-            return None
-
-        finally:
-            if cursor:
-                cursor.close()
-            if conexion:
-                return_connection(conexion)
+    if not conexion:
+        return []
+    try:
+        start_time = time.time()
+        cursor = conexion.cursor()
+        query = """
+        SELECT id, nombre_usuario, nombre_actividades, humedad, temperatura, pasos, estres 
+        FROM proceso 
+        WHERE id_administrador = %s;
+        """
+        cursor.execute(query, (id_admin,))
+        resultados = cursor.fetchall()
+        duration = time.time() - start_time
+        print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
+        cursor.close()
+        # Si no hay filas, devuelve lista vacía en vez de tupla de error
+        return resultados if resultados else []
+    except Exception as e:
+        print(f"Error al realizar consulta: {e}")
+        return []
+    finally:
+        if conexion:
+            return_connection(conexion)
 
 
 def listarQuerys(query, params=None):

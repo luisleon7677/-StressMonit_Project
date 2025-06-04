@@ -1,93 +1,58 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividades</title>
-    <link rel="stylesheet" href="/static/actividades.css"> <!-- Asegúrate de que el CSS está bien referenciado -->
-</head>
-<div class="actividades-container">
-    <div class="titulo-principal">
-        <h1>Lista de Actividades</h1>
-    </div>
-    
-    <!-- Tabla de actividades -->
-    <div class="tabla-container">
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Grado de Dificultad</th>
-                    <th>Acciones</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                {% if actividades %}
-                    {% for actividad in actividades %}
-                    <tr>
-                        <td>{{ actividad[0] }}</td>  <!-- ID -->
-                        <td>{{ actividad[1] }}</td>  <!-- Nombre -->
-                        <td>{{ actividad[2] }}</td>  <!-- Descripción -->
-                        <td>
-                            {% if actividad[3] == 1.0 %}Bajo
-                            {% elif actividad[3] == 2.0 %}Medio
-                            {% elif actividad[3] == 3.0 %}Alto
-                            {% endif %}
-                        </td>
-                        <!-- <td>{{ actividad[4] }}</td> -->  <!-- Administrador -->
-                        <td class="acciones-cell">
-                            <a href="/editar_actividad/{{ actividad[0] }}" class="btn-accion btn-editar">Editar</a>
-                            <form action="/eliminar_actividad/{{ actividad[0] }}" method="POST" style="display: inline;">
-                                <button type="submit" class="btn-accion btn-eliminar" onclick="return confirm('¿Eliminar esta actividad?')">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="6">No hay actividades registradas</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="separador"></div>
-    
-    <!-- Formulario para agregar nueva actividad -->
-    <div class="formulario-container">
-        <h2>Agregar Nueva Actividad</h2>
-        <form action="/crear_actividad" method="POST" onsubmit="return validarFormulario()">
-            <input type="hidden" name="admin_id" value="{{ session.user_id }}">
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" required></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="grado_dif">Grado de dificultad:</label>
-                <select id="grado_dif" name="grado_dif" required>
-                    <option value="1.0">Bajo</option>
-                    <option value="2.0" selected>Medio</option>
-                    <option value="3.0">Alto</option>
-                </select>
-            </div>
-            
-            <button type="submit" class="btn-agregar">Agregar Actividad</button>
-        </form>
-    </div>
-</div>
-</html>
+<link rel="stylesheet" href="/static/actividades.css">
 
+<div class="actividades-container">
+  <div class="titulo-principal">
+    <h1>Lista de Actividades</h1>
+  </div>
+
+  <div class="tabla-container">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Grado de Dificultad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if actividades %}
+          {% for actividad in actividades %}
+          <tr>
+            <td>{{ actividad[0] }}</td>
+            <td>{{ actividad[1] }}</td>
+            <td>{{ actividad[2] }}</td>
+            <td>
+              {% if actividad[3] == 1.0 %}Bajo
+              {% elif actividad[3] == 2.0 %}Medio
+              {% elif actividad[3] == 3.0 %}Alto
+              {% endif %}
+            </td>
+            <td class="acciones-cell">
+              <a href="{{ url_for('editar_actividad', id=actividad[0]) }}" class="btn-accion btn-editar">Editar</a>
+              <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn-accion btn-eliminar"
+                        onclick="return confirm('¿Eliminar esta actividad?')">
+                  Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="5">No hay actividades registradas</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BOTÓN AGREGAR: redirige correctamente a crear_actividad_route -->
+  <div class="botones-container" style="text-align:center; margin-top:20px;">
+    <a href="{{ url_for('crear_actividad_route') }}" class="btn-agregar">Agregar Actividad</a>
+  </div>
+</div>
 {% endblock %}
