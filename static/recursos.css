@@ -88,9 +88,10 @@
 
 
 .table>:not(caption)>*>*{
-    background: #252525;
+    background: none;
     color: white;
 }
+/*#252525;*/
 .container-recursos .column-btns{
     display: flex;
 }
