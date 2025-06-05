@@ -52,3 +52,6 @@ body{
     outline: 0;
     box-shadow: black;
 }
+.form-text{
+    color: rgba(255, 255, 255, 0.2);
+}
