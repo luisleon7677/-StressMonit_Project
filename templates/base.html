@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/static/soporte.css">
     <link rel="stylesheet" href="/static/recursos.css">
     <link rel="stylesheet" href="/static/inicio.css">
+    
 
     <!-- Profile Slide CSS (MODIFICADO) -->
     <link rel="stylesheet" href="/static/profile-slide.css">
@@ -113,8 +114,14 @@
         });
     </script>
 
+    <!--Poppper.js  is used for Popovers-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <!--Scrip for popovers in "inicio"-->
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
 </body>
 </html>

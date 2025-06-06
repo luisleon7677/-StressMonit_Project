@@ -36,3 +36,20 @@ iframe {
     height: 90vh;
     border: none;
 }
+/*botones*/
+#btn-estres-bajo{
+    background-color: #155724;
+    color: white;
+}
+#btn-estres-medio{
+    background-color: #FFFFBF;
+    color: black;
+}
+#btn-estres-alto{
+    background-color: #A50026;
+    color: white;
+}
+#btn-estres-not{
+    background-color: #E5ECF6;
+    color: black;
+}

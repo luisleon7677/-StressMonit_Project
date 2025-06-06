@@ -14,23 +14,21 @@
   <!--Card with information about stress levels-->
   <div class="card mt-3">
     <div class="card-header">
-      Featured
+      Leyenda de valores
     </div>
     <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="" class="btn btn-primary">Go somewhere</a>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
-        Tooltip on top
+      <p class="card-text">Los niveles de estrés estan categorizados por colores, desde <br> el nivel bajo hasta el nivel más alto van variando en una escala de color.</p>
+      <button type="button" id="btn-estres-bajo" class="btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Es una metríca aceptable y nos dice que el empleado no se siente muy estresado al realizar la actividad.">
+        Bajo Estrés(0)
       </button>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tooltip on right">
-        Tooltip on right
+      <button type="button" class="btn" id="btn-estres-medio" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Es un estrés normal y no se considera riesgoso.">
+        Moderado Estrés(1)
       </button>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tooltip on bottom">
-        Tooltip on bottom
+      <button type="button" class="btn" id="btn-estres-alto" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Es una alerta de que la actividad es muy estresante para el empleado, si esto se repite en varios empleados el problema es la actividad, si no es posible que sea solo en el empleado y se debe tratar de manera personal.">
+        Alto Estrés(2)
       </button>
-      <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Tooltip on left">
-        Tooltip on left
+      <button type="button" class="btn" id="btn-estres-not" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="No se ha realizado aún un monitoreo del usuario con dicha actividad.">
+        Sin registro
       </button>
     </div>
   </div>
@@ -70,6 +68,7 @@
 
 
 </div>
+
 
 
 {%endblock%}
