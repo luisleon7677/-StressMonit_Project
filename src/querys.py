@@ -162,11 +162,39 @@ def crear_actividad(nombre, descripcion, grado_dif, id_administrador):
     """
     params = (nombre, descripcion, float(grado_dif), int(id_administrador))
     return listarQuerys(query, params)
+def recursosByTitle(titulo,id_admin):
+    conexion = get_connection()
+    if not conexion:
+        return []
+    try:
+        
+        start_time = time.time()
+        cursor = conexion.cursor()
+        query = """
+        SELECT * 
+        FROM recursos
+        WHERE titulo ILIKE '%%'|| %s || '%%' AND id_administrador=%s;
+        """
+        cursor.execute(query, (titulo,int(id_admin),))
+        resultados = cursor.fetchall()
+        duration = time.time() - start_time
+        print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
+        cursor.close()
+        # Si no hay filas, devuelve lista vacía en vez de tupla de error
+        return resultados if resultados else []
+    except Exception as e:
+        print(f"Error al realizar consulta: {e}")
+        return []
+    finally:
+        if conexion:
+            return_connection(conexion)
 
 
-# Llamamos a la función principal solo si este archivo es ejecutado directamente
+#Llamamos a la función principal solo si este archivo es ejecutado directamente
 #if __name__ == "__main__":
-    # Ejemplo de llamada a la función con una consulta
-#    id_user = 1   
-#    estresByUsers(id_user)
-    
+#    titulo='Resour'
+#    id=2
+#    print(recursosByTitle(titulo,id))
+  
+#usar este comando para ejecutar: python -m src.querys
+#eso debido a que es un paquete de python

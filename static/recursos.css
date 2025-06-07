@@ -52,6 +52,12 @@
 .container-recursos .contenido span{
     margin-right: 15px;
 }
+#btn-search-resource{
+  width: 300px; 
+  color: white; 
+  font-weight: 700;
+  height: 60px;
+}
 .container-recursos .boton button{
     
     all: unset;                /* Elimina todos los estilos por defecto */

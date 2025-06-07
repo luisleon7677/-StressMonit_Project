@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, flash
-from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad,recursosByIdVer
+from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad,recursosByIdVer,recursosByTitle
 from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
@@ -193,6 +193,31 @@ def recursos():
     contenido=request.args.get('contenido')
   
     return render_template("recursos.html",title="Recursos",resultados = recursos,titulo=titulo,autor=autor,contenido=contenido)
+#creamos una llamada a recursos filtrados por titulo
+@app.route("/recursos/find")
+def recursosFind():
+    titulo= request.args.get('titulo')
+    try:
+        resultados = recursosByTitle(titulo,session["user_id"])
+        if not resultados:
+            print("La lista esta vacia")
+            return render_template('recursos.html')
+        else:
+            #print("la consulta fue exitosa")
+            #print(resultados)
+            #organizamos la lista para enviarla a la tabla
+            #convertimos la tupla en diccionario
+            recursos =[
+                {'id':row[0],'titulo':row[1],'autor':row[2],'contenido':row[3]}
+                for row in resultados
+            ]
+            #print("Este es el resulta de la tupla como diccionario:")
+            #print(recursos)
+            return render_template('recursos.html',title="Recursos",resultados = recursos) #todo conforme, solo falta corregir lo del boton de ver
+    except Exception as e:
+        print("Ocurrio un error en la consulta: ", e)
+        return render_template('recursos.html')
+        
 
 @app.route("/recursos/eliminar/<int:id>",methods=['POST'])
 def eliminar_recursos(id):
@@ -213,6 +238,7 @@ def obtenerRecursoById(id):
     autor=data[0][1]
     contenido=data[0][2]
     return redirect(url_for('recursos',titulo= titulo,autor=autor,contenido=contenido)) #probemos con el titulo
+
 
   
 @app.route("/recursos/registrar/submit" , methods=['post'])

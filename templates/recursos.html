@@ -22,10 +22,13 @@
     </div>
     <div class="contenido">
         <!--This button have update the table with a list where to be titles with names-->
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-          <button class="btn btn-outline-success" type="submit">Search</button>
+        <form action="{{ url_for('recursosFind')}}" class="d-flex" role="search" >
+          <input class="form-control me-2" type="search" name="titulo" placeholder="Titulo" aria-label="Search"/>
+        
+          <button class="btn" id="btn-search-resource" type="submit">Search</button>
         </form>
+
+
 
         <table class="table custom-table">
             <thead>
