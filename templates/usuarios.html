@@ -12,6 +12,7 @@
     <table class="styled-table">
       <thead>
         <tr>
+          <th>#</th>
           <th>ID</th>
           <th>Nombre</th>
           <th>Usuario</th>
@@ -22,15 +23,19 @@
       <tbody>
         {% for usuario in usuarios %}
         <tr>
+          <td>{{ loop.index }}</td>
           <td>{{ usuario[0] }}</td>
           <td>{{ usuario[1] }}</td>
           <td>{{ usuario[2] }}</td>
           <td>{{ usuario[3] }}</td>
           <td class="acciones-cell">
-            <a href="{{ url_for('editar_usuario_route', id=usuario[0]) }}" class="btn-accion btn-editar">Editar</a>
-            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}" method="POST" style="display:inline;">
-              <button type="submit" class="btn-accion btn-eliminar"
-                      onclick="return confirm('¿Eliminar este usuario?')">Eliminar</button>
+            <a href="{{ url_for('editar_usuario_route', id=usuario[0]) }}" class="btn-editar">Editar</a>
+            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}"
+                  method="POST" style="display:inline;">
+              <button type="submit" class="btn-eliminar"
+                      onclick="return confirm('¿Eliminar este usuario?')">
+                Eliminar
+              </button>
             </form>
           </td>
         </tr>
