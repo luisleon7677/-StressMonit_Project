@@ -191,6 +191,13 @@ def recursos():
     titulo = request.args.get('titulo')
     autor=request.args.get('autor')
     contenido=request.args.get('contenido')
+    
+    if(titulo is None):
+        titulo ="Contenido vacío"
+    if(autor is None):
+        autor="Seleccione algún recurso para ver su contenido."
+    if(contenido is None):
+        contenido=""
   
     return render_template("recursos.html",title="Recursos",resultados = recursos,titulo=titulo,autor=autor,contenido=contenido)
 #creamos una llamada a recursos filtrados por titulo

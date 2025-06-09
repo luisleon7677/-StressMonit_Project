@@ -148,6 +148,27 @@
 
 }
   
+/*botnoes de la paginacion de las tablas*/
+ /* Estilos personalizados opcionales */
+ .page-link-custom {   /* Boton desactivado */
+    color: black;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border: #f04158;
+  }
+
+  .page-link-custom:hover {
+    background-color: rgba(240, 65, 88, 0.90);
+    color:#1E1E1E
+  }
+
+  .active .page-link-custom {
+    background-color: white; /* Boton activo */
+    color: black;
+    border-color: black;
+    transform: scale(1.10);
+    transition: transform 0.2s ease;
+  }
 /* El modal está oculto por defecto */
 @media(max-width:1100px){
     
