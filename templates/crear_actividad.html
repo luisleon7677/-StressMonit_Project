@@ -49,36 +49,41 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // 1) Carga los nombres existentes desde el servidor
   let existingNames = [];
   fetch('/api/activity-names')
     .then(response => response.json())
     .then(data => {
-      existingNames = data;
+      existingNames = data.map(n => n.trim());
       initValidation();
     })
-    .catch(() => {
-      // En caso de fallo, deja existingNames vacío
-      initValidation();
-    });
+    .catch(initValidation);
 
   function initValidation() {
-    const nombreInput      = document.getElementById('nombre');
+    const nombreInput = document.getElementById('nombre');
     const descripcionInput = document.getElementById('descripcion');
-    const gradoSelect      = document.getElementById('grado_dif');
-    const submitBtn        = document.getElementById('btn-submit');
-    const mensaje          = document.getElementById('mensaje-error');
+    const gradoSelect = document.getElementById('grado_dif');
+    const submitBtn = document.getElementById('btn-submit');
+    const mensaje = document.getElementById('mensaje-error');
+
+    // Lista en minúsculas para comparación case-insensitive
+    const lowerNames = existingNames.map(n => n.toLowerCase());
 
     function validar() {
-      let error = '';
       const n = nombreInput.value.trim();
       const d = descripcionInput.value.trim();
       const g = gradoSelect.value;
+      let error = '';
 
       if (!n || !d || !g) {
         error = 'Campos requeridos a completar';
-      } else if (existingNames.includes(n)) {
-        error = 'El nombre ya existe';
+      }
+      else if (existingNames.includes(n)) {
+        // Coincidencia exacta
+        error = 'Una actividad ya tiene ese nombre';
+      }
+      else if (lowerNames.includes(n.toLowerCase())) {
+        // Coincidencia solo en mayúsculas/minúsculas
+        error = 'Nombre muy parecido a uno existente';
       }
 
       submitBtn.disabled = !!error;
@@ -90,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Agrega listeners y corre la primera validación
     [nombreInput, descripcionInput, gradoSelect].forEach(el =>
       el.addEventListener('input', validar)
     );

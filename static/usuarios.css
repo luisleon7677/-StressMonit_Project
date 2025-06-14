@@ -155,3 +155,66 @@
   padding: 4px 0;
   border-bottom: 1px solid #444;
 }
+
+
+
+
+
+/* por defecto ocultamos las filas de detalle */
+.details-row {
+  display: none;
+}
+
+/* botón de desplegable */
+.btn-detalles {
+  background-color: #4A90E2;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-detalles:hover {
+  background-color: #357ABD;
+}
+
+/* Ajuste de colspan en la fila de detalle si cambias columnas */
+.styled-table td[colspan] {
+  padding: 0;
+  background: #2A2A2A;
+}
+
+.btn-detalles-circle {
+  background-color: #4A90E2;    /* mismo color azul */
+  color: white;
+  width: 32px;                  /* tamaño de círculo */
+  height: 32px;
+  border: none;
+  border-radius: 50%;           /* círculo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-detalles-circle:hover {
+  background-color: #357ABD;    /* hover ligeramente más oscuro */
+}
+
+/*–– Centro horizontal del botón circular ––*/
+.btn-detalles-circle {
+  /* Auto márgenes en inline-axis para centrar */
+  margin: 0 auto;
+}
+
+/*–– Asegúrate de que el <td> no fuerce otro alineamiento ––*/
+.styled-table td {
+  /* Sobrescribe cualquier text-align heredado */
+  text-align: left;
+}
+.styled-table td:nth-child(7) {
+  /* Columna 7 es la de “Actividades” */
+  text-align: center;
+}
