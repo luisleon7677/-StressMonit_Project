@@ -160,10 +160,37 @@
 
 
 
-/* por defecto ocultamos las filas de detalle */
-.details-row {
-  display: none;
+/* --- Centrado completo de la fila de detalles --- */
+/* Aseguramos que el <td> que contiene la subtabla ocupe todo el ancho
+   y centre su contenido */
+.details-row td {
+  background-color: #1A1A1A;  /* opcional: fondo un poco distinto */
+  padding: 0;                 /* quitamos padding extra */
+  text-align: center;         /* centro horizontal */
+  vertical-align: middle;     /* centro vertical */
 }
+
+/* La propia subtabla, centrada y con ancho cómodo */
+.details-row td > table {
+  width: 80%;                 /* ajusta este % a tu gusto */
+  margin: 0 auto;             /* centra la tabla */
+  border-collapse: collapse;
+}
+
+/* Celdas y encabezados de la subtabla, centrados */
+.details-row th,
+.details-row td {
+  text-align: center;         /* centro horizontal */
+  vertical-align: middle;     /* centro vertical */
+  padding: 10px 5px;          /* algo de espacio interior */
+}
+
+/* Opcional: dar contraste a cada fila */
+.details-row tbody tr:nth-child(even) td {
+  background-color: #252525;
+}
+
+
 
 /* botón de desplegable */
 .btn-detalles {
@@ -217,4 +244,26 @@
 .styled-table td:nth-child(7) {
   /* Columna 7 es la de “Actividades” */
   text-align: center;
+}
+
+
+/* — Centrado “verdadero” de la sub-tabla de detalle — */
+.details-row td {
+  text-align: center;      /* padre centra todo */
+  padding: 16px 0;          /* espacio arriba/abajo */
+}
+
+/* Hacemos que la tabla interior sea inline-table para que el text-align la centre */
+.details-row td > table {
+  display: inline-table;
+  width: 70%;               /* ajusta al % que quieras */
+  table-layout: auto;       /* ancho automático de columnas */
+}
+
+/* Aseguramos que celdas y encabezados queden centrados */
+.details-row th,
+.details-row td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px 12px;
 }
