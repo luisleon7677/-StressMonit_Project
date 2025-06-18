@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 <link rel="stylesheet" href="/static/usuarios.css">
 
@@ -12,26 +11,61 @@
     <table class="styled-table">
       <thead>
         <tr>
+          <th>#</th>
           <th>ID</th>
           <th>Nombre</th>
           <th>Usuario</th>
           <th>Contraseña</th>
+          <th>Estrés Promedio</th>    {# columna nueva #}
+          <th>Actividades</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         {% for usuario in usuarios %}
         <tr>
+          <td>{{ loop.index }}</td>
           <td>{{ usuario[0] }}</td>
           <td>{{ usuario[1] }}</td>
           <td>{{ usuario[2] }}</td>
           <td>{{ usuario[3] }}</td>
+          <td>{{ avg_dict.get(usuario[1], 0) }}</td>
+          <td>
+            <button class="btn-detalles-circle"
+                    data-user="{{ usuario[1]|replace(' ', '_') }}">
+              v
+            </button>
+          </td>
           <td class="acciones-cell">
-            <a href="{{ url_for('editar_usuario_route', id=usuario[0]) }}" class="btn-accion btn-editar">Editar</a>
-            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}" method="POST" style="display:inline;">
-              <button type="submit" class="btn-accion btn-eliminar"
+            <a href="{{ url_for('editar_usuario_route', id=usuario[0]) }}" class="btn-editar">Editar</a>
+            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}"
+                  method="POST" style="display:inline;">
+              <button type="submit" class="btn-eliminar"
                       onclick="return confirm('¿Eliminar este usuario?')">Eliminar</button>
             </form>
+          </td>
+        </tr>
+        <!-- fila oculta con detalle de actividades y duración -->
+        <tr class="details-row" id="details-{{ usuario[1]|replace(' ', '_') }}">
+          <td colspan="8">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Actividad</th>
+                  <th>Estrés Promedio</th>
+                  <th>Duración Promedio (min)</th>  {# nueva columna #}
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in activities_by_user.get(usuario[1], []) %}
+                <tr>
+                  <td>{{ item.actividad }}</td>
+                  <td>{{ item.avg_estres }}</td>
+                  <td>{{ item.avg_duracion_min }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </td>
         </tr>
         {% endfor %}
@@ -43,4 +77,15 @@
     <a href="{{ url_for('crear_usuario_route') }}" class="btn-agregar">Agregar Usuario</a>
   </div>
 </div>
+
+<script>
+// Toggle de filas de detalle
+document.querySelectorAll('.btn-detalles-circle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const user = btn.dataset.user;
+    const row  = document.getElementById(`details-${user}`);
+    row.style.display = (row.style.display === 'table-row') ? 'none' : 'table-row';
+  });
+});
+</script>
 {% endblock %}

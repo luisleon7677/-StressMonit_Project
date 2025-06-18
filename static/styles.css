@@ -246,6 +246,38 @@ p a:hover {
     font-size: 20px;
 
 }
+
+
+
+/* enlace normal */
+.barra-lateral .navegacion a {
+  background-color: var(--color-barra-lateral);
+  color: var(--colortexto-menu);
+}
+
+/* hover */
+.barra-lateral .navegacion a:hover {
+  background-color: var(--color-menu-hover);
+  color: var(--color-menu-hover-texto);
+}
+
+/* enlace activo */
+.barra-lateral .navegacion a.activo {
+  background-color: #ffffff;
+  color: #1f1f1f;
+}
+
+/* icono y texto dentro de activo */
+.barra-lateral .navegacion a.activo ion-icon,
+.barra-lateral .navegacion a.activo span {
+  color: #1f1f1f;
+}
+
+
+
+
+
+
 #item-activo{
     background-color: white;
     color: #1f1f1f;
@@ -378,4 +410,77 @@ th, td {
 .main-content {
     margin-top: 10px; /* Espacio entre el nombre y el contenido */
     padding: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* slide panel perfil */
+.user-slide-panel {
+  position: fixed;
+  top: 0; right: -300px;
+  width: 300px; height: 100vh;
+  background: #252525;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  z-index: 200;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-slide-panel.open {
+  right: 0;
+}
+
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #1E1E1E;
+  border-bottom: 1px solid #444;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.profile-details {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.profile-details p {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.profile-details .botones-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-details .btn-editar {
+  background-color: #4A90E2;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.profile-details .btn-editar:hover {
+  background-color: #357ABD;
 }

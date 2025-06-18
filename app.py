@@ -158,11 +158,51 @@ def logout():
 
 @app.route("/usuarios")
 def usuarios():
-    usuarios = listarQuerys(
-        "SELECT id, nombre, username, password FROM usuarios WHERE id_administrador = %s",
-        (session['user_id'],)
-    ) or []
-    return render_template("usuarios.html", usuarios=usuarios, title="Usuarios")
+    # 1. Lista básica de usuarios
+    query = """
+        SELECT id, nombre, username, password
+        FROM usuarios
+        WHERE id_administrador = %s;
+    """
+    usuarios = listarQuerys(query, (session["user_id"],)) or []
+
+    # 2. Estrés promedio general por usuario
+    avg_rows = listarQuerys("""
+        SELECT nombre_usuario,
+               ROUND(AVG(estres)::numeric, 2) AS avg_estres
+        FROM proceso
+        WHERE id_administrador = %s
+        GROUP BY nombre_usuario;
+    """, (session["user_id"],)) or []
+    avg_dict = {row[0]: row[1] for row in avg_rows}
+
+    # 3. Promedio de estrés y de duración por actividad y usuario
+    act_rows = listarQuerys("""
+        SELECT nombre_usuario,
+               nombre_actividades,
+               ROUND(AVG(estres)::numeric, 2)     AS avg_estres,
+               ROUND(AVG(duracion)/60::numeric, 2)   AS avg_duracion_min
+        FROM proceso
+        WHERE id_administrador = %s
+        GROUP BY nombre_usuario, nombre_actividades
+        ORDER BY nombre_usuario;
+    """, (session["user_id"],)) or []
+
+    activities_by_user = {}
+    for nombre_usuario, actividad, est, dur_min in act_rows:
+        activities_by_user.setdefault(nombre_usuario, []).append({
+            "actividad": actividad,
+            "avg_estres":  est,
+            "avg_duracion_min": dur_min
+        })
+
+    return render_template(
+        "usuarios.html",
+        usuarios=usuarios,
+        avg_dict=avg_dict,
+        activities_by_user=activities_by_user
+    )
+
 
 @app.route("/actividades")
 def actividades():
