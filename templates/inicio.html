@@ -11,8 +11,31 @@
     <iframe src="{{ url_for('static', filename='heatmap_interactivo.html') }}"></iframe>
   </div> 
 
+  <!--Card with information about stress levels-->
+  <div class="card mt-3">
+    <div class="card-header">
+      Leyenda de valores
+    </div>
+    <div class="card-body">
+      <p class="card-text">Los niveles de estrés estan categorizados por colores, desde <br> el nivel bajo hasta el nivel más alto van variando en una escala de color.</p>
+      <button type="button" id="btn-estres-bajo" class="btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Es una metríca aceptable y nos dice que el empleado no se siente muy estresado al realizar la actividad.">
+        Bajo Estrés(0)
+      </button>
+      <button type="button" class="btn" id="btn-estres-medio" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Es un estrés normal y no se considera riesgoso.">
+        Moderado Estrés(1)
+      </button>
+      <button type="button" class="btn" id="btn-estres-alto" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Es una alerta de que la actividad es muy estresante para el empleado, si esto se repite en varios empleados el problema es la actividad, si no es posible que sea solo en el empleado y se debe tratar de manera personal.">
+        Alto Estrés(2)
+      </button>
+      <button type="button" class="btn" id="btn-estres-not" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="No se ha realizado aún un monitoreo del usuario con dicha actividad.">
+        Sin registro
+      </button>
+    </div>
+  </div>
+
+
 <div class="tabla-inicio">
-  <table class="table">
+  <table class="table" id="tablaInicio">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -24,7 +47,7 @@
         <th scope="col">Estres</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="tablaBody">
         <!-- Iterar sobre los usuarios y mostrarlos en filas de la tabla -->
         {% for usuario in usuarios %}
         <tr>
@@ -40,11 +63,57 @@
     
     </tbody>
   </table>
+  <!--Navegacion en paginacion-->
+  <nav class="nav-pagination">
+    <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
+  </nav>
 </div>
     
 
 
 </div>
 
+<script>
+  <!--Script para la paginacion-->
+  const filasPorPagina = 15;
+  let paginaActual = 1;
+
+  function paginarTabla() {
+    const tabla = document.getElementById('tablaInicio');
+    const cuerpo = document.getElementById('tablaBody');
+    const filas = Array.from(cuerpo.querySelectorAll('tr'));
+    const totalPaginas = Math.ceil(filas.length / filasPorPagina);
+
+    // Ocultar todas las filas
+    filas.forEach(fila => fila.style.display = 'none');
+
+    // Mostrar solo las filas correspondientes a la página actual
+    const inicio = (paginaActual - 1) * filasPorPagina;
+    const fin = inicio + filasPorPagina;
+    filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
+
+    // Generar paginación
+    const paginacion = document.getElementById('paginacionTabla');
+    paginacion.innerHTML = '';
+
+    for (let i = 1; i <= totalPaginas; i++) {
+      const li = document.createElement('li');
+      li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
+      const btn = document.createElement('button');
+      btn.className = 'page-link page-link-custom';
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        paginaActual = i;
+        paginarTabla();
+      });
+
+      li.appendChild(btn);
+      paginacion.appendChild(li);
+    }
+  }
+
+  // Ejecutar al cargar la página
+  document.addEventListener('DOMContentLoaded', paginarTabla);
+</script>
 
 {%endblock%}

@@ -105,3 +105,58 @@
 .btn-agregar:hover {
     background-color: #E60040;
 }
+
+.btn-eliminar /* botón “Cancelar” en formulario */ {
+    flex: 1;
+    background-color: #4A90E2;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.btn-eliminar:hover {
+    background-color: #357ABD;
+}
+
+#mensaje-error {
+    color: #E60040;
+    margin-top: 10px;
+}
+
+/*botnoes de la paginacion de las tablas*/
+ /* Estilos personalizados opcionales */
+ .page-link-custom {   /* Boton desactivado */
+    color: black;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border: #f04158;
+  }
+
+  .page-link-custom:hover {
+    background-color: rgba(240, 65, 88, 0.90);
+    color:#1E1E1E
+  }
+
+  .active .page-link-custom {
+    background-color: white; /* Boton activo */
+    color: black;
+    border-color: black;
+    transform: scale(1.10);
+    transition: transform 0.2s ease;
+  }
+  .nav-pagination{
+    margin-top: 20px;
+  }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .botones-container {
+        flex-direction: column;
+    }
+}

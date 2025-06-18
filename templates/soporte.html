@@ -12,12 +12,12 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              ¿Qué factores pueden causar estrés en el ambiente laboral?.
+              ¿Qué factores pueden causar estrés en el ambiente laboral?
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              El estrés en el trabajo puede ser causado por una variedad de factores, como una carga de trabajo excesiva, plazos ajustados, falta de apoyo por parte de los superiores, conflictos interpersonales, expectativas poco claras, la falta de control sobre las tareas, y un ambiente laboral poco saludable o tóxico. Otros factores también incluyen la inseguridad laboral, la falta de reconocimiento o recompensas, y la presión para cumplir con objetivos poco realistas.            </div>
+              El estrés en el trabajo puede ser causado por una variedad de factores, como una carga de trabajo excesiva, plazos ajustados, falta de apoyo por parte de los superiores, conflictos interpersonales, expectativas poco claras, la falta de control sobre las tareas y un ambiente laboral poco saludable o tóxico. Otros factores también incluyen la inseguridad laboral, la falta de reconocimiento o recompensas, y la presión para cumplir con objetivos poco realistas.            </div>
           </div>
         </div>
         <div class="accordion-item">
@@ -54,8 +54,8 @@
     <form class="needs-validation" novalidate>
         <div class="mb-1">
           <label for="exampleInputEmail1" class="form-label">Asunto</label>
-          <input class="form-control" type="text"  aria-label="default input example" required>
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <input class="form-control" type="text" maxlength="100"  aria-label="default input example" required>
+          <div id="emailHelp" class="form-text">El aunto debe contener como máximo 100 caracteres</div>
           <div class="valid-feedback">
             Campo correcto!
           </div>
@@ -65,7 +65,8 @@
         </div>
         <div class="mb-5">
             <label for="exampleFormControlTextarea1" class="form-label">Detalle</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            <textarea class="form-control" maxlength="1200" id="exampleFormControlTextarea1" rows="10" required></textarea>
+            <div id="emailHelp" class="form-text">El Detalle debe contener como máximo 1200 caracteres (213 palabras aprox)</div>
             <div class="valid-feedback">
               Campo correcto!
             </div>
@@ -90,6 +91,7 @@
       form.addEventListener('submit', event => {
         event.preventDefault(); // Evita el envío por defecto
   
+        //if is invalid
         if (!form.checkValidity()) {
           event.stopPropagation();
           form.classList.add('was-validated');
@@ -98,6 +100,7 @@
   
         // Si es válido
         form.classList.add('was-validated');
+      
   
         // Mostrar el mensaje de confirmación
         mensaje.classList.remove('d-none');
@@ -111,6 +114,15 @@
       }, false);
     });
   })();
+
+  function countWords(text){
+    const trimmed = text.trim();
+  if (trimmed === "") return 0;
+
+  const words = trimmed.split(/\s+/); // Split by any whitespace
+  return words.length;
+  }
+  
   </script>
 
 {%endblock%}

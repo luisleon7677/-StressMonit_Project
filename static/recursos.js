@@ -8,7 +8,7 @@ boton.addEventListener('click',()=>{
 
 btnsVer.forEach(btnVer=>{
     btnVer.addEventListener('click',()=>{
-    Tab.classList.remove("modal-close") //remuevo la clase visible
-    Tab.classList.add("modal") //agrego la clase ocultar
+    Tab.classList.remove("modal-close") //remuevo la clase ocultar
+    Tab.classList.add("modal") //agrego la clase ver
     })
 });
