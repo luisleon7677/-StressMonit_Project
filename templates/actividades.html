@@ -61,28 +61,40 @@
 </div>
 
 <script>
-  <!--Script para la paginacion-->
   const filasPorPagina = 5;
   let paginaActual = 1;
-
+  
   function paginarTabla() {
-    const tabla = document.getElementById('tablaActividades');
     const cuerpo = document.getElementById('tablaBody');
-    const filas = Array.from(cuerpo.querySelectorAll('tr'));
-    const totalPaginas = Math.ceil(filas.length / filasPorPagina);
-
+    const todasFilas = Array.from(cuerpo.querySelectorAll('tr'));
+    
+    // Filas principales (excluye las que tienen clase 'details-row')
+    const filasPrincipales = todasFilas.filter(fila => !fila.classList.contains('details-row'));
+  
+    const totalPaginas = Math.ceil(filasPrincipales.length / filasPorPagina);
+  
     // Ocultar todas las filas
-    filas.forEach(fila => fila.style.display = 'none');
-
-    // Mostrar solo las filas correspondientes a la página actual
+    todasFilas.forEach(fila => fila.style.display = 'none');
+  
+    // Mostrar solo las filas principales de esta página + sus detalles ocultos
     const inicio = (paginaActual - 1) * filasPorPagina;
     const fin = inicio + filasPorPagina;
-    filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
-
-    // Generar paginación
+  
+    for (let i = inicio; i < fin && i < filasPrincipales.length; i++) {
+      const filaPrincipal = filasPrincipales[i];
+      filaPrincipal.style.display = '';
+  
+      // Mostrar fila de detalle correspondiente (la siguiente en el DOM)
+      const filaDetalle = filaPrincipal.nextElementSibling;
+      if (filaDetalle && filaDetalle.classList.contains('details-row')) {
+        filaDetalle.style.display = 'none'; // Oculta por defecto
+      }
+    }
+  
+    // Generar la paginación
     const paginacion = document.getElementById('paginacionTabla');
     paginacion.innerHTML = '';
-
+  
     for (let i = 1; i <= totalPaginas; i++) {
       const li = document.createElement('li');
       li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
@@ -93,13 +105,13 @@
         paginaActual = i;
         paginarTabla();
       });
-
+  
       li.appendChild(btn);
       paginacion.appendChild(li);
     }
   }
-
-  // Ejecutar al cargar la página
+  
   document.addEventListener('DOMContentLoaded', paginarTabla);
-</script>
+  </script>
+  
 {% endblock %}

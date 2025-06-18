@@ -10,7 +10,7 @@
   <div class="tabla-container">
     <table class="styled-table" id="tablaUsuarios">
       <thead>
-        <tr>
+        <tr class="fila-principal">
           <th>#</th>
           <th>ID</th>
           <th>Nombre</th>
@@ -23,7 +23,7 @@
       </thead>
       <tbody id="tablaBody">
         {% for usuario in usuarios %}
-        <tr>
+        <tr class="fila-principal">
           <td>{{ loop.index }}</td>
           <td>{{ usuario[0] }}</td>
           <td>{{ usuario[1] }}</td>
@@ -88,55 +88,57 @@
 </div>
 
 <script>
-// Toggle de filas de detalle
-document.querySelectorAll('.btn-detalles-circle').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const user = btn.dataset.user;
-    const row  = document.getElementById(`details-${user}`);
-    row.style.display = (row.style.display === 'table-row') ? 'none' : 'table-row';
+  // Toggle de filas de detalle
+  document.querySelectorAll('.btn-detalles-circle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const user = btn.dataset.user;
+      const row  = document.getElementById(`details-${user}`);
+      row.style.display = (row.style.display === 'table-row') ? 'none' : 'table-row';
+    });
   });
-});
-  <!--Script para la paginacion-->
-  const filasPorPagina = 5;
-  let paginaActual = 1;
-
-  function paginarTabla() {
-    const tabla = document.getElementById('tablaUsuarios');
-    const cuerpo = document.getElementById('tablaBody');
-    const filas = Array.from(cuerpo.querySelectorAll('tr'));
-    const totalPaginas = Math.ceil(filas.length / filasPorPagina);
-
-    // Ocultar todas las filas
-    filas.forEach(fila => fila.style.display = 'none');
-
-    // Mostrar solo las filas correspondientes a la página actual
-    const inicio = (paginaActual - 1) * filasPorPagina;
-    const fin = inicio + filasPorPagina;
-    filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
-
-    // Generar paginación
-    const paginacion = document.getElementById('paginacionTabla');
-    paginacion.innerHTML = '';
-
-    for (let i = 1; i <= totalPaginas; i++) {
-      const li = document.createElement('li');
-      li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
-      const btn = document.createElement('button');
-      btn.className = 'page-link page-link-custom';
-      btn.textContent = i;
-      btn.addEventListener('click', () => {
-        paginaActual = i;
-        paginarTabla();
-      });
-
-      li.appendChild(btn);
-      paginacion.appendChild(li);
-    }
-  }
-
-  // Ejecutar al cargar la página
-  document.addEventListener('DOMContentLoaded', paginarTabla);
-
+    <!--Script para la paginacion-->
+    const filasPorPagina = 5;
+    let paginaActual = 1;
   
-</script>
+    function paginarTabla() {
+      const tabla = document.getElementById('tablaUsuarios');
+      const cuerpo = document.getElementById('tablaBody');
+      const filas = Array.from(cuerpo.querySelectorAll('tr.fila-principal'));
+      const totalPaginas = Math.ceil(filas.length / filasPorPagina);
+  
+      // Ocultar todas las filas
+      filas.forEach(fila => fila.style.display = 'none');
+  
+      // Mostrar solo las filas correspondientes a la página actual
+      const inicio = (paginaActual - 1) * filasPorPagina;
+      const fin = inicio + filasPorPagina;
+      filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
+  
+      // Generar paginación
+      const paginacion = document.getElementById('paginacionTabla');
+      paginacion.innerHTML = '';
+  
+      for (let i = 1; i <= totalPaginas; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
+        const btn = document.createElement('button');
+        btn.className = 'page-link page-link-custom';
+        btn.textContent = i;
+        btn.addEventListener('click', () => {
+          paginaActual = i;
+          paginarTabla();
+        });
+  
+        li.appendChild(btn);
+        paginacion.appendChild(li);
+      }
+    }
+  
+    // Ejecutar al cargar la página
+    document.addEventListener('DOMContentLoaded', paginarTabla);
+  
+    
+  </script>
+  
+
 {% endblock %}

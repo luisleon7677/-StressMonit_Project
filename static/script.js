@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const icon = document.getElementById("main-icon");
     let itemBarraLateral = document.querySelectorAll("nav.navegacion > ul > li > a");
     const barraLateral = document.querySelector(".barra-lateral");
-    const spans = document.querySelectorAll("span");3
+    const spans = document.querySelectorAll("span");
     const menu = document.querySelector(".menu");
     const main = document.querySelector("main");
 
@@ -59,8 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 botonLateral.addEventListener("click",()=>{
        
-}
-)
+})
 
 // Confirmación antes de eliminar (versión mejorada)
 document.addEventListener('DOMContentLoaded', function() {
@@ -73,3 +72,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+

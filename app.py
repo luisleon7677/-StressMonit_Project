@@ -541,12 +541,12 @@ def edit_profile():
 
 
 #esta configuracion debe ativarse cuando subimos a producción
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port)
+#if __name__ == "__main__":
+#    port = int(os.environ.get("PORT", 8000))
+#    app.run(host="0.0.0.0", port=port)
     
 
 #esta otra configuracion es para modo desarrollo
-#if __name__ == "__main__":
-#    port = int(os.environ.get("PORT", 8000))
-#    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
