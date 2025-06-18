@@ -86,64 +86,7 @@
     width: 100%;
 }
 
-/* ---------------------------------------- */
-/* estilos para el formulario (parte baja)  */
-/* ---------------------------------------- */
 
-.formulario-container {
-    background-color: #1E1E1E;
-    padding: 25px;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-.form-group label {
-    font-size: 16px;
-    color: #ccc;
-}
-.form-group input,
-.form-group textarea,
-.form-group select {
-    padding: 12px 15px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #252525;
-    color: white;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
-.form-group textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-.form-group select {
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 20px;
-}
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #FF3B5C;
-}
-
-.botones-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 20px;
-}
 
 .btn-agregar {
     flex: 1;
@@ -161,34 +104,4 @@
 }
 .btn-agregar:hover {
     background-color: #E60040;
-}
-
-.btn-eliminar /* botón “Cancelar” en formulario */ {
-    flex: 1;
-    background-color: #4A90E2;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-.btn-eliminar:hover {
-    background-color: #357ABD;
-}
-
-#mensaje-error {
-    color: #E60040;
-    margin-top: 10px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .botones-container {
-        flex-direction: column;
-    }
 }
