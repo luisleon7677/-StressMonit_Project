@@ -154,6 +154,57 @@
     margin-top: 20px;
   }
 
+  /* 1) Alineamos el botón “Agregar” a la izquierda */
+.actividades-container .botones-container {
+  text-align: left;
+  margin-top: 20px;   /* separa de la tabla */
+}
+
+/* 2) Unificamos tamaño y espaciado de los botones de acción */
+.actividades-container .btn-editar,
+.actividades-container .btn-eliminar {
+  display: inline-block;
+  min-width: 100px;       /* mismo ancho mínimo */
+  padding: 10px 16px;     /* mismo padding */
+  margin-right: 10px;     /* separación entre ellos */
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+/* 3) Quitamos cualquier width fija previa en btn-eliminar */
+.actividades-container .btn-eliminar {
+  width: auto !important;
+}
+
+/* 4) Colores e hover (puedes dejarlos iguales a los que ya tienes) */
+.actividades-container .btn-editar {
+  background-color: #FF3B5C;
+  color: white;
+}
+.actividades-container .btn-editar:hover {
+  background-color: #FF3B5C;
+}
+
+.actividades-container .btn-eliminar {
+  background-color: #FF3B5C;
+  color: white;
+}
+.actividades-container .btn-eliminar:hover {
+  background-color: #E60040;
+}
+
+/* ─── Unificar tipografía en todos los botones ─── */
+.actividades-container .btn-editar,
+.actividades-container .btn-eliminar,
+.actividades-container .btn-agregar {
+  /* Usa la misma familia y estilo que el resto de tu UI */
+  font-family: inherit;      /* heredará la del <body> */
+  font-weight: 600;          /* mismo peso para todos */
+  font-size: 16px;           /* mismo tamaño */
+  text-transform: none;      /* sin forzar mayúsculas o minúsculas */
+  letter-spacing: normal;    /* espaciado de letra uniforme */
+}
   
   
 /* Responsive */

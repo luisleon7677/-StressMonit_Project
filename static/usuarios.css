@@ -291,6 +291,54 @@
     margin-top: 20px;
   }
 
+  /* 1) Alineamos el botón “Agregar” a la izquierda */
+.usuarios-container .botones-container {
+  text-align: left;
+  margin-top: 20px;   /* separa de la tabla */
+}
+
+.acciones-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;           /* espacio entre botones */
+}
+
+/* 2) Unificamos tamaño y espaciado de los botones de acción */
+.usuarios-container .btn-editar,
+.usuarios-container .btn-eliminar {
+  display: inline-block;
+  min-width: 100px;    /* mismo ancho mínimo */
+  padding: 10px 16px;  /* mismo padding */
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+/* 3) Quitamos cualquier width fija previa en btn-eliminar */
+.usuarios-container .btn-eliminar {
+  width: auto !important;
+}
+
+/* 4) Colores e hover (puedes dejarlos iguales a los que ya tienes) */
+.usuarios-container .btn-editar {
+  background-color: #FF3B5C;
+  color: white;
+}
+.usuarios-container .btn-editar:hover {
+  background-color: #FF3B5C;
+}
+
+.usuarios-container .btn-eliminar {
+  background-color: #FF3B5C;
+  color: white;
+}
+.usuarios-container .btn-eliminar:hover {
+  background-color: #E60040;
+}
+
+
 
 /* Responsive */
 @media (max-width: 768px) {
