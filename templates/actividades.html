@@ -33,14 +33,17 @@
               {% endif %}
             </td>
             <td class="acciones-cell">
-              <a href="{{ url_for('editar_actividad', id=actividad[0]) }}" class="btn-accion btn-editar">Editar</a>
-              <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" method="POST" style="display:inline;">
-                <button type="submit" class="btn-accion btn-eliminar"
+              <a href="{{ url_for('editar_actividad', id=actividad[0]) }}"
+                  class="btn-editar">Editar</a>
+              <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}"
+                    method="POST" style="display:inline;">
+                <button type="submit"
+                        class="btn-eliminar"
                         onclick="return confirm('¿Eliminar esta actividad?')">
-                  Eliminar
-                </button>
-              </form>
-            </td>
+                    Eliminar
+                  </button>
+                </form>
+              </td>
           </tr>
           {% endfor %}
         {% else %}
