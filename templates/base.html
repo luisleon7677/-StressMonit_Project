@@ -29,7 +29,7 @@
     <ion-icon name="menu-outline"></ion-icon>
     <ion-icon name="close-outline"></ion-icon>
   </div>
-
+  
   <!-- Barra lateral -->
   <div class="barra-lateral">
     <div class="nombre-pagina">
@@ -85,6 +85,11 @@
 
   <!-- Contenedor principal -->
   <main>
+    <!--Barra superior-->
+    <div class="barra-superior-main">
+      Barra superior
+      
+    </div>
     <!-- Botón de perfil en esquina superior derecha -->
     {% if session.get('admin_nombre') %}
     <div class="user-header-container">
@@ -94,6 +99,10 @@
       </div>
     </div>
     {% endif %}
+
+    <div class="barra-secundaria">
+      barra-secundaria
+    </div>
 
     <!-- Aquí irá el contenido de cada página -->
     <div class="main-content">

@@ -155,12 +155,13 @@ p a:hover {
 .barra-lateral{
     position: fixed; /* Fija el menú en la pantalla */
     left: 0; /* Coloca el menú en la posición más a la izquierda */
-    top: 0; /* Asegura que comience desde la parte superior */
+    top: 50px; /* Asegura que comience desde la parte superior */
     height: 100%; /* Ocupa toda la altura de la pantalla */
     width: 250px; /* Ancho deseado del menú */
     background-color: #252525; /* Cambia al color que desees */
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Agrega un sombreado opcional */
+    z-index: 190;
 }
 .mini-barra-lateral{
     width: 80px;
@@ -397,6 +398,7 @@ th, td {
     justify-content: flex-end; /* Alinea a la derecha */
     padding: 10px 20px;
     box-sizing: border-box;
+
 }
 
 .user-name-right {
@@ -485,4 +487,29 @@ th, td {
 }
 .profile-details .btn-editar:hover {
   background-color: #357ABD;
+}
+
+
+/*Barra superior*/
+
+.barra-superior-main{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 70px;
+    background-color: white;
+    color: black;
+    width: 100%;
+    z-index: 200;
+    
+}
+.barra-secundaria{
+    position: fixed;
+    left: 250px;
+    top: 70px;
+    height: 50px;
+    background-color: red;
+    color: black;
+    width: 100%;
+    z-index: 180;
 }
