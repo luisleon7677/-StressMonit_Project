@@ -301,7 +301,7 @@ def submit_recurso():
     
 @app.route("/recursos/registrar")
 def registrar_recursos():
-    return render_template("recurso_registrar.html",title="Registro Recursos")
+    return render_template("recurso_registrar.html",title="Registro Recursos",pagina='recursos')
 
 @app.route("/soporte")
 def soporte():
@@ -311,7 +311,7 @@ def soporte():
 @app.route('/crear_usuario', methods=['GET', 'POST'])
 def crear_usuario_route():
     if request.method == 'GET':
-        return render_template('crear_usuario.html', title='Crear Usuario')
+        return render_template('crear_usuario.html', title='Crear Usuario',pagina='usuarios')
 
     # POST: procesa creación
     nombre   = request.form.get('nombre', '').strip()
@@ -351,7 +351,7 @@ def editar_usuario_route(id):
             flash("Usuario no encontrado o sin permisos", "danger")
             return redirect(url_for('usuarios'))
         usuario = {'id': row[0][0], 'nombre': row[0][1], 'username': row[0][2]}
-        return render_template('editar_usuario.html', usuario=usuario, title='Editar Usuario')
+        return render_template('editar_usuario.html', usuario=usuario, title='Editar Usuario',pagina='usuarios')
 
     # POST: procesar edición
     nombre   = request.form.get('nombre', '').strip()
@@ -411,7 +411,7 @@ def eliminar_usuario_route(id):
 def crear_actividad_route():
     if request.method == 'GET':
         # GET: solo renderiza el formulario
-        return render_template('crear_actividad.html', title='Crear Actividad')
+        return render_template('crear_actividad.html', title='Crear Actividad',pagina='actividades')
 
     # POST: procesa el envío del formulario
     nombre      = request.form.get('nombre', '').strip()
@@ -479,7 +479,7 @@ def editar_actividad(id):
             flash("Actividad no encontrada o no tienes permisos", "danger")
             return redirect(url_for('actividades'))
             
-        return render_template('editar_actividad.html', actividad=actividad[0])
+        return render_template('editar_actividad.html', actividad=actividad[0],pagina='actividades')
 
 @app.route('/eliminar_actividad/<int:id>', methods=['POST'])
 def eliminar_actividad(id):
