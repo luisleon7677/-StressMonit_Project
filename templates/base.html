@@ -88,7 +88,7 @@
     <!--Barra superior-->
     <div class="barra-superior-main">
       Barra superior
-      
+      <button id="user-button">btn</button>
     </div>
     <!-- Botón de perfil en esquina superior derecha -->
     {% if session.get('admin_nombre') %}
@@ -101,7 +101,26 @@
     {% endif %}
 
     <div class="barra-secundaria">
-      barra-secundaria
+      barra-secundaria 
+      {% if pagina == 'inicio'%}
+        <span class="ph--house-bold"></span>
+      {% endif %}
+      {% if pagina == 'usuarios'%}
+        <span class="mingcute--user-4-line"></span>
+      {% endif %}
+      {% if pagina == 'actividades'%}
+        <span class="ph--ranking-bold"></span>
+      {% endif %}
+      {% if pagina == 'recursos'%}
+        <span class="ph--file-magnifying-glass-bold"></span>
+      {% endif %}
+      {% if pagina == 'soporte'%}
+        <span class="mingcute--question-line"></span>
+      {% endif %}
+
+      
+      
+      
     </div>
 
     <!-- Aquí irá el contenido de cada página -->
@@ -129,7 +148,7 @@
     </div>
   </div>
     
-     
+  
     <!-- Iconos -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

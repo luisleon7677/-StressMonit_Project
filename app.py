@@ -147,7 +147,7 @@ def inicio():
         # Guardar como archivo HTML (para web)
         fig.write_html("static/heatmap_interactivo.html")
         
-        return render_template("inicio.html",usuarios=usuarios)
+        return render_template("inicio.html",usuarios=usuarios,pagina='inicio')
     except Exception as e:
         # Captura cualquier error inesperado y lo muestra
         flash(f"Ocurrió un error al generar el mapa de calor: {str(e)}", "danger")
@@ -203,7 +203,8 @@ def usuarios():
         "usuarios.html",
         usuarios=usuarios,
         avg_dict=avg_dict,
-        activities_by_user=activities_by_user
+        activities_by_user=activities_by_user,
+        pagina='usuarios'
     )
 
 
@@ -216,7 +217,7 @@ def actividades():
     """
     actividades = listarQuerys(query, (session["user_id"],))
     
-    return render_template("actividades.html", actividades=actividades)
+    return render_template("actividades.html", actividades=actividades,pagina='actividades')
 
 @app.route("/recursos")
 def recursos():
@@ -239,7 +240,7 @@ def recursos():
     if(contenido is None):
         contenido=""
   
-    return render_template("recursos.html",title="Recursos",resultados = recursos,titulo=titulo,autor=autor,contenido=contenido)
+    return render_template("recursos.html",title="Recursos",resultados = recursos,titulo=titulo,autor=autor,contenido=contenido,pagina='recursos')
 #creamos una llamada a recursos filtrados por titulo
 @app.route("/recursos/find")
 def recursosFind():
@@ -304,7 +305,7 @@ def registrar_recursos():
 
 @app.route("/soporte")
 def soporte():
-    return render_template("soporte.html",title="Soporte")
+    return render_template("soporte.html",title="Soporte",pagina='soporte')
 
 # Crear usuarios
 @app.route('/crear_usuario', methods=['GET', 'POST'])
