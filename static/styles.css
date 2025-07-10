@@ -26,7 +26,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color:#1f1f1f;
+    background-color:white; /*se camio el color pero no se observanc ambios, buscar otra forma*/
+    color: #1E1E1E;
     margin: 0;
     display: flex;
     justify-content: center;
@@ -393,6 +394,7 @@ th, td {
 .main-content {
     margin-top: 10px; /* Espacio entre el nombre y el contenido */
     padding: 20px;
+    padding-top: 10%;
 }
 
 
@@ -511,10 +513,23 @@ th, td {
     left: 250px;
     top: 70px;
     height: 50px;
-    background-color: red;
+    background-color: white;
     color: black;
     width: 100%;
     z-index: 180;
+}
+.barra-secundaria .nav-barra{
+    display: flex;
+    border: 1px solid black;
+    align-items: center;
+    padding-left: 15px;
+    height: 100%;
+
+}
+.barra-secundaria .nav-barra .texto{
+    font-size: 20px;
+    margin-top: 4px;
+    margin-left: 5px;
 }
 
 /*Logos*/

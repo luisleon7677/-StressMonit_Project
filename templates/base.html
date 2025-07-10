@@ -102,21 +102,37 @@
     </div>
     
     <div class="barra-secundaria">
-      barra-secundaria 
+      
       {% if pagina == 'inicio'%}
-        <span class="ph--house-bold"></span>
+        <div class="nav-barra">
+          <span class="ph--house-bold"></span>
+          <span class="texto">Inicio</span>
+        </div>
+        
       {% endif %}
       {% if pagina == 'usuarios'%}
-        <span class="mingcute--user-4-line"></span>
+        <div class="nav-barra">
+          <span class="mingcute--user-4-line"></span>
+          <span class="texto">Usuarios</span>
+        </div>
       {% endif %}
       {% if pagina == 'actividades'%}
-        <span class="ph--ranking-bold"></span>
+        <div class="nav-barra">
+          <span class="ph--ranking-bold"></span>
+          <span class="texto">Actividades</span>
+        </div>
       {% endif %}
       {% if pagina == 'recursos'%}
-        <span class="ph--file-magnifying-glass-bold"></span>
+        <div class="nav-barra">
+          <span class="ph--file-magnifying-glass-bold"></span>
+          <span class="texto">Recursos</span>
+        </div>
       {% endif %}
       {% if pagina == 'soporte'%}
-        <span class="mingcute--question-line"></span>
+        <div class="nav-barra">
+          <span class="mingcute--question-line"></span>
+          <span class="texto">Soporte</span>
+        </div>
       {% endif %}
 
       
