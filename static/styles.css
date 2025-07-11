@@ -295,7 +295,7 @@ p a:hover {
 main{
     height: 100%;
     width: 100%;
-    background:#1f1f1f;
+    background:white;
    
     margin-left: 250px;
     padding: 20px;
@@ -520,7 +520,7 @@ th, td {
 }
 .barra-secundaria .nav-barra{
     display: flex;
-    border: 1px solid black;
+    border: 1px solid #EDEBF0;
     align-items: center;
     padding-left: 15px;
     height: 100%;

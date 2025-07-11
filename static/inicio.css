@@ -1,12 +1,31 @@
 
+.Monitoreo-estres{
+    color: #1E1E1E;
+}
 .tabla-inicio{
-    background-color: #1E1E1E;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    
+    
+    
+    
     margin-bottom: 30px;
     width: 90%;
     margin-top: 50px;
+    
+    
+}
+.tabla-inicio th{
+    color:black;
+    font-weight: 700;
+}
+.tabla-inicio tr{
+    border: 1px solid #EDEBF0; /*COLOR DE LOS BORDES*/
+   
+}
+#tablaBody td{
+    color: #1E1E1E;
+}
+#tablaInicio th{
+    background-color: #FCFCFC; /*COLOR DE LA CABEZERA*/
 }
 .estres-verde {
     background-color: #d4edda;
@@ -24,6 +43,7 @@
     width: 80%;
     background: white;
     border-radius: 15px;
+    border: 2px solid #EDEBF0;
 }
 .inicio{
     text-align: center;
