@@ -1,0 +1,102 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Colores principales */
+:root {
+  --primary-blue: #4A90E2;
+  --primary-blue-dark: #357ABD;
+  --input-border: #B0CFEF;
+  --text-dark: #333;
+  --text-light: #fff;
+}
+
+/* Cuerpo centrado */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+  color: var(--text-dark);
+}
+
+/* Contenedor principal del login */
+.login-container {
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* Logo */
+.logo {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+/* Título */
+.title {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: var(--primary-blue);
+}
+
+/* Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Etiquetas */
+.login-form label {
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Inputs */
+.login-form input {
+  padding: 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+.login-form input:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+}
+
+/* Botón */
+.btn {
+  padding: 12px;
+  background-color: var(--primary-blue);
+  color: var(--text-light);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn:hover {
+  background-color: var(--primary-blue-dark);
+}
+
+/* Link de registro */
+.register-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+.register-link a {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+.register-link a:hover {
+  text-decoration: underline;
+}
