@@ -36,55 +36,53 @@
   
   <!-- Barra lateral -->
   <div class="barra-lateral">
-    <div class="nombre-pagina">
-      <ion-icon id="main-icon" name="logo-slack"></ion-icon>
-      <span>Stress Monit</span>
-    </div>
+    
     <nav class="navegacion">
-      <ul>
-        <li>
-          <a href="{{ url_for('inicio') }}"
-             class="{% if request.endpoint=='inicio' %}activo{% endif %}">
-            <ion-icon name="home-outline"></ion-icon>
-            <span>Inicio</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('usuarios') }}"
-             class="{% if request.endpoint=='usuarios' %}activo{% endif %}">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>Usuarios</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('actividades') }}"
-             class="{% if request.endpoint=='actividades' %}activo{% endif %}">
-            <ion-icon name="bookmark-outline"></ion-icon>
-            <span>Actividades</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('recursos') }}"
-             class="{% if request.endpoint=='recursos' %}activo{% endif %}">
-            <ion-icon name="folder-outline"></ion-icon>
-            <span>Recursos</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('soporte') }}"
-             class="{% if request.endpoint=='soporte' %}activo{% endif %}">
-            <ion-icon name="headset-outline"></ion-icon>
-            <span>Soporte</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <button id="logout" class="boton">
-      <a href="{{ url_for('logout') }}">
-        <ion-icon name="exit-outline"></ion-icon>
-        <span>Cerrar Sesión</span>
+  <ul>
+    <li>
+      <a href="{{ url_for('inicio') }}"
+         class="{% if request.endpoint=='inicio' %}activo{% endif %}">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Inicio</span>
       </a>
-    </button>
+    </li>
+    <li>
+      <a href="{{ url_for('usuarios') }}"
+         class="{% if request.endpoint=='usuarios' %}activo{% endif %}">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Usuarios</span>
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('actividades') }}"
+         class="{% if request.endpoint=='actividades' %}activo{% endif %}">
+        <ion-icon name="bookmark-outline"></ion-icon>
+        <span>Actividades</span>
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('recursos') }}"
+         class="{% if request.endpoint=='recursos' %}activo{% endif %}">
+        <ion-icon name="folder-outline"></ion-icon>
+        <span>Recursos</span>
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('soporte') }}"
+         class="{% if request.endpoint=='soporte' %}activo{% endif %}">
+        <ion-icon name="headset-outline"></ion-icon>
+        <span>Soporte</span>
+      </a>
+    </li>
+    <li>
+  <a href="{{ url_for('logout') }}"
+     class="logout-link">
+    <ion-icon name="exit-outline"></ion-icon>
+    <span>Cerrar Sesión</span>
+  </a>
+</li>
+  </ul>
+</nav>
   </div>
 
   <!-- Contenedor principal -->
