@@ -30,10 +30,10 @@ body{
     color: white;
 }
 .accordion-item:first-of-type>.accordion-header .accordion-button{
-    background-color:#f04158;
+    background-color:#4A69BD;
 }
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
-    background-color:#f04158;
+    background-color:#4A69BD;
 }
 
 .btn-soporte{
