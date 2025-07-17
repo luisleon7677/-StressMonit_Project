@@ -5,7 +5,7 @@
   margin: 2rem auto;
 }
 
-/* Título con botón “Crear usuario” */
+/* Cabecera con título + botón */
 .titulo-principal {
   display: flex;
   justify-content: space-between;
@@ -28,33 +28,32 @@
   background-color: #3B4F8A;
 }
 
-/* Card/Table */
+/* Card/Table blanca */
 .tabla-container {
   background: #fff;
   border-radius: 0.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow: hidden;
 }
-
-/* Tabla */
 .styled-table {
-  width:100%;
-  border-collapse:collapse;
-  color:#333;
+  width: 100%;
+  border-collapse: collapse;
+  color: #333;
 }
 .styled-table th,
 .styled-table td {
-  padding:0.75rem 1rem;
-  border-bottom:1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #dee2e6;
 }
 .styled-table th {
-  background:#f8f9fa;
-  color:#495057;
-  font-weight:600;
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
 }
 .styled-table tr:hover {
-  background:#f1f3f5;
+  background: #f1f3f5;
 }
+
 
 /* “v” en círculo azul */
 .btn-detalles-circle {
@@ -72,46 +71,45 @@
 }
 
 /* Botón de acciones: solo “…” sin marco visible */
+/* ─── Botón “…” plano ─── */
 .actions-toggle {
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:1.25rem;
-  line-height:1;
-  padding:0 0.5rem;
-  cursor:pointer;
-}
-.actions-toggle:focus {
-  box-shadow:none;
+  background: none;
+  border: none;
+  color: #4A69BD;       /* azul de todos los botones */
+  font-size: 1.5rem;    /* ajusta tamaño de puntos */
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
 }
 
-/* Dropdown container */
-.acciones-dropdown .dropdown-menu {
-  min-width: 8rem;
+/* Elimina el caret que Bootstrap añade */
+.acciones-dropdown .dropdown-toggle::after {
+  display: none;
 }
+
+/* Ajustes del menú desplegable */
+.acciones-dropdown .dropdown-menu {
+  min-width: 6rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
 .acciones-dropdown .dropdown-item {
-  display:flex;
-  align-items:center;
+  padding: 0.5rem 1rem;
   color: #333;
 }
-.acciones-dropdown .dropdown-item i {
-  font-size:1rem;
-  margin-right:0.5rem;
+.acciones-dropdown .dropdown-item:hover {
+  background-color: #f1f3f5;
 }
 
-/* “Eliminar” como texto rojo */
-.acciones-dropdown .delete-item {
-  color:#4A69BD;
-  background:none;
-  border:none;
-  width:100%;
-  text-align:left;
-  padding:0.25rem 1rem;
-  cursor:pointer;
+/* “Eliminar” sólo texto rojo */
+.acciones-dropdown .dropdown-item.text-danger {
+  color: #E74C3C;
 }
-.acciones-dropdown .delete-item:hover {
-  background:rgba(231,76,60,0.1);
+.acciones-dropdown .dropdown-item.text-danger:hover {
+  background-color: rgba(231,76,60,0.1);
 }
+
 
 /* Paginación */
 .page-link-custom {
@@ -196,7 +194,7 @@
 }
 
 #mensaje-error {
-  color: #E74C3C;
+  color: #4A69BD;
   font-size: 0.9rem;
   margin-top: -0.5rem;
 }

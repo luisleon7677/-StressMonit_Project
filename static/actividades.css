@@ -1,230 +1,257 @@
-/* ---------------------------------------- */
-/* estilos para la vista de Actividades     */
-/* ---------------------------------------- */
-
 /* Contenedor general */
 .actividades-container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 2rem auto;
 }
 
-/* Título principal */
-.titulo-principal h1 {
-    color: white;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* Tabla de actividades */
-.tabla-container {
-    background-color: #1E1E1E;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin-bottom: 30px;
-    overflow-x: auto;
-}
-
-/* ─── Estilos para columna “Acciones” ───────────────────────── */
-.styled-table th:last-child,
-.styled-table td.acciones-cell {
-  /* Aseguramos espacio mínimo para dos botones side-by-side */
-  min-width: 240px;
-}
-
-.styled-table td.acciones-cell {
+/* Cabecera con título + botón */
+.titulo-principal {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;        /* separación entre botones */
-  flex-wrap: nowrap; /* ¡impide que se muevan a 2da línea! */
-  padding: 12px 15px;
+  margin-bottom: 1rem;
 }
-
-/* Unificamos ambos botones con mismo estilo */
-.styled-table td.acciones-cell .btn-editar,
-.styled-table td.acciones-cell .btn-eliminar {
-  flex: 0 1 auto;
-  min-width: 100px;
-  padding: 10px 16px;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 5px;
-  color: white;
-  background-color: #FF3B5C;
-  border: none;
-  transition: background-color 0.3s;
+.titulo-principal h1 {
+  color: #333;
+  font-size: 1.5rem;
 }
-.styled-table td.acciones-cell .btn-editar:hover,
-.styled-table td.acciones-cell .btn-eliminar:hover {
-  background-color: #E60040;
-}
-
-
-
-/* Botones de acción en la tabla */
-.btn-editar {
-    background-color: #4A90E2;
-    color: white;
-    padding: 8px 28px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-right: 5px;
-    transition: background-color 0.3s;
-}
-.btn-editar:hover {
-    background-color: #357ABD;
-}
-
-.btn-eliminar {
-    background-color: #FF3B5C;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-    width: 90px;
-}
-.btn-eliminar:hover {
-    background-color: #E60040;
-}
-
-/* Separador */
-.separador {
-    height: 1px;
-    background-color: #444;
-    margin: 30px 0;
-    width: 100%;
-}
-
-
-
 .btn-agregar {
-    flex: 1;
-    background-color: #FF3B5C;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
+  background-color: #4A69BD;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
 .btn-agregar:hover {
-    background-color: #E60040;
+  background-color: #3B4F8A;
 }
 
-.btn-eliminar /* botón “Cancelar” en formulario */ {
-    flex: 1;
-    background-color: #4A90E2;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
+/* Card/Table blanca */
+.tabla-container {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
-.btn-eliminar:hover {
-    background-color: #357ABD;
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #333;
+}
+.styled-table th,
+.styled-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+.styled-table th {
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+}
+.styled-table tr:hover {
+  background: #f1f3f5;
 }
 
-#mensaje-error {
-    color: #E60040;
-    margin-top: 10px;
+/* ─── Botón “…” plano ─── */
+.actions-toggle {
+  background: none !important;
+  border: none !important;
+  color: #4A69BD;       /* mismo azul que los botones */
+  font-size: 1.25rem;   /* tamaño de los puntos */
+  line-height: 1;
+  padding: 0 0.5rem;
+  cursor: pointer;
 }
 
-/*botnoes de la paginacion de las tablas*/
- /* Estilos personalizados opcionales */
- .page-link-custom {   /* Boton desactivado */
-    color: black;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border: #f04158;
-  }
+/* Quita el caret que añade Bootstrap */
+.acciones-dropdown .dropdown-toggle::after {
+  display: none;
+}
 
-  .page-link-custom:hover {
-    background-color: rgba(240, 65, 88, 0.90);
-    color:#1E1E1E
-  }
+/* Menú desplegable limpio */
+.acciones-dropdown .dropdown-menu {
+  min-width: 6rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
 
-  .active .page-link-custom {
-    background-color: white; /* Boton activo */
-    color: black;
-    border-color: black;
-    transform: scale(1.10);
-    transition: transform 0.2s ease;
-  }
-  .nav-pagination{
-    margin-top: 20px;
-  }
+.acciones-dropdown .dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;
+}
+.acciones-dropdown .dropdown-item:hover {
+  background-color: #f1f3f5;
+}
 
-  /* 1) Alineamos el botón “Agregar” a la izquierda */
-.actividades-container .botones-container {
+/* “Eliminar” en rojo plano */
+.acciones-dropdown .dropdown-item.text-danger {
+  color: #E74C3C;
+}
+.acciones-dropdown .dropdown-item.text-danger:hover {
+  background-color: rgba(231,76,60,0.1);
+}
+
+
+
+/* Menú desplegable */
+.acciones-dropdown .dropdown-menu {
+  min-width: 8rem;
+}
+.acciones-dropdown .dropdown-item i {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+/* “Eliminar” en rojo suave */
+.acciones-dropdown .delete-item {
+  color: #4A69BD;
+  background: none;
+  border: none;
+  width: 100%;
   text-align: left;
-  margin-top: 20px;   /* separa de la tabla */
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+}
+.acciones-dropdown .delete-item:hover {
+  background: rgba(231,76,60,0.1);
 }
 
-/* 2) Unificamos tamaño y espaciado de los botones de acción */
-.actividades-container .btn-editar,
-.actividades-container .btn-eliminar {
-  display: inline-block;
-  min-width: 100px;       /* mismo ancho mínimo */
-  padding: 10px 16px;     /* mismo padding */
-  margin-right: 10px;     /* separación entre ellos */
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+/* Espacio para columna Acciones */
+.acciones-cell {
+  min-width: 120px;
 }
 
-/* 3) Quitamos cualquier width fija previa en btn-eliminar */
-.actividades-container .btn-eliminar {
-  width: auto !important;
+/* Paginación Mindra */
+.page-link-custom {
+  color: #495057;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  margin: 0 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+.page-link-custom:hover {
+  background: #e9ecef;
+}
+.page-item.active .page-link-custom {
+  background: #4A69BD;
+  color: #fff;
+  border-color: #4A69BD;
 }
 
-/* 4) Colores e hover (puedes dejarlos iguales a los que ya tienes) */
-.actividades-container .btn-editar {
-  background-color: #FF3B5C;
-  color: white;
-}
-.actividades-container .btn-editar:hover {
-  background-color: #FF3B5C;
+/* Utilidades */
+.text-center {
+  text-align: center !important;
 }
 
-.actividades-container .btn-eliminar {
-  background-color: #FF3B5C;
-  color: white;
+
+/* 3) Columna de Acciones: solo “…” azul, sin cuadro ni caret */
+.acciones-cell {
+  text-align: center;
 }
-.actividades-container .btn-eliminar:hover {
-  background-color: #E60040;
+.acciones-dropdown .actions-toggle {
+  background: none;
+  border: none;
+  color: #4A69BD;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 .5rem;
+  cursor: pointer;
 }
 
-/* ─── Unificar tipografía en todos los botones ─── */
-.actividades-container .btn-editar,
-.actividades-container .btn-eliminar,
-.actividades-container .btn-agregar {
-  /* Usa la misma familia y estilo que el resto de tu UI */
-  font-family: inherit;      /* heredará la del <body> */
-  font-weight: 600;          /* mismo peso para todos */
-  font-size: 16px;           /* mismo tamaño */
-  text-transform: none;      /* sin forzar mayúsculas o minúsculas */
-  letter-spacing: normal;    /* espaciado de letra uniforme */
+/* ─── Toggle de acciones “…” sin fondo ─── */
+.actions-toggle {
+  background: none;
+  border: none;
+  color: #4A69BD;         /* mismo azul que los botones principales */
+  font-size: 1.25rem;     /* tamaño de los puntos */
+  line-height: 1;
+  padding: 0;             /* sin relleno extra */
+  cursor: pointer;
 }
-  
-  
-/* Responsive */
-@media (max-width: 768px) {
-    .botones-container {
-        flex-direction: column;
-    }
+.actions-toggle:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ─── Contenedor dropdown idéntico a Usuarios ─── */
+.acciones-dropdown .dropdown-menu {
+  min-width: 6rem;        /* ajusta si quieres más o menos ancho */
+}
+
+/* ─── Ítems del menú ─── */
+.acciones-dropdown .dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;            /* texto oscuro */
+  display: flex;
+  align-items: center;
+  background: none;
+}
+.acciones-dropdown .dropdown-item:hover {
+  background-color: #f1f3f5;  /* hover suave */
+}
+
+
+/* ─── Formulario “Crear nueva actividad” ───────────────────────── */
+
+/* Tarjeta blanca alrededor del formulario */
+.formulario-container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Cada campo (label + input/textarea/select) */
+.formulario-container .form-group {
+  margin-bottom: 1.25rem;
+}
+.formulario-container .form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.formulario-container .form-group input,
+.formulario-container .form-group textarea,
+.formulario-container .form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: #495057;
+}
+
+/* Mensaje de error debajo del select */
+#mensaje-error {
+  display: block;
+  color: #4A69BD;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Alineación y espaciado de los botones */
+.formulario-container .botones-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.formulario-container .btn-agregar {
+  flex: 1; /* botón azul ocupa todo el espacio posible */
+  text-align: center;
+}
+.formulario-container .btn-eliminar {
+  background: none;
+  border: none;
+  color: #495057;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+.formulario-container .btn-eliminar:hover {
+  text-decoration: underline;
 }
