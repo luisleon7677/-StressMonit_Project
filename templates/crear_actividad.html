@@ -7,60 +7,38 @@
     <h1>Crear nueva actividad</h1>
   </div>
 
-  <div class="form-create-act">
-    <form id="create-act-form"
-          method="POST"
-          action="{{ url_for('crear_actividad_route') }}">
-      
-      <!-- Nombre -->
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input type="text"
-               id="nombre"
-               name="nombre"
-               placeholder="Nombre"
-               required>
-      </div>
+  <div class="formulario-container">
+  <form id="create-act-form" method="POST" action="{{ url_for('crear_actividad_route') }}">
+    <!-- Nombre -->
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <!-- Descripción -->
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" required></textarea>
+    </div>
+    <!-- Grado -->
+    <div class="form-group">
+      <label for="grado_dif">Grado de dificultad</label>
+      <select id="grado_dif" name="grado_dif" required>
+        <option value="">--Selecciona--</option>
+        <option value="1.0">Bajo</option>
+        <option value="2.0">Medio</option>
+        <option value="3.0">Alto</option>
+      </select>
+    </div>
+    <!-- Mensaje de error -->
+    <p id="mensaje-error">Campos requeridos a completar</p>
+    <!-- Botones alineados a la derecha -->
+    <div class="botones-container form-actions">
+      <button type="submit" id="btn-submit" class="btn-primary">Crear actividad</button>
+      <a href="{{ url_for('actividades') }}" class="link-cancel">Cancelar</a>
+    </div>
+  </form>
+</div>
 
-      <!-- Descripción -->
-      <div class="form-group">
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion"
-                  name="descripcion"
-                  placeholder="Descripción"
-                  required></textarea>
-      </div>
-
-      <!-- Grado de dificultad -->
-      <div class="form-group">
-        <label for="grado_dif">Grado de dificultad</label>
-        <select id="grado_dif"
-                name="grado_dif"
-                required>
-          <option value="">--Selecciona--</option>
-          <option value="1.0">Bajo</option>
-          <option value="2.0">Medio</option>
-          <option value="3.0">Alto</option>
-        </select>
-      </div>
-
-      <!-- Mensaje de error -->
-      <p id="mensaje-error" class="error-message" style="display:none;"></p>
-
-      <!-- Botones -->
-      <div class="form-actions">
-        <button type="submit"
-                id="btn-submit"
-                class="btn-primary">
-          Crear actividad
-        </button>
-        <a href="{{ url_for('actividades') }}"
-           class="link-cancel">
-          Cancelar
-        </a>
-      </div>
-    </form>
-  </div>
 </div>
 
 <script>
