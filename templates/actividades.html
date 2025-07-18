@@ -6,6 +6,7 @@
 <div class="actividades-container">
   <div class="titulo-principal">
     <h1>Lista de Actividades</h1>
+    <a href="{{ url_for('crear_actividad_route') }}" class="btn-agregar">+ Agregar actividad</a>
   </div>
 
   <div class="tabla-container">
@@ -15,8 +16,8 @@
           <th>ID</th>
           <th>Nombre</th>
           <th>Descripción</th>
-          <th>Grado de Dificultad</th>
-          <th>Acciones</th>
+          <th>Dificultad</th>
+          <th class="text-center">Acciones</th>
         </tr>
       </thead>
       <tbody id="tablaBody">
@@ -32,72 +33,63 @@
               {% elif actividad[3] == 3.0 %}Alto
               {% endif %}
             </td>
-            <td class="acciones-cell">
-              <a href="{{ url_for('editar_actividad', id=actividad[0]) }}"
-                  class="btn-editar">Editar</a>
-              <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}"
-                    method="POST" style="display:inline;">
-                <button type="submit"
-                        class="btn-eliminar"
-                        onclick="return confirm('¿Eliminar esta actividad?')">
-                    Eliminar
-                  </button>
-                </form>
-              </td>
+            <td class="text-center">
+  <div class="dropdown acciones-dropdown">
+    <button class="actions-toggle dropdown-toggle"
+            type="button"
+            id="dropdownMenu{{ loop.index }}"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+      &hellip;
+    </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu{{ loop.index }}">
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('editar_actividad', id=actividad[0]) }}">
+                      Editar
+                    </a>
+                  </li>
+                  <li>
+                    <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" 
+                          method="POST"
+                          onsubmit="return confirm('¿Eliminar esta actividad?');">
+                      <button type="submit" class="dropdown-item text-danger">
+                        Eliminar
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </td>
           </tr>
           {% endfor %}
         {% else %}
-          <tr><td colspan="5">No hay actividades registradas</td></tr>
+          <tr><td colspan="5" class="text-center py-4">No hay actividades registradas</td></tr>
         {% endif %}
       </tbody>
     </table>
-    <!--Navegacion en paginacion-->
+
     <nav class="nav-pagination">
       <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
     </nav>
-  </div>
-
-  <!-- BOTÓN AGREGAR: redirige correctamente a crear_actividad_route -->
-  <div class="botones-container">
-    <a href="{{ url_for('crear_actividad_route') }}" class="btn-agregar">Agregar Actividad</a>
   </div>
 </div>
 
 <script>
   const filasPorPagina = 5;
   let paginaActual = 1;
-  
+
   function paginarTabla() {
     const cuerpo = document.getElementById('tablaBody');
-    const todasFilas = Array.from(cuerpo.querySelectorAll('tr'));
-    
-    // Filas principales (excluye las que tienen clase 'details-row')
-    const filasPrincipales = todasFilas.filter(fila => !fila.classList.contains('details-row'));
-  
-    const totalPaginas = Math.ceil(filasPrincipales.length / filasPorPagina);
-  
-    // Ocultar todas las filas
-    todasFilas.forEach(fila => fila.style.display = 'none');
-  
-    // Mostrar solo las filas principales de esta página + sus detalles ocultos
+    const filas = Array.from(cuerpo.querySelectorAll('tr'));
+    const totalPaginas = Math.ceil(filas.length / filasPorPagina);
+
+    filas.forEach(f => f.style.display = 'none');
     const inicio = (paginaActual - 1) * filasPorPagina;
-    const fin = inicio + filasPorPagina;
-  
-    for (let i = inicio; i < fin && i < filasPrincipales.length; i++) {
-      const filaPrincipal = filasPrincipales[i];
-      filaPrincipal.style.display = '';
-  
-      // Mostrar fila de detalle correspondiente (la siguiente en el DOM)
-      const filaDetalle = filaPrincipal.nextElementSibling;
-      if (filaDetalle && filaDetalle.classList.contains('details-row')) {
-        filaDetalle.style.display = 'none'; // Oculta por defecto
-      }
-    }
-  
-    // Generar la paginación
-    const paginacion = document.getElementById('paginacionTabla');
-    paginacion.innerHTML = '';
-  
+    filas.slice(inicio, inicio + filasPorPagina)
+        .forEach(f => f.style.display = '');
+
+    const pag = document.getElementById('paginacionTabla');
+    pag.innerHTML = '';
     for (let i = 1; i <= totalPaginas; i++) {
       const li = document.createElement('li');
       li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
@@ -108,13 +100,11 @@
         paginaActual = i;
         paginarTabla();
       });
-  
       li.appendChild(btn);
-      paginacion.appendChild(li);
+      pag.appendChild(li);
     }
   }
-  
+
   document.addEventListener('DOMContentLoaded', paginarTabla);
-  </script>
-  
+</script>
 {% endblock %}

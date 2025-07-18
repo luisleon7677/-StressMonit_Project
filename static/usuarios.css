@@ -1,21 +1,20 @@
-/* ---------------------------------------- */
-/* estilos para la vista de Usuarios        */
-/* ---------------------------------------- */
-
-/* Contenedor general */
+/* -------- Tema blanco + azul para Usuarios -------- */
 .usuarios-container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 2rem auto;
 }
 
-/* Título principal */
+/* Cabecera con título + botón */
+.titulo-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
 .titulo-principal h1 {
-    color: white;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 30px;
+  color: #333;
+  font-size: 1.5rem;
 }
 
 /* Tabla de usuarios */
@@ -105,14 +104,12 @@
     background-color: #2d4599;
 }
 
-
-
-
-/* --- Ajustes para la numeración interna --- */
-.styled-table th:first-child,
-.styled-table td:first-child {
-  width: 40px;
-  text-align: center;
+/* Card/Table blanca */
+.tabla-container {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
 
 /* ---------- Conteo lateral de usuarios ---------- */
@@ -173,7 +170,11 @@
 .details-row td > table {
   width: 80%;                 /* ajusta este % a tu gusto */
   margin: 0 auto;             /* centra la tabla */
+}
+.styled-table {
+  width: 100%;
   border-collapse: collapse;
+  color: #333;
 }
 
 /* Celdas y encabezados de la subtabla, centrados */
@@ -236,27 +237,46 @@
 }
 
 /*–– Asegúrate de que el <td> no fuerce otro alineamiento ––*/
+.styled-table th,
 .styled-table td {
-  /* Sobrescribe cualquier text-align heredado */
-  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #dee2e6;
 }
-.styled-table td:nth-child(7) {
-  /* Columna 7 es la de “Actividades” */
-  text-align: center;
+.styled-table th {
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
 }
-
-
-/* — Centrado “verdadero” de la sub-tabla de detalle — */
-.details-row td {
-  text-align: center;      /* padre centra todo */
-  padding: 16px 0;          /* espacio arriba/abajo */
+.styled-table tr:hover {
+  background: #f1f3f5;
 }
 
-/* Hacemos que la tabla interior sea inline-table para que el text-align la centre */
-.details-row td > table {
-  display: inline-table;
-  width: 70%;               /* ajusta al % que quieras */
-  table-layout: auto;       /* ancho automático de columnas */
+
+/* “v” en círculo azul */
+.btn-detalles-circle {
+  background:#4A69BD;
+  color:#fff;
+  width:32px; height:32px;
+  border:none;
+  border-radius:50%;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.btn-detalles-circle:hover {
+  background:#3B4F8A;
+}
+
+/* Botón de acciones: solo “…” sin marco visible */
+/* ─── Botón “…” plano ─── */
+.actions-toggle {
+  background: none;
+  border: none;
+  color: #4A69BD;       /* azul de todos los botones */
+  font-size: 1.5rem;    /* ajusta tamaño de puntos */
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
 }
 
 /* Aseguramos que celdas y encabezados queden centrados */
@@ -292,30 +312,144 @@
 .usuarios-container .botones-container {
   text-align: left;
   margin-top: 20px;   /* separa de la tabla */
+/* Elimina el caret que Bootstrap añade */
+}
+.acciones-dropdown .dropdown-toggle::after {
+  display: none;
 }
 
-.acciones-cell {
+/* Ajustes del menú desplegable */
+.acciones-dropdown .dropdown-menu {
+  min-width: 6rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+.acciones-dropdown .dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;
+}
+.acciones-dropdown .dropdown-item:hover {
+  background-color: #f1f3f5;
+}
+
+/* “Eliminar” sólo texto rojo */
+.acciones-dropdown .dropdown-item.text-danger {
+  color: #E74C3C;
+}
+.acciones-dropdown .dropdown-item.text-danger:hover {
+  background-color: rgba(231,76,60,0.1);
+}
+
+
+/* Paginación */
+.page-link-custom {
+  color:#495057;
+  background:#fff;
+  border:1px solid #dee2e6;
+  margin:0 0.25rem;
+  padding:0.25rem 0.5rem;
+}
+.page-link-custom:hover {
+  background:#e9ecef;
+}
+.page-item.active .page-link-custom {
+  background:#4A69BD;
+  color:#fff;
+  border-color:#4A69BD;
+}
+
+/* Centrar */
+.text-center {
+  text-align:center !important;
+}
+
+
+/* Hacemos que el botón de acciones sea solo tres puntos */
+.actions-toggle {
+  background: none !important;    /* sin fondo */
+  border: none !important;        /* sin borde */
+  color: #4A69BD !important;      /* texto azul */
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+/* Eliminamos el caret que Bootstrap pone con ::after */
+.actions-toggle::after {
+  display: none !important;
+}
+
+/* Aseguramos que al hacer focus no salga outline feo */
+.actions-toggle:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+
+/* ─── Estilos para “Crear nuevo usuario” ─── */
+
+.form-create-user {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+#mensaje-error {
+  color: #4A69BD;
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+}
+
+.form-actions {
+  display: flex;
   align-items: center;
-  gap: 10px;           /* espacio entre botones */
+  gap: 1rem;
 }
 
-/* 2) Unificamos tamaño y espaciado de los botones de acción */
-.usuarios-container .btn-editar,
-.usuarios-container .btn-eliminar {
-  display: inline-block;
-  min-width: 100px;    /* mismo ancho mínimo */
-  padding: 10px 16px;  /* mismo padding */
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+.btn-primary {
+  background-color: #4A69BD;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-/* 3) Quitamos cualquier width fija previa en btn-eliminar */
-.usuarios-container .btn-eliminar {
-  width: auto !important;
+.btn-primary:disabled {
+  background-color: #4A69BD;
+  cursor: not-allowed;
 }
 
 /* 4) Colores e hover (puedes dejarlos iguales a los que ya tienes) */
@@ -334,12 +468,23 @@
 .usuarios-container .btn-eliminar:hover {
   background-color: #2d4599;
 }
+.btn-primary:hover:not(:disabled) {
+  background-color: #3B4F8A;
+}
 
+.link-cancel {
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+}
 
+.link-cancel:hover {
+  text-decoration: underline;
+}
 
-/* Responsive */
-@media (max-width: 768px) {
-    .botones-container {
-        flex-direction: column;
-    }
+/* Responsive: en móvil, cada “form-row” pasa a bloque */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
 }

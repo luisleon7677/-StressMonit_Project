@@ -3,8 +3,10 @@
 <link rel="stylesheet" href="/static/usuarios.css">
 
 <div class="usuarios-container">
+  <!-- Título + botón Crear arriba a la derecha -->
   <div class="titulo-principal">
     <h1>Lista de Usuarios</h1>
+    <a href="{{ url_for('crear_usuario_route') }}" class="btn-agregar">+ Crear usuario</a>
   </div>
 
   <div class="tabla-container">
@@ -16,7 +18,7 @@
           <th>Nombre</th>
           <th>Usuario</th>
           <th>Contraseña</th>
-          <th>Estrés Promedio</th>    {# columna nueva #}
+          <th>Estrés Promedio</th>
           <th>Actividades</th>
           <th>Acciones</th>
         </tr>
@@ -29,25 +31,41 @@
           <td>{{ usuario[1] }}</td>
           <td>{{ usuario[2] }}</td>
           <td>{{ usuario[3] }}</td>
-          <td>{{ avg_dict.get(usuario[1], 0) }}</td>
-          <td>
+          <td>{{ avg_dict.get(usuario[1], 0)|round(2) }}</td>
+          <td class="text-center">
             <button class="btn-detalles-circle"
                     data-user="{{ usuario[1]|replace(' ', '_') }}">
               v
             </button>
           </td>
-          <td class="acciones-cell">
-            <a href="{{ url_for('editar_usuario_route', id=usuario[0]) }}" class="btn-editar">Editar</a>
-            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}"
-                  method="POST" style="display:inline;">
-              <button type="submit" class="btn-eliminar"
-                      onclick="return confirm('¿Eliminar este usuario?')">Eliminar</button>
-            </form>
-            
+          <td class="text-center">
+  <div class="dropdown acciones-dropdown">
+    <button class="actions-toggle dropdown-toggle"
+            type="button"
+            id="dropdownMenu{{ loop.index }}"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+      &hellip;
+    </button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu{{ loop.index }}">
+    <li>
+      <a class="dropdown-item" href="{{ url_for('editar_usuario_route', id=usuario[0]) }}">
+        Editar
+      </a>
+    </li>
+    <li>
+      <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}"
+            method="POST"
+            onsubmit="return confirm('¿Eliminar este usuario?');">
+        <button type="submit" class="dropdown-item text-danger">
+          Eliminar
+        </button>
+      </form>
+    </li>
+  </ul>
+</div>
           </td>
-          
         </tr>
-        <!-- fila oculta con detalle de actividades y duración -->
         <tr class="details-row" id="details-{{ usuario[1]|replace(' ', '_') }}">
           <td colspan="8">
             <table class="styled-table">
@@ -55,15 +73,15 @@
                 <tr>
                   <th>Actividad</th>
                   <th>Estrés Promedio</th>
-                  <th>Duración Promedio (min)</th>  {# nueva columna #}
+                  <th>Duración Promedio (min)</th>
                 </tr>
               </thead>
               <tbody>
                 {% for item in activities_by_user.get(usuario[1], []) %}
                 <tr>
                   <td>{{ item.actividad }}</td>
-                  <td>{{ item.avg_estres }}</td>
-                  <td>{{ item.avg_duracion_min }}</td>
+                  <td>{{ item.avg_estres|round(2) }}</td>
+                  <td>{{ item.avg_duracion_min|round(2) }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -73,72 +91,46 @@
         {% endfor %}
       </tbody>
     </table>
-    <!--Navegacion en paginacion-->
+
+    <!-- Paginación -->
     <nav class="nav-pagination">
       <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
     </nav>
-
   </div>
-
-  <div class="botones-container">
-    <a href="{{ url_for('crear_usuario_route') }}" class="btn-agregar">Agregar Usuario</a>
-  </div>
-
-  
 </div>
 
 <script>
-  // Toggle de filas de detalle
+  // Toggle de fila detalles
   document.querySelectorAll('.btn-detalles-circle').forEach(btn => {
     btn.addEventListener('click', () => {
-      const user = btn.dataset.user;
-      const row  = document.getElementById(`details-${user}`);
-      row.style.display = (row.style.display === 'table-row') ? 'none' : 'table-row';
+      const row = document.getElementById(`details-${btn.dataset.user}`);
+      row.style.display = row.style.display === 'table-row' ? 'none' : 'table-row';
     });
   });
-    <!--Script para la paginacion-->
-    const filasPorPagina = 5;
-    let paginaActual = 1;
-  
-    function paginarTabla() {
-      const tabla = document.getElementById('tablaUsuarios');
-      const cuerpo = document.getElementById('tablaBody');
-      const filas = Array.from(cuerpo.querySelectorAll('tr.fila-principal'));
-      const totalPaginas = Math.ceil(filas.length / filasPorPagina);
-  
-      // Ocultar todas las filas
-      filas.forEach(fila => fila.style.display = 'none');
-  
-      // Mostrar solo las filas correspondientes a la página actual
-      const inicio = (paginaActual - 1) * filasPorPagina;
-      const fin = inicio + filasPorPagina;
-      filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
-  
-      // Generar paginación
-      const paginacion = document.getElementById('paginacionTabla');
-      paginacion.innerHTML = '';
-  
-      for (let i = 1; i <= totalPaginas; i++) {
-        const li = document.createElement('li');
-        li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
-        const btn = document.createElement('button');
-        btn.className = 'page-link page-link-custom';
-        btn.textContent = i;
-        btn.addEventListener('click', () => {
-          paginaActual = i;
-          paginarTabla();
-        });
-  
-        li.appendChild(btn);
-        paginacion.appendChild(li);
-      }
+
+  // Paginación
+  const filasPorPagina = 5;
+  let paginaActual = 1;
+  function paginarTabla() {
+    const filas = Array.from(document.querySelectorAll('#tablaBody tr.fila-principal'));
+    const totalPaginas = Math.ceil(filas.length / filasPorPagina);
+    filas.forEach(f => f.style.display = 'none');
+    filas.slice((paginaActual-1)*filasPorPagina, paginaActual*filasPorPagina)
+         .forEach(f => f.style.display = '');
+    const pag = document.getElementById('paginacionTabla');
+    pag.innerHTML = '';
+    for(let i=1; i<=totalPaginas; i++){
+      const li = document.createElement('li');
+      li.className = `page-item ${i===paginaActual?'active':''}`;
+      const btn = document.createElement('button');
+      btn.className = 'page-link page-link-custom';
+      btn.textContent = i;
+      btn.onclick = ()=>{ paginaActual=i; paginarTabla(); };
+      li.appendChild(btn);
+      pag.appendChild(li);
     }
-  
-    // Ejecutar al cargar la página
-    document.addEventListener('DOMContentLoaded', paginarTabla);
-  
-    
-  </script>
-  
+  }
+  document.addEventListener('DOMContentLoaded', paginarTabla);
+</script>
 
 {% endblock %}

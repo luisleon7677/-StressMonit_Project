@@ -1,33 +1,42 @@
 {% extends "base.html" %}
-
 {% block content %}
 <link rel="stylesheet" href="/static/actividades.css">
 
 <div class="actividades-container">
   <div class="titulo-principal">
-    <h1>Crear Nueva Actividad</h1>
+    <h1>Crear nueva actividad</h1>
   </div>
 
-  <div class="separador"></div>
-
-  <div class="formulario-container">
-    <form id="create-act-form" method="POST" action="{{ url_for('crear_actividad_route') }}">
+  <div class="form-create-act">
+    <form id="create-act-form"
+          method="POST"
+          action="{{ url_for('crear_actividad_route') }}">
+      
       <!-- Nombre -->
       <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <label for="nombre">Nombre</label>
+        <input type="text"
+               id="nombre"
+               name="nombre"
+               placeholder="Nombre"
+               required>
       </div>
 
       <!-- Descripción -->
       <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion"
+                  name="descripcion"
+                  placeholder="Descripción"
+                  required></textarea>
       </div>
 
-      <!-- Grado -->
+      <!-- Grado de dificultad -->
       <div class="form-group">
-        <label for="grado_dif">Grado de dificultad:</label>
-        <select id="grado_dif" name="grado_dif" required>
+        <label for="grado_dif">Grado de dificultad</label>
+        <select id="grado_dif"
+                name="grado_dif"
+                required>
           <option value="">--Selecciona--</option>
           <option value="1.0">Bajo</option>
           <option value="2.0">Medio</option>
@@ -36,12 +45,19 @@
       </div>
 
       <!-- Mensaje de error -->
-      <p id="mensaje-error" style="display:none; color:#E60040; margin-top:10px;"></p>
+      <p id="mensaje-error" class="error-message" style="display:none;"></p>
 
       <!-- Botones -->
-      <div class="botones-container">
-        <button type="submit" id="btn-submit" class="btn-agregar">Guardar Actividad</button>
-        <a href="{{ url_for('actividades') }}" class="btn-eliminar">Cancelar</a>
+      <div class="form-actions">
+        <button type="submit"
+                id="btn-submit"
+                class="btn-primary">
+          Crear actividad
+        </button>
+        <a href="{{ url_for('actividades') }}"
+           class="link-cancel">
+          Cancelar
+        </a>
       </div>
     </form>
   </div>
@@ -49,57 +65,32 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  let existingNames = [];
-  fetch('/api/activity-names')
-    .then(response => response.json())
-    .then(data => {
-      existingNames = data.map(n => n.trim());
-      initValidation();
-    })
-    .catch(initValidation);
+  const nombreInput   = document.getElementById('nombre');
+  const descripcion   = document.getElementById('descripcion');
+  const gradoSelect   = document.getElementById('grado_dif');
+  const submitBtn     = document.getElementById('btn-submit');
+  const mensaje       = document.getElementById('mensaje-error');
 
-  function initValidation() {
-    const nombreInput = document.getElementById('nombre');
-    const descripcionInput = document.getElementById('descripcion');
-    const gradoSelect = document.getElementById('grado_dif');
-    const submitBtn = document.getElementById('btn-submit');
-    const mensaje = document.getElementById('mensaje-error');
-
-    // Lista en minúsculas para comparación case-insensitive
-    const lowerNames = existingNames.map(n => n.toLowerCase());
-
-    function validar() {
-      const n = nombreInput.value.trim();
-      const d = descripcionInput.value.trim();
-      const g = gradoSelect.value;
-      let error = '';
-
-      if (!n || !d || !g) {
-        error = 'Campos requeridos a completar';
-      }
-      else if (existingNames.includes(n)) {
-        // Coincidencia exacta
-        error = 'Una actividad ya tiene ese nombre';
-      }
-      else if (lowerNames.includes(n.toLowerCase())) {
-        // Coincidencia solo en mayúsculas/minúsculas
-        error = 'Nombre muy parecido a uno existente';
-      }
-
-      submitBtn.disabled = !!error;
-      if (error) {
-        mensaje.textContent = error;
-        mensaje.style.display = 'block';
-      } else {
-        mensaje.style.display = 'none';
-      }
+  function validar() {
+    let error = '';
+    if (!nombreInput.value.trim()
+     || !descripcion.value.trim()
+     || !gradoSelect.value) {
+      error = 'Campos requeridos a completar';
     }
-
-    [nombreInput, descripcionInput, gradoSelect].forEach(el =>
-      el.addEventListener('input', validar)
-    );
-    validar();
+    submitBtn.disabled = !!error;
+    if (error) {
+      mensaje.textContent = error;
+      mensaje.style.display = 'block';
+    } else {
+      mensaje.style.display = 'none';
+    }
   }
+
+  [nombreInput, descripcion, gradoSelect].forEach(el =>
+    el.addEventListener('input', validar)
+  );
+  validar();
 });
 </script>
 {% endblock %}
