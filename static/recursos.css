@@ -1,20 +1,22 @@
 .container-recursos{
-    background-color: #1E1E1E;
+    
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+   
     margin-bottom: 30px;
     
 
 }
 .custom-table{
+    border: 1px solid #dee2e6;
     width: 100%;
     border-collapse: collapse;
     font-size: 16px;
+    margin-top: 20px;
 }
 
 .titulo-principal{
-    color: white; 
+    color: #1E1E1E; 
     
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     
@@ -61,7 +63,7 @@
 .container-recursos .boton button{
     
     all: unset;                /* Elimina todos los estilos por defecto */
-    background: #f04158;          /* Elimina el color de fondo */
+    background: #4260cd;          /* Elimina el color de fondo */
     border: none;              /* Elimina los bordes */
     padding: 0;                /* Elimina el padding predeterminado */
     font: inherit;             /* Hereda el tipo de fuente del contenedor */
@@ -72,6 +74,9 @@
     margin-top: 20px;
    
         
+}
+.container-recursos .boton button:hover{
+    background: #2d4599; 
 }
 .container-recursos .boton a{
     text-decoration: none;
@@ -85,17 +90,23 @@
     color: #252525;
     overflow-x: hidden;
     padding-left: 11px;
+    border: 1px solid #dee2e6 ;
 }
 #button_form{
-    background: #f04158;
+    background: #4260cd;
     width: 120px;
     margin-top: 30px;
 }
-
+#button_form:hover{
+    background: #2d4599;
+}
 
 .table>:not(caption)>*>*{
-    background: none;
-    color: white;
+    background:white;
+    color: #1E1E1E;
+}
+#lightt th{
+    background: #FCFCFC;
 }
 /*#252525;*/
 .container-recursos .column-btns{
@@ -110,12 +121,16 @@
   font: inherit;       /* Hereda la fuente del contenedor */
   text-align: inherit; /* Hereda la alineación del texto */
   cursor: pointer;     /* Mantiene el cursor como puntero */
-  background-color:#f04158;
+  background-color:#4260cd;
+  color: white;
   margin: 5px 5px;
   padding: 5px 10px;
   border-radius: 8px;
   text-align: center;
   width: 80px;
+}
+.container-recursos .btn-recursos:hover{
+    background-color:#2d4599;
 }
 /*MODAL*/
 .modal {
@@ -130,6 +145,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     position: relative;
     text-align: center;
+    z-index: 10;
 }
 .modal-close{
     display: none;
@@ -151,15 +167,15 @@
 /*botnoes de la paginacion de las tablas*/
  /* Estilos personalizados opcionales */
  .page-link-custom {   /* Boton desactivado */
-    color: black;
+    color: white;
     background-color: #ffffff;
     border: 1px solid #dee2e6;
-    border: #f04158;
+    
   }
 
   .page-link-custom:hover {
-    background-color: rgba(240, 65, 88, 0.90);
-    color:#1E1E1E
+    background-color: #2d4599;
+    color:white;
   }
 
   .active .page-link-custom {

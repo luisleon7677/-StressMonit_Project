@@ -12,18 +12,23 @@
 
 /* Título principal */
 .titulo-principal h1 {
-    color: white;
+    color: #1E1E1E;
     font-size: 28px;
     text-align: center;
     margin-bottom: 30px;
 }
-
+.styled-table th{
+  background-color: #FCFCFC;
+}
+.styled-table{
+  border: 1px solid #dee2e6;
+}
 /* Tabla de actividades */
 .tabla-container {
-    background-color: #1E1E1E;
+    
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+   
     margin-bottom: 30px;
     overflow-x: auto;
 }
@@ -55,13 +60,13 @@
   font-weight: 600;
   border-radius: 5px;
   color: white;
-  background-color: #FF3B5C;
+  background-color: #4260cd;
   border: none;
   transition: background-color 0.3s;
 }
 .styled-table td.acciones-cell .btn-editar:hover,
 .styled-table td.acciones-cell .btn-eliminar:hover {
-  background-color: #E60040;
+  background-color: #4260cd;
 }
 
 
@@ -81,7 +86,7 @@
 }
 
 .btn-eliminar {
-    background-color: #FF3B5C;
+    background-color: #4260cd;
     color: white;
     padding: 8px 12px;
     border-radius: 5px;
@@ -90,7 +95,7 @@
     width: 90px;
 }
 .btn-eliminar:hover {
-    background-color: #E60040;
+    background-color: #2d4599;
 }
 
 /* Separador */
@@ -105,7 +110,7 @@
 
 .btn-agregar {
     flex: 1;
-    background-color: #FF3B5C;
+    background-color: #4260cd;
     color: white;
     padding: 14px 20px;
     border: none;
@@ -118,7 +123,7 @@
     transition: background-color 0.3s;
 }
 .btn-agregar:hover {
-    background-color: #E60040;
+    background-color: #2d4599;
 }
 
 .btn-eliminar /* botón “Cancelar” en formulario */ {
@@ -147,15 +152,15 @@
 /*botnoes de la paginacion de las tablas*/
  /* Estilos personalizados opcionales */
  .page-link-custom {   /* Boton desactivado */
-    color: black;
-    background-color: #ffffff;
+    color: white;
+    background-color: #4260cd;
     border: 1px solid #dee2e6;
-    border: #f04158;
+   
   }
 
   .page-link-custom:hover {
-    background-color: rgba(240, 65, 88, 0.90);
-    color:#1E1E1E
+    background-color:#2d4599;
+    color:white;
   }
 
   .active .page-link-custom {
@@ -194,19 +199,19 @@
 
 /* 4) Colores e hover (puedes dejarlos iguales a los que ya tienes) */
 .actividades-container .btn-editar {
-  background-color: #FF3B5C;
+  background-color: #4260cd;
   color: white;
 }
 .actividades-container .btn-editar:hover {
-  background-color: #FF3B5C;
+  background-color: #2d4599;
 }
 
 .actividades-container .btn-eliminar {
-  background-color: #FF3B5C;
+  background-color: #4260cd;
   color: white;
 }
 .actividades-container .btn-eliminar:hover {
-  background-color: #E60040;
+  background-color: #2d4599;
 }
 
 /* ─── Unificar tipografía en todos los botones ─── */

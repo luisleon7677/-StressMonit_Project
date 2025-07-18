@@ -20,10 +20,10 @@
 
 /* Tabla de usuarios */
 .tabla-container {
-    background-color: #1E1E1E;
+    
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+ 
     margin-bottom: 30px;
     overflow-x: auto;
 }
@@ -33,27 +33,26 @@
     border-collapse: collapse;
     font-size: 16px;
     color: white;
+    border: 1px solid #dee2e6;
 }
 
 .styled-table th, .styled-table td {
     padding: 12px 15px;
-    border-bottom: 1px solid #444;
+    
     text-align: left;
 }
 
 .styled-table th {
-    background-color: #333;
-    color: white;
+    background-color: #FCFCFC;
+    color: #1E1E1E;
     font-weight: bold;
 }
 
-.styled-table tr:hover {
-    background-color: #2A2A2A;
-}
+
 
 /* Botones de acción en la tabla */
 .btn-editar {
-    background-color: #4A90E2;
+    background-color: #4260cd;
     color: white;
     padding: 8px 28px;
     border-radius: 5px;
@@ -62,11 +61,11 @@
     transition: background-color 0.3s;
 }
 .btn-editar:hover {
-    background-color: #357ABD;
+    background-color: #2d4599;
 }
 
 .btn-eliminar {
-    background-color: #FF3B5C;
+    background-color: #4260cd;
     color: white;
     padding: 8px 12px;
     border-radius: 5px;
@@ -75,7 +74,7 @@
     width: 90px;
 }
 .btn-eliminar:hover {
-    background-color: #E60040;
+    background-color: #2d4599;
 }
 
 /* Separador */
@@ -90,7 +89,7 @@
 
 .btn-agregar {
     flex: 1;
-    background-color: #FF3B5C;
+    background-color: #4260cd;
     color: white;
     padding: 14px 20px;
     border: none;
@@ -103,7 +102,7 @@
     transition: background-color 0.3s;
 }
 .btn-agregar:hover {
-    background-color: #E60040;
+    background-color: #2d4599;
 }
 
 
@@ -129,7 +128,7 @@
 
 .usuarios-count-bar {
   width: 60px;
-  background-color: #1E1E1E;
+ 
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -164,7 +163,7 @@
 /* Aseguramos que el <td> que contiene la subtabla ocupe todo el ancho
    y centre su contenido */
 .details-row td {
-  background-color: #1A1A1A;  /* opcional: fondo un poco distinto */
+  background-color: white;/* opcional: fondo un poco distinto */
   padding: 0;                 /* quitamos padding extra */
   text-align: center;         /* centro horizontal */
   vertical-align: middle;     /* centro vertical */
@@ -187,7 +186,7 @@
 
 /* Opcional: dar contraste a cada fila */
 .details-row tbody tr:nth-child(even) td {
-  background-color: #252525;
+ 
 }
 
 
@@ -208,11 +207,11 @@
 /* Ajuste de colspan en la fila de detalle si cambias columnas */
 .styled-table td[colspan] {
   padding: 0;
-  background: #2A2A2A;
+  background: white;
 }
 
 .btn-detalles-circle {
-  background-color: #4A90E2;    /* mismo color azul */
+  background-color: #4260cd;    /* mismo color azul */
   color: white;
   width: 32px;                  /* tamaño de círculo */
   height: 32px;
@@ -227,7 +226,7 @@
 }
 
 .btn-detalles-circle:hover {
-  background-color: #357ABD;    /* hover ligeramente más oscuro */
+  background-color: #2d4599;    /* hover ligeramente más oscuro */
 }
 
 /*–– Centro horizontal del botón circular ––*/
@@ -269,15 +268,13 @@
 /*botnoes de la paginacion de las tablas*/
  /* Estilos personalizados opcionales */
  .page-link-custom {   /* Boton desactivado */
-    color: black;
+    color: white;
     background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border: #f04158;
   }
 
   .page-link-custom:hover {
-    background-color: rgba(240, 65, 88, 0.90);
-    color:#1E1E1E
+    background-color: #2d4599;
+    color:white;
   }
 
   .active .page-link-custom {
@@ -323,19 +320,19 @@
 
 /* 4) Colores e hover (puedes dejarlos iguales a los que ya tienes) */
 .usuarios-container .btn-editar {
-  background-color: #FF3B5C;
+  background-color: #4260cd;
   color: white;
 }
 .usuarios-container .btn-editar:hover {
-  background-color: #FF3B5C;
+  background-color: #2d4599;
 }
 
 .usuarios-container .btn-eliminar {
-  background-color: #FF3B5C;
+  background-color: #4260cd;
   color: white;
 }
 .usuarios-container .btn-eliminar:hover {
-  background-color: #E60040;
+  background-color: #2d4599;
 }
 
 
