@@ -17,6 +17,14 @@
   font-size: 1.5rem;
 }
 
+/* Sobrescribimos el flex que hace que el botón crezca */
+.titulo-principal .btn-agregar {
+  flex: 0 0 auto;    /* no crece, no encoge */
+  width: auto;       /* anchura automática, sólo su contenido */
+  margin-left: auto; /* empuja al botón hasta la derecha */
+}
+
+
 /* Tabla de usuarios */
 .tabla-container {
     
@@ -185,11 +193,6 @@
   text-align: center;         /* centro horizontal */
   vertical-align: middle;     /* centro vertical */
   padding: 10px 5px;          /* algo de espacio interior */
-}
-
-/* Opcional: dar contraste a cada fila */
-.details-row tbody tr:nth-child(even) td {
- 
 }
 
 

@@ -12,6 +12,15 @@
     text-align: center;
     margin-bottom: 30px;
 }
+
+/* Sobrescribimos el flex que hace que el botón crezca */
+.titulo-principal .btn-agregar {
+  flex: 0 0 auto;    /* no crece, no encoge */
+  width: auto;       /* anchura automática, sólo su contenido */
+  margin-left: auto; /* empuja al botón hasta la derecha */
+}
+
+
 .styled-table th{
   background-color: #FCFCFC;
 }
@@ -35,7 +44,6 @@
   min-width: 240px;
 }
 
-.styled-table td.acciones-cell {}
 /* Cabecera con título + botón */
 .titulo-principal {
   display: flex;
@@ -102,23 +110,6 @@
 }
 
 
-
-.btn-agregar {
-    flex: 1;
-    background-color: #4260cd;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-.btn-agregar:hover {
-    background-color: #2d4599;}
 .titulo-principal h1 {
   color: #333;
   font-size: 1.5rem;
@@ -365,8 +356,9 @@
   margin-top: 1.5rem;
 }
 .formulario-container .btn-agregar {
-  flex: 1; /* botón azul ocupa todo el espacio posible */
-  text-align: center;
+  flex: 0 0 auto;    /* no crece, no encoge */
+  width: auto;       /* anchura automática, sólo su contenido */
+  margin-left: auto; /* empuja al botón hasta la derecha */
 }
 .formulario-container .btn-eliminar {
   background: none;
