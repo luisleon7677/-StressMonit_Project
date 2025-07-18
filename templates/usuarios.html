@@ -80,7 +80,13 @@
                 {% for item in activities_by_user.get(usuario[1], []) %}
                 <tr>
                   <td>{{ item.actividad }}</td>
-                  <td>{{ item.avg_estres|round(2) }}</td>
+                  <td>
+                    {% if item.avg_estres is not none %}
+                      {{ item.avg_estres|round(2) }}
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
                   <td>{{ item.avg_duracion_min|round(2) }}</td>
                 </tr>
                 {% endfor %}

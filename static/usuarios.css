@@ -20,8 +20,8 @@
 /* Tabla de usuarios */
 .tabla-container {
     
-    padding: 20px;
-    border-radius: 10px;
+    
+
  
     margin-bottom: 30px;
     overflow-x: auto;
@@ -99,6 +99,8 @@
     text-align: center;
     text-decoration: none;
     transition: background-color 0.3s;
+   
+   
 }
 .btn-agregar:hover {
     background-color: #2d4599;
@@ -106,9 +108,9 @@
 
 /* Card/Table blanca */
 .tabla-container {
-  background: #fff;
+ 
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ 
   overflow: hidden;
 }
 
