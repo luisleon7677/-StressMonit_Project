@@ -493,3 +493,34 @@
     flex-direction: column;
   }
 }
+
+
+/* 1) El contenedor de los botones ya no estira nada */
+.formulario-container .form-actions,
+.usuarios-container .form-actions {
+  display: flex;
+  justify-content: flex-start; /* alineados a la izquierda */
+  gap: 1rem;                   /* espacio entre botones */
+  margin-top: 1.5rem;
+}
+
+/* 2) El botón principal deja de hacer flex y ancho 100% */
+.formulario-container .btn-primary,
+.usuarios-container .btn-primary {
+  flex: none;      /* no crecer */
+  width: auto;     /* ancho automático */
+  min-width: 10rem;/* opcional: un ancho mínimo legible */
+}
+
+/* 3) El link “Cancelar” simplemente va pegado a la derecha del botón */
+.formulario-container .link-cancel,
+.usuarios-container .link-cancel {
+  align-self: center;
+  padding: 0.5rem 1rem;
+  color: #495057;
+  text-decoration: none;
+}
+.formulario-container .link-cancel:hover,
+.usuarios-container .link-cancel:hover {
+  text-decoration: underline;
+}
