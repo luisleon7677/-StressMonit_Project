@@ -411,6 +411,12 @@ th, td {
   right: 0;
 }
 
+.material-symbols-outlined {
+  font-size: 22px;
+  color: #1A1A1A; /* gris oscuro */
+  vertical-align: middle;
+}
+
 .slide-header {
   display: flex;
   justify-content: space-between;

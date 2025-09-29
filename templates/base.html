@@ -9,6 +9,10 @@
           rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+          
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/soporte.css">
@@ -42,45 +46,45 @@
     <nav class="navegacion">
   <ul>
     <li>
-      <a href="{{ url_for('inicio') }}"
+      <a href="/inicio"
          class="{% if request.endpoint=='inicio' %}activo{% endif %}">
-        <ion-icon name="home-outline"></ion-icon>
-        <span>Inicio</span>
+        <span class="material-symbols-outlined">home  </span>  
+        Inicio
       </a>
     </li>
     <li>
-      <a href="{{ url_for('usuarios') }}"
+      <a href="/usuarios"
          class="{% if request.endpoint=='usuarios' %}activo{% endif %}">
-        <ion-icon name="person-outline"></ion-icon>
-        <span>Usuarios</span>
+        <span class="material-symbols-outlined"> account_circle </span>
+        Usuarios
       </a>
     </li>
     <li>
-      <a href="{{ url_for('actividades') }}"
+      <a href="/actividades"
          class="{% if request.endpoint=='actividades' %}activo{% endif %}">
-        <ion-icon name="bookmark-outline"></ion-icon>
-        <span>Actividades</span>
+        <span class="material-symbols-outlined">leaderboard</span>
+        Actividades
       </a>
     </li>
     <li>
-      <a href="{{ url_for('recursos') }}"
+      <a href="/recursos"
          class="{% if request.endpoint=='recursos' %}activo{% endif %}">
-        <ion-icon name="folder-outline"></ion-icon>
-        <span>Recursos</span>
+        <span class="material-symbols-outlined">plagiarism</span>
+        Recursos
       </a>
     </li>
     <li>
-      <a href="{{ url_for('soporte') }}"
+      <a href="/soporte"
          class="{% if request.endpoint=='soporte' %}activo{% endif %}">
-        <ion-icon name="headset-outline"></ion-icon>
-        <span>Soporte</span>
+        <span class="material-symbols-outlined">help</span>
+        Soporte
       </a>
     </li>
     <li>
-  <a href="{{ url_for('logout') }}"
+  <a href="/logout"
      class="logout-link">
-    <ion-icon name="exit-outline"></ion-icon>
-    <span>Cerrar Sesión</span>
+    <span class="material-symbols-outlined">logout</span>
+    Cerrar Sesión
   </a>
 </li>
   </ul>
