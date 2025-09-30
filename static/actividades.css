@@ -20,6 +20,10 @@
   margin-left: auto; /* empuja al botón hasta la derecha */
 }
 
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
 
 .styled-table th{
   background-color: #FCFCFC;

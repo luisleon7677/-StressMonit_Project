@@ -8,6 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Agregar evento para el menú lateral
     menu.addEventListener("click", () => {
+    if (window.innerWidth <= 768) {  
+        // Solo en móvil
+        barraLateral.classList.toggle("active");
+
+        if (barraLateral.classList.contains("active")) {
+            menu.children[0].style.display = "none";  // icono abrir
+            menu.children[1].style.display = "block"; // icono cerrar
+        } else {
+            menu.children[0].style.display = "block";
+            menu.children[1].style.display = "none";
+        }
+    } else {
+        // En escritorio se mantiene tu comportamiento original
         barraLateral.classList.toggle("max-barra-lateral");
 
         if (barraLateral.classList.contains("max-barra-lateral")) {
@@ -25,7 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 span.classList.add("oculto");
             });
         }
-    });
+    }
+});
 
     // Agregar evento para el icono de la barra lateral
     icon.addEventListener("click", () => {
@@ -57,9 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Elemento de logout no encontrado");
     }
 });
-botonLateral.addEventListener("click",()=>{
-       
-})
 
 // Confirmación antes de eliminar (versión mejorada)
 document.addEventListener('DOMContentLoaded', function() {

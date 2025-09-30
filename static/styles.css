@@ -316,9 +316,14 @@ main.min-main{
     border-radius: 5px;
 }
 
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 th, td {
@@ -482,7 +487,8 @@ th, td {
 .logo-barra{
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 40px;
+    gap: 10px;
 }
 .logo-barra img{
     width: 50px;
@@ -597,18 +603,19 @@ th, td {
   }
 /*---responsive*/
 
-@media(max-width:600px){
-    .barra-lateral{
-        position: fixed;
-        left: -250px;
-    }
-    .max-barra-lateral{
-        left: 0;
-    }
-    .menu{
-        display: flex;
-    }
-    .menu ion-icon:nth-child(2){
+@media(max-width:768px){
+  .barra-lateral {
+    transform: translateX(-100%); /* oculta por defecto */
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  .barra-lateral.active {
+    transform: translateX(0); /* aparece al tener .active */
+  }
+  .menu {
+    display: block; /* mostrar botón hamburguesa */
+  }
+  .menu ion-icon:nth-child(2){
         display: none;
     }
     main{
@@ -621,4 +628,32 @@ th, td {
         position: fixed;
         left: 0px;
     }
+}
+
+.menu {
+  display: none;               /* oculto en PC */
+  font-size: 28px;
+  cursor: pointer;
+  padding: 5px;                /* espacio interno */
+  background: transparent;     
+  border: none;                
+  outline: none;               
+  color: #1E3A8A;              
+  z-index: 1100;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+/* Mostrar solo en pantallas pequeñas */
+@media (max-width: 768px) {
+  .menu {
+    display: block;
+  }
+}
+
+/* Asegurar que los íconos Ionicons se pinten en azul */
+.menu ion-icon {
+  font-size: 32px;
+  color: #1E3A8A;  /* azul */
 }
