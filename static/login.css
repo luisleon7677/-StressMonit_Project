@@ -41,7 +41,7 @@ body {
 
 /* Título */
 .title {
-  font-family: "Helvetica", Arial, sans-serif !important; /* misma que en header */
+  font-family: "Sen", sans-serif; /* misma que en header */
   font-size: 32px;
   font-weight: 600;
   color: #1A1A1A; /* un gris oscuro elegante */
