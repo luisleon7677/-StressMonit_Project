@@ -25,7 +25,7 @@
 
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Helvetica", Arial, sans-serif !important;
     background-color:white; /*se camio el color pero no se observanc ambios, buscar otra forma*/
     color: #1E1E1E;
     margin: 0;
@@ -504,7 +504,7 @@ th, td {
     
 }
 .sen-titulo-logo {
-    font-family: "Sen", sans-serif;
+    font-family: "Helvetica", Arial, sans-serif !important;
     font-optical-sizing: auto;
     font-weight: 600;
     font-style: normal;

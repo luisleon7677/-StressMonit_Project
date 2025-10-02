@@ -20,7 +20,7 @@ body {
   align-items: center;
   min-height: 100vh;
   background-color: var(--bg-light);
-  font-family: Arial, sans-serif;
+  font-family: "Helvetica", Arial, sans-serif !important;
   color: var(--text-dark);
 }
 
