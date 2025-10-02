@@ -226,6 +226,10 @@ p a:hover {
   text-decoration: none;
   transition: background-color 0.2s, color 0.2s;
 }
+.barra-lateral .navegacion a span{
+  margin-right: 0.5rem;
+}
+
 .barra-lateral .navegacion a ion-icon {
   margin-right: 8px;
   font-size: 20px;
@@ -239,12 +243,12 @@ p a:hover {
 
 /* Enlace activo */
 .barra-lateral .navegacion a.activo {
-  background-color: #e8f0fe;
-  color: #1967d2;
+  background-color: #eff6ff;
+  color: #1A1A1A;
 }
 .barra-lateral .navegacion a.activo ion-icon,
 .barra-lateral .navegacion a.activo span {
-  color: #1967d2;
+  color: #1A1A1A;
 }
 
 /* Logout como un ítem más de la lista */
