@@ -571,7 +571,7 @@ def edit_profile():
     # Muestra el formulario de edición completo
     return render_template('edit_profile.html', title='Editar Perfil')
 
-
+#ultima revision
 
 #esta configuracion debe ativarse cuando subimos a producción
 if __name__ == "__main__":
