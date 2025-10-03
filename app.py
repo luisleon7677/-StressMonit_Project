@@ -141,9 +141,41 @@ def inicio():
         fig = px.imshow(df if not df.empty else [[None]],
                     labels=dict(x="Nombre", y="Actividad", color="Nivel Estrés"),
                     text_auto=".1f", #limita la cantidad de decimales
-                    color_continuous_scale='RdYlGn_r',
+                    color_continuous_scale=[
+                        [0.0, "#D3DEFF"],  # (bajo estrés)
+                        [0.5, "#849CF4"],  # (estrés medio)
+                        [1.0, "#343497"]   # (alto estrés)
+                    ],
+
                     aspect='auto',
                     title="Mapa de Calor de Estrés")
+        
+        #ajuste de textos
+        # Ajustar estilo de textos
+        # fig.update_traces(
+        #     texttemplate="%{text}",
+        #     textfont_size=12,
+        #     textfont_color="black",
+        # )
+
+        # Ejes más legibles
+        fig.update_xaxes(
+            tickangle=-45,
+            tickfont_size=10,
+            side="bottom"
+        )
+        fig.update_yaxes(
+            tickfont_size=10,
+            automargin=True
+        )
+
+        # Layout general
+        fig.update_layout(
+            margin=dict(l=80, r=80, t=80, b=100),
+            title_x=0.5
+        )
+
+
         # Guardar como archivo HTML (para web)
         fig.write_html("static/heatmap_interactivo.html")
         
@@ -539,7 +571,7 @@ def edit_profile():
     # Muestra el formulario de edición completo
     return render_template('edit_profile.html', title='Editar Perfil')
 
-
+#ultima revision
 
 #esta configuracion debe ativarse cuando subimos a producción
 if __name__ == "__main__":
