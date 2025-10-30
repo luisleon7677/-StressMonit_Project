@@ -13,6 +13,12 @@
     
     
 }
+
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .tabla-inicio th{
     color:black;
     font-weight: 700;
@@ -29,15 +35,15 @@
 }
 .estres-verde {
     background-color: #d4edda;
-    color: #155724;
+    color: #D3DEFF;
 }
 .estres-amarillo {
     background-color: #fff3cd;
-    color: #856404;
+    color: #849CF4;
 }
 .estres-rojo {
     background-color: #f8d7da;
-    color: #721c24;
+    color: #343497;
 }
 .mapa-calor{
     width: 80%;
@@ -58,18 +64,18 @@ iframe {
 }
 /*botones*/
 #btn-estres-bajo{
-    background-color: #155724;
-    color: white;
+    background-color: #D3DEFF;
+    color: black;
 }
 #btn-estres-medio{
-    background-color: #FFFFBF;
+    background-color: #849CF4;
     color: black;
 }
 #btn-estres-alto{
-    background-color: #A50026;
+    background-color: #343497;
     color: white;
 }
 #btn-estres-not{
-    background-color: #E5ECF6;
+    background-color: #E6E6E6;
     color: black;
 }

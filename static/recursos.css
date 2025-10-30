@@ -18,7 +18,7 @@
 .titulo-principal{
     color: #1E1E1E; 
     
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Helvetica", Arial, sans-serif !important;
     
     margin-top: 20px;
     margin-bottom: 30px;
