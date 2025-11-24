@@ -572,7 +572,7 @@ def edit_profile():
     return render_template('edit_profile.html', title='Editar Perfil')
 
 #ultima revision
-
+#comentario de prueba
 #esta configuracion debe ativarse cuando subimos a producción
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
