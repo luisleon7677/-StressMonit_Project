@@ -579,7 +579,12 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
     
 
-#esta otra configuracion es para modo desarrollo
-#if __name__ == "__main__":
-#    port = int(os.environ.get("PORT", 8000))
-#    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+#se encarga de definir el entorno de produccion y desarrollo
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    env = os.environ.get("APP_ENV", "development")  # ← Por defecto: development
+
+    if env == "production":
+        app.run(host="0.0.0.0", port=port)
+    else:
+        app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
