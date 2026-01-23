@@ -16,12 +16,32 @@ import time
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
 
+
+
 # Middleware para verificar autenticación
 @app.before_request
 def require_login():
+  
     allowed_routes = ['login', 'register', 'static']
     if request.endpoint not in allowed_routes and 'user_id' not in session:
         return redirect(url_for('login'))
+
+
+#version movil para monitoreo
+@app.route('/movil', methods=["GET", "POST"])
+def movil():
+    return render_template('login-movil.html', title='Login Movil')
+
+@app.route('/login_movil', methods=["POST"])
+def login_movil():
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "").strip()
+    print('username '+username)
+    print('password '+password)
+    #viene la consulta a base de datos
+
+
+    return render_template('login-movil.html', title='Login Movil')
 
 @app.route("/")
 def home():
@@ -573,18 +593,17 @@ def edit_profile():
 
 #ultima revision
 
-#esta configuracion debe ativarse cuando subimos a producción
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port)
-    
+    env = os.environ.get("APP_ENV", "development")  # development por defecto
 
-#se encarga de definir el entorno de produccion y desarrollo
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    env = os.environ.get("APP_ENV", "development")  # ← Por defecto: development
+    is_production = env == "production"
 
-    if env == "production":
-        app.run(host="0.0.0.0", port=port)
-    else:
-        app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+    app.run(
+        host="0.0.0.0",
+        port=port,
+        debug=not is_production,
+        use_reloader=not is_production
+    )
