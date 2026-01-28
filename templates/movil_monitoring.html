@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Actividades a monitorear</h1>
+    <p>empleado seleccionado: {{ user }}</p>
+    <h1>Lista de actividades</h1>
+    <table>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+        {% for activity in activities %}
+        <tr>
+            <td>{{ activity[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

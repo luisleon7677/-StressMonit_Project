@@ -32,16 +32,23 @@ def require_login():
 def movil():
     return render_template('login-movil.html', title='Login Movil')
 
-@app.route('/login_movil', methods=["POST"])
-def login_movil():
-    username = request.form.get("username", "").strip()
-    password = request.form.get("password", "").strip()
-    print('username '+username)
-    print('password '+password)
-    #viene la consulta a base de datos
+@app.route('/list_employees', methods=["GET"])
+def list_employees():
+    #id del administrador
+    id = session["user_id"]
+    #listar empleados
+    employees = listarQuerys("SELECT * FROM usuarios WHERE id_administrador = %s", (id,))
+    print(employees)
 
+    return render_template("list_employees.html", employees=employees)
 
-    return render_template('login-movil.html', title='Login Movil')
+@app.route('/movil_monitoring', methods=["GET", "POST"])
+def movil_monitoring():
+    user = request.args.get("user")
+    print(user)
+    activities = listarQuerys("SELECT * FROM actividades WHERE id_administrador = %s", (session["user_id"],))
+    print(activities)
+    return render_template('movil_monitoring.html', title='Movil Monitoring', user=user, activities=activities)
 
 @app.route("/")
 def home():
