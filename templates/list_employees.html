@@ -19,7 +19,7 @@
         <tr>
             <td>{{ employee[1] }}</td>
             <td>
-                <a href="{{ url_for('movil_monitoring', user=employee[1]) }}">Comenzar</a>
+                <a href="{{ url_for('movil_monitoring', user=employee[1], id_user=employee[0]) }}">Comenzar</a>
             </td>
         </tr>
         {% endfor %}

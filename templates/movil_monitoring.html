@@ -1,26 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movil Monitoring</title>
 </head>
 
 <body>
     <h1>Actividades a monitorear</h1>
-    <p>empleado seleccionado: {{ user }}</p>
-    <h1>Lista de actividades</h1>
-    <table>
+    <p>Empleado seleccionado: {{ user }}</p>
+    <p>ID del empleado: {{ id_user }}</p>
+
+    <script>
+        // Ideal: que llegues con ?id_user=15&user=Juan
+        const ID_USER = "{{ id_user or '' }}";
+        const USER_NAME = "{{ user or '' }}"; 
+    </script>
+
+    <h2>Lista de actividades (clic para monitorear)</h2>
+    <table border="1" cellpadding="6">
         <tr>
             <th>Nombre</th>
         </tr>
+
         {% for activity in activities %}
         <tr>
-            <td>{{ activity[1] }}</td>
+            <td>
+                <button type="button" onclick="cambiarActividad('{{ activity[0] }}', '{{ activity[1] }}')">
+                    {{ activity[1] }}
+                </button>
+            </td>
         </tr>
         {% endfor %}
     </table>
+
+    <h3>Actividad actual</h3>
+    <p id="actividadActual">Ninguna</p>
+
+    <h3>Tiempo</h3>
+    <p id="tiempo">0 segundos</p>
+
+    <button onclick="pausar()">Pausar</button>
+    <button onclick="reanudar()">Reanudar</button>
+    <button onclick="finalizar()">Finalizar</button>
+
+    <p id="estado"></p>
+
+    <script>
+        // Estado del monitoreo
+        let actividadActualId = null;
+        let actividadActualNombre = null;
+
+        // Timer
+        let segundos = 0;
+        let intervalo = null;
+        let enPausa = false;
+
+        function pintarTiempo() {
+            document.getElementById("tiempo").innerText = `${segundos} segundos`;
+        }
+
+        function iniciarConteo() {
+            // Evita duplicar intervalos
+            if (intervalo) return;
+
+            intervalo = setInterval(() => {
+                if (!enPausa) {
+                    segundos++;
+                    pintarTiempo();
+                }
+            }, 1000);
+        }
+
+        function detenerConteo() {
+            clearInterval(intervalo);
+            intervalo = null;
+        }
+
+        function resetConteo() {
+            segundos = 0;
+            pintarTiempo();
+        }
+
+        async function enviarPost(idActividad, tiempoSegundos) {
+            // Si no tienes id_user real, esto debe corregirse (idealmente mandarlo en querystring)
+            if (!ID_USER) {
+                console.warn("Falta id_user en la URL. Ej: /movil_monitoring?user=Juan&id_user=15");
+            }
+
+            const formData = new URLSearchParams();
+            formData.append("id_user", ID_USER);
+            formData.append("id_actividad", idActividad);
+            formData.append("tiempo", String(tiempoSegundos));
+            formData.append("user", USER_NAME); // 👈 nombre del empl
+            formData.append("nombre_actividad", nombreActividad); // 👈 nombre de actividad
+
+            const res = await fetch("/movil_monitoring", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: formData.toString()
+            });
+
+            // Si backend devuelve JSON:
+            // const data = await res.json();
+            // return data;
+
+            return res.ok;
+        }
+
+        async function cambiarActividad(nuevaId, nuevaNombre) {
+            try {
+                // Si ya había una actividad corriendo, manda el POST de la anterior con el tiempo acumulado
+                if (actividadActualId !== null) {
+                    document.getElementById("estado").innerText =
+                        `Guardando ${actividadActualNombre} (${segundos}s)...`;
+
+                    await enviarPost(actividadActualId, actividadActualNombre, segundos);
+
+                }
+
+                // Cambia actividad y reinicia tiempo
+                actividadActualId = nuevaId;
+                actividadActualNombre = nuevaNombre;
+                document.getElementById("actividadActual").innerText =
+                    `${actividadActualNombre} (ID: ${actividadActualId})`;
+
+                resetConteo();
+                enPausa = false; // opcional: cada cambio te saca de pausa
+                iniciarConteo();
+
+                document.getElementById("estado").innerText =
+                    `Monitoreando: ${actividadActualNombre}`;
+            } catch (e) {
+                console.error(e);
+                document.getElementById("estado").innerText =
+                    "Error enviando el monitoreo al cambiar de actividad.";
+            }
+        }
+
+        function pausar() {
+            enPausa = true;
+            document.getElementById("estado").innerText = "Pausado";
+        }
+
+        function reanudar() {
+            if (actividadActualId === null) {
+                alert("Selecciona una actividad primero.");
+                return;
+            }
+            enPausa = false;
+            iniciarConteo();
+            document.getElementById("estado").innerText = "Reanudado";
+        }
+
+        async function finalizar() {
+            try {
+                // Si hay una actividad activa, manda el POST final
+                if (actividadActualId !== null) {
+                    document.getElementById("estado").innerText =
+                        `Finalizando y guardando ${actividadActualNombre} (${segundos}s)...`;
+
+                    await enviarPost(actividadActualId, actividadActualNombre, segundos);
+
+                }
+
+                // Reset total
+                detenerConteo();
+                resetConteo();
+                actividadActualId = null;
+                actividadActualNombre = null;
+                enPausa = false;
+
+                document.getElementById("actividadActual").innerText = "Ninguna";
+                document.getElementById("estado").innerText = "Finalizado";
+            } catch (e) {
+                console.error(e);
+                document.getElementById("estado").innerText =
+                    "Error enviando el monitoreo al finalizar.";
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file, flash
+from flask import Flask, render_template, send_file, flash,session, jsonify
 from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad,recursosByIdVer,recursosByTitle
 from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -44,11 +44,43 @@ def list_employees():
 
 @app.route('/movil_monitoring', methods=["GET", "POST"])
 def movil_monitoring():
+    if request.method == "POST":
+        id_user = request.form.get("id_user")
+        id_actividad = request.form.get("id_actividad")
+        tiempo = request.form.get("tiempo")
+        nombre_user = request.form.get("user")
+        print("nombre_user::", nombre_user)
+        nombre_actividad = request.form.get("nombre_actividad")
+        print("nombre_actividad::", nombre_actividad)
+        #datos aleatorios
+        humedad= 23
+        Temperatura =10
+        pasos =4
+
+        estres = 10
+
+        id_administrador = session["user_id"]
+     
+        #registro en base de datos
+        # query = """
+        #     INSERT INTO proceso 
+        #     (id_usuario, id_actividad, tiempo) 
+        #     VALUES (%s, %s, %s);
+        # """
+        # insertarQuery(query, (id_user, id_actividad, tiempo))
+
+        # Aquí podrías guardar en DB si quieres
+        # insertarQuery("INSERT INTO monitoreo (...) VALUES (%s,%s,%s)", (...))
+
+        return jsonify({"ok": True})
+
     user = request.args.get("user")
-    print(user)
-    activities = listarQuerys("SELECT * FROM actividades WHERE id_administrador = %s", (session["user_id"],))
-    print(activities)
-    return render_template('movil_monitoring.html', title='Movil Monitoring', user=user, activities=activities)
+    id_user = request.args.get("id_user")  # ideal que lo mandes por query
+    activities = listarQuerys(
+        "SELECT * FROM actividades WHERE id_administrador = %s",
+        (session["user_id"],)
+    )
+    return render_template('movil_monitoring.html', title='Movil Monitoring', user=user, id_user=id_user, activities=activities)
 
 @app.route("/")
 def home():
