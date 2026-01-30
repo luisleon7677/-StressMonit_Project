@@ -39,7 +39,6 @@ def list_employees():
     id = session["user_id"]
     #listar empleados
     employees = listarQuerys("SELECT * FROM usuarios WHERE id_administrador = %s", (id,))
-    print(employees)
 
     return render_template("list_employees.html", employees=employees, pagina='monitoreo')
 
@@ -180,7 +179,6 @@ def inicio():
         
         # Obtiene la lista (ahora siempre lista, aunque vacía)
         usuarios = estresByUsers(session["user_id"])
-        print("Tipo de usuarios:", type(usuarios))
         
          # Columnas esperadas
         columnas = ['ID', 'Nombre', 'Actividad', 'Humedad', 'Temperatura', 'Pasos', 'Estres']
@@ -190,8 +188,6 @@ def inicio():
             flash("No hay datos de usuarios para mostrar.", "info")
             df = pd.DataFrame(columns=columnas)
         else:
-            print("Primer elemento:", usuarios[0])
-            print("Tipo de primer elemento:", type(usuarios[0]))
             df = pd.DataFrame(usuarios, columns=columnas)
             df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
         #Genero el mapa de calor con plotly
@@ -340,16 +336,13 @@ def recursosFind():
             print("La lista esta vacia")
             return render_template('recursos.html')
         else:
-            #print("la consulta fue exitosa")
-            #print(resultados)
+
             #organizamos la lista para enviarla a la tabla
             #convertimos la tupla en diccionario
             recursos =[
                 {'id':row[0],'titulo':row[1],'autor':row[2],'contenido':row[3]}
                 for row in resultados
             ]
-            #print("Este es el resulta de la tupla como diccionario:")
-            #print(recursos)
             return render_template('recursos.html',title="Recursos",resultados = recursos) #todo conforme, solo falta corregir lo del boton de ver
     except Exception as e:
         print("Ocurrio un error en la consulta: ", e)
