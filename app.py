@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file, flash
+from flask import Flask, render_template, send_file, flash,session, jsonify
 from src.querys import listarQuerys,insertarRecursos,eliminarRecurso,estresByUsers,crear_actividad,recursosByIdVer,recursosByTitle
 from flask import request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,16 +12,73 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
 
+
+
 # Middleware para verificar autenticación
 @app.before_request
 def require_login():
+  
     allowed_routes = ['login', 'register', 'static']
     if request.endpoint not in allowed_routes and 'user_id' not in session:
         return redirect(url_for('login'))
+
+
+#version movil para monitoreo
+@app.route('/movil', methods=["GET", "POST"])
+def movil():
+    return render_template('login-movil.html', title='Login Movil')
+
+@app.route('/list_employees', methods=["GET"])
+def list_employees():
+    #id del administrador
+    id = session["user_id"]
+    #listar empleados
+    employees = listarQuerys("SELECT * FROM usuarios WHERE id_administrador = %s", (id,))
+    print(employees)
+
+    return render_template("list_employees.html", employees=employees, pagina='monitoreo')
+
+@app.route('/movil_monitoring', methods=["GET", "POST"])
+def movil_monitoring():
+    if request.method == "POST":
+        id_user = request.form.get("id_user")
+        id_actividad = request.form.get("id_actividad")
+        duracion = request.form.get("tiempo")
+        nombre_usuario = request.form.get("user")
+        nombre_actividades = request.form.get("nombre_actividad")
+        fecha = datetime.now()
+        humedad= 23
+        temperatura =10
+        pasos =4
+        estres = 10
+        id_administrador = session["user_id"]
+
+        # Registro en base de datos
+        query = """
+            INSERT INTO proceso 
+            (id_usuario, id_actividad, duracion, fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades,nombre_usuario) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);
+        """
+        # Usamos int() para asegurar que los IDs y la duración lleguen como números a la DB
+        resultado = listarQuerys(query, (int(id_user), int(id_actividad), int(duracion), fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades,nombre_usuario))
+
+        if resultado:
+            return jsonify({"ok": True})
+        else:
+            return jsonify({"ok": False})
+
+    user = request.args.get("user")
+    id_user = request.args.get("id_user")
+    activities = listarQuerys(
+        "SELECT * FROM actividades WHERE id_administrador = %s",
+        (session["user_id"],)
+    )
+    return render_template('movil_monitoring.html', title='Movil Monitoring', user=user, id_user=id_user, activities=activities, pagina='monitoreo')
 
 @app.route("/")
 def home():
@@ -574,17 +631,18 @@ def edit_profile():
 #ultima revision
 #comentario de prueba
 #esta configuracion debe ativarse cuando subimos a producción
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port)
-    
+    env = os.environ.get("APP_ENV", "development")  # development por defecto
 
-#se encarga de definir el entorno de produccion y desarrollo
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    env = os.environ.get("APP_ENV", "development")  # ← Por defecto: development
+    is_production = env == "production"
 
-    if env == "production":
-        app.run(host="0.0.0.0", port=port)
-    else:
-        app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+    app.run(
+        host="0.0.0.0",
+        port=port,
+        debug=not is_production,
+        use_reloader=not is_production
+    )
