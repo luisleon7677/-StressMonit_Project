@@ -1,30 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="/static/usuarios.css">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<div class="usuarios-container">
+    <div class="titulo-principal">
+        <h1>Monitoreo de Empleados</h1>
+        <p>Seleccione un empleado para iniciar el monitoreo de actividades.</p>
+    </div>
 
-<body>
-    <h1>Lista de empleados</h1>
-    <p>Seleccione un empleado a monitorear</p>
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Acciones</th>
-        </tr>
-        {% for employee in employees %}
-        <tr>
-            <td>{{ employee[1] }}</td>
-            <td>
-                <a href="{{ url_for('movil_monitoring', user=employee[1], id_user=employee[0]) }}">Comenzar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-</body>
-
-</html>
+    <div class="tabla-responsive">
+        <table class="styled-table">
+            <thead>
+                <tr class="fila-principal">
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr class="fila-principal">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ employee[1] }}</td>
+                    <td>
+                        <a href="{{ url_for('movil_monitoring', user=employee[1], id_user=employee[0]) }}"
+                            class="btn-agregar" style="text-decoration: none; display: inline-block;">
+                            Comenzar Monitoreo
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

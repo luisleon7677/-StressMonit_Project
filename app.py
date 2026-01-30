@@ -41,7 +41,7 @@ def list_employees():
     employees = listarQuerys("SELECT * FROM usuarios WHERE id_administrador = %s", (id,))
     print(employees)
 
-    return render_template("list_employees.html", employees=employees)
+    return render_template("list_employees.html", employees=employees, pagina='monitoreo')
 
 @app.route('/movil_monitoring', methods=["GET", "POST"])
 def movil_monitoring():
@@ -78,7 +78,7 @@ def movil_monitoring():
         "SELECT * FROM actividades WHERE id_administrador = %s",
         (session["user_id"],)
     )
-    return render_template('movil_monitoring.html', title='Movil Monitoring', user=user, id_user=id_user, activities=activities)
+    return render_template('movil_monitoring.html', title='Movil Monitoring', user=user, id_user=id_user, activities=activities, pagina='monitoreo')
 
 @app.route("/")
 def home():

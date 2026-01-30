@@ -1,94 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-          crossorigin="anonymous">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-          
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="/static/soporte.css">
-    <link rel="stylesheet" href="/static/usuarios.css">
-    <link rel="stylesheet" href="/static/actividades.css">
-    <link rel="stylesheet" href="/static/recursos.css">
-    <link rel="stylesheet" href="/static/inicio.css">
-    
-    <!--Google fonts-->
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
-    </style>
 
-    <!-- Profile Slide CSS (MODIFICADO) -->
-    <link rel="stylesheet" href="/static/profile-slide.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/soporte.css">
+  <link rel="stylesheet" href="/static/usuarios.css">
+  <link rel="stylesheet" href="/static/actividades.css">
+  <link rel="stylesheet" href="/static/recursos.css">
+  <link rel="stylesheet" href="/static/inicio.css">
+
+  <!--Google fonts-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+  </style>
+
+  <!-- Profile Slide CSS (MODIFICADO) -->
+  <link rel="stylesheet" href="/static/profile-slide.css">
 
 
 
-    <title>{{ title }}</title>
+  <title>{{ title }}</title>
 </head>
+
 <body>
   <!-- Botón menú para pantallas pequeñas -->
   <div class="menu">
-  <ion-icon name="menu-outline"></ion-icon>
-  <ion-icon name="close-outline"></ion-icon>
-</div>
-  
+    <ion-icon name="menu-outline"></ion-icon>
+    <ion-icon name="close-outline"></ion-icon>
+  </div>
+
   <!-- Barra lateral -->
   <div class="barra-lateral">
-    
+
     <nav class="navegacion">
-  <ul>
-    <li>
-      <a href="/inicio"
-         class="{% if request.endpoint=='inicio' %}activo{% endif %}">
-        <span class="material-symbols-outlined">home  </span>  
-        Inicio
-      </a>
-    </li>
-    <li>
-      <a href="/usuarios"
-         class="{% if request.endpoint=='usuarios' %}activo{% endif %}">
-        <span class="material-symbols-outlined"> account_circle </span>
-        Usuarios
-      </a>
-    </li>
-    <li>
-      <a href="/actividades"
-         class="{% if request.endpoint=='actividades' %}activo{% endif %}">
-        <span class="material-symbols-outlined">leaderboard</span>
-        Actividades
-      </a>
-    </li>
-    <li>
-      <a href="/recursos"
-         class="{% if request.endpoint=='recursos' %}activo{% endif %}">
-        <span class="material-symbols-outlined">plagiarism</span>
-        Recursos
-      </a>
-    </li>
-    <li>
-      <a href="/soporte"
-         class="{% if request.endpoint=='soporte' %}activo{% endif %}">
-        <span class="material-symbols-outlined">help</span>
-        Soporte
-      </a>
-    </li>
-    <li>
-  <a href="/logout"
-     class="logout-link">
-    <span class="material-symbols-outlined">logout</span>
-    Cerrar Sesión
-  </a>
-</li>
-  </ul>
-</nav>
+      <ul>
+        <li>
+          <a href="/inicio" class="{% if request.endpoint=='inicio' %}activo{% endif %}">
+            <span class="material-symbols-outlined">home </span>
+            Inicio
+          </a>
+        </li>
+        <li>
+          <a href="/usuarios" class="{% if request.endpoint=='usuarios' %}activo{% endif %}">
+            <span class="material-symbols-outlined"> account_circle </span>
+            Usuarios
+          </a>
+        </li>
+        <li>
+          <a href="/actividades" class="{% if request.endpoint=='actividades' %}activo{% endif %}">
+            <span class="material-symbols-outlined">leaderboard</span>
+            Actividades
+          </a>
+        </li>
+        <li>
+          <a href="/recursos" class="{% if request.endpoint=='recursos' %}activo{% endif %}">
+            <span class="material-symbols-outlined">plagiarism</span>
+            Recursos
+          </a>
+        </li>
+        <li>
+          <a href="/list_employees"
+            class="{% if request.endpoint=='list_employees' or request.endpoint=='movil_monitoring' %}activo{% endif %}">
+            <span class="material-symbols-outlined">visibility</span>
+            Monitoreo
+          </a>
+        </li>
+        <li>
+          <a href="/soporte" class="{% if request.endpoint=='soporte' %}activo{% endif %}">
+            <span class="material-symbols-outlined">help</span>
+            Soporte
+          </a>
+        </li>
+        <li>
+          <a href="/logout" class="logout-link">
+            <span class="material-symbols-outlined">logout</span>
+            Cerrar Sesión
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 
   <!-- Contenedor principal -->
@@ -102,46 +103,52 @@
       <div class="btn-barra">
         <span class="mingcute--user-4-line" id="user-button"></span>
       </div>
-      
+
     </div>
-    
+
     <div class="barra-secundaria">
-      
+
       {% if pagina == 'inicio'%}
-        <div class="nav-barra">
-          <span class="ph--house-bold"></span>
-          <span class="texto">Inicio</span>
-        </div>
-        
+      <div class="nav-barra">
+        <span class="ph--house-bold"></span>
+        <span class="texto">Inicio</span>
+      </div>
+
       {% endif %}
       {% if pagina == 'usuarios'%}
-        <div class="nav-barra">
-          <span class="mingcute--user-4-line"></span>
-          <span class="texto">Usuarios</span>
-        </div>
+      <div class="nav-barra">
+        <span class="mingcute--user-4-line"></span>
+        <span class="texto">Usuarios</span>
+      </div>
       {% endif %}
       {% if pagina == 'actividades'%}
-        <div class="nav-barra">
-          <span class="ph--ranking-bold"></span>
-          <span class="texto">Actividades</span>
-        </div>
+      <div class="nav-barra">
+        <span class="ph--ranking-bold"></span>
+        <span class="texto">Actividades</span>
+      </div>
       {% endif %}
       {% if pagina == 'recursos'%}
-        <div class="nav-barra">
-          <span class="ph--file-magnifying-glass-bold"></span>
-          <span class="texto">Recursos</span>
-        </div>
+      <div class="nav-barra">
+        <span class="ph--file-magnifying-glass-bold"></span>
+        <span class="texto">Recursos</span>
+      </div>
       {% endif %}
       {% if pagina == 'soporte'%}
-        <div class="nav-barra">
-          <span class="mingcute--question-line"></span>
-          <span class="texto">Soporte</span>
-        </div>
+      <div class="nav-barra">
+        <span class="mingcute--question-line"></span>
+        <span class="texto">Soporte</span>
+      </div>
+      {% endif %}
+      {% if pagina == 'monitoreo'%}
+      <div class="nav-barra">
+        <span class="ph--monitor-bold"></span>
+        <span class="texto">Monitoreo</span>
+      </div>
       {% endif %}
 
-      
-      
-      
+
+
+
     </div>
 
     <!-- Aquí irá el contenido de cada página -->
@@ -168,11 +175,11 @@
       </div>
     </div>
   </div>
-    
-  
-    <!-- Iconos -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+  <!-- Iconos -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   <!-- Iconos de Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -185,25 +192,28 @@
     const panel = document.getElementById('user-slide');
     const close = document.getElementById('close-slide');
 
-    btn.addEventListener('click', ()=> panel.classList.toggle('open'));
-    close.addEventListener('click', ()=> panel.classList.remove('open'));
+    btn.addEventListener('click', () => panel.classList.toggle('open'));
+    close.addEventListener('click', () => panel.classList.remove('open'));
     panel.addEventListener('click', e => {
-      if (e.target===panel) panel.classList.remove('open');
+      if (e.target === panel) panel.classList.remove('open');
     });
   </script>
 
-  
-    <!--Poppper.js  is used for Popovers-->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!--Scrip for popovers in "inicio"-->
-    <script>
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-    </script>
+
+  <!--Poppper.js  is used for Popovers-->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <!--Scrip for popovers in "inicio"-->
+  <script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+  </script>
 
 
-   
+
 </body>
+
 </html>
