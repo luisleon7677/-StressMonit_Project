@@ -12,6 +12,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
@@ -47,35 +48,32 @@ def movil_monitoring():
     if request.method == "POST":
         id_user = request.form.get("id_user")
         id_actividad = request.form.get("id_actividad")
-        tiempo = request.form.get("tiempo")
-        nombre_user = request.form.get("user")
-        print("nombre_user::", nombre_user)
-        nombre_actividad = request.form.get("nombre_actividad")
-        print("nombre_actividad::", nombre_actividad)
-        #datos aleatorios
+        duracion = request.form.get("tiempo")
+        nombre_usuario = request.form.get("user")
+        nombre_actividades = request.form.get("nombre_actividad")
+        fecha = datetime.now()
         humedad= 23
-        Temperatura =10
+        temperatura =10
         pasos =4
-
         estres = 10
-
         id_administrador = session["user_id"]
-     
-        #registro en base de datos
-        # query = """
-        #     INSERT INTO proceso 
-        #     (id_usuario, id_actividad, tiempo) 
-        #     VALUES (%s, %s, %s);
-        # """
-        # insertarQuery(query, (id_user, id_actividad, tiempo))
 
-        # Aquí podrías guardar en DB si quieres
-        # insertarQuery("INSERT INTO monitoreo (...) VALUES (%s,%s,%s)", (...))
+        # Registro en base de datos
+        query = """
+            INSERT INTO proceso 
+            (id_usuario, id_actividad, duracion, fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades,nombre_usuario) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);
+        """
+        # Usamos int() para asegurar que los IDs y la duración lleguen como números a la DB
+        resultado = listarQuerys(query, (int(id_user), int(id_actividad), int(duracion), fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades,nombre_usuario))
 
-        return jsonify({"ok": True})
+        if resultado:
+            return jsonify({"ok": True})
+        else:
+            return jsonify({"ok": False})
 
     user = request.args.get("user")
-    id_user = request.args.get("id_user")  # ideal que lo mandes por query
+    id_user = request.args.get("id_user")
     activities = listarQuerys(
         "SELECT * FROM actividades WHERE id_administrador = %s",
         (session["user_id"],)

@@ -83,7 +83,7 @@
             pintarTiempo();
         }
 
-        async function enviarPost(idActividad, tiempoSegundos) {
+        async function enviarPost(idActividad, nombreActividad, tiempoSegundos) {
             // Si no tienes id_user real, esto debe corregirse (idealmente mandarlo en querystring)
             if (!ID_USER) {
                 console.warn("Falta id_user en la URL. Ej: /movil_monitoring?user=Juan&id_user=15");
