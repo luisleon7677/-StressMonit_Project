@@ -13,6 +13,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time
 from datetime import datetime
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
@@ -26,6 +27,32 @@ def require_login():
     allowed_routes = ['login', 'register', 'static']
     if request.endpoint not in allowed_routes and 'user_id' not in session:
         return redirect(url_for('login'))
+
+
+@app.route('/configurate_iot', methods=["GET", "POST"])
+def configurate_iot():
+    if request.method == "POST":
+        ip_dispositivo = request.form.get("ip")
+        if not ip_dispositivo:
+            flash("Por favor ingrese una dirección IP", "warning")
+            return render_template('configurate_iot.html', title='Configuración IoT', pagina='monitoreo')
+            
+        # Creamos la consulta post a una api
+        url = "http://" + ip_dispositivo + "/sensores"
+        try:
+            response = requests.post(url, timeout=5)
+            if response.status_code == 200:
+                flash("dispositivo conectado", "success")
+                # Guardamos la IP en sesión por si se necesita más adelante
+                session['device_ip'] = ip_dispositivo
+                return redirect(url_for('list_employees'))
+            else:
+                flash("dispositivo no logro conexión", "danger")
+        except Exception as e:
+            print(f"Error de conexión: {e}")
+            flash("dispositivo no logro conexión", "danger")
+            
+    return render_template('configurate_iot.html', title='Configuración IoT', pagina='monitoreo')
 
 
 #version movil para monitoreo
@@ -51,20 +78,42 @@ def movil_monitoring():
         nombre_usuario = request.form.get("user")
         nombre_actividades = request.form.get("nombre_actividad")
         fecha = datetime.now()
-        humedad= 23
-        temperatura =10
-        pasos =4
+        # Valores por defecto
+        humedad = 0
+        temperatura = 0
+        pasos = 0
         estres = 1
+        
+        # Consultar sensores IoT si hay un dispositivo conectado
+        ip_dispositivo = session.get('device_ip')
+        if ip_dispositivo:
+            try:
+                url = f"http://{ip_dispositivo}/sensores"
+                response = requests.get(url, timeout=3)
+                if response.status_code == 200:
+                    data = response.json()
+                    humedad = data.get('humedad', 0)
+                    temperatura = data.get('temperatura', 0)
+                    accel = data.get('aceleracion', {})
+                    # Promedio de x, y, z para el conteo de "pasos" según requerimiento
+                    x = accel.get('x', 0)
+                    y = accel.get('y', 0)
+                    z = accel.get('z', 0)
+                    pasos = round((abs(x) + abs(y) + abs(z)) / 3, 2)
+                    print(f"Datos IoT recibidos: Hum:{humedad}, Temp:{temperatura}, Pasos(prom):{pasos}")
+            except Exception as e:
+                print(f"Error al obtener datos del sensor: {e}")
+
         id_administrador = session["user_id"]
 
         # Registro en base de datos
         query = """
             INSERT INTO proceso 
-            (id_usuario, id_actividad, duracion, fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades,nombre_usuario) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);
+            (id_usuario, id_actividad, duracion, fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades, nombre_usuario) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
-        # Usamos int() para asegurar que los IDs y la duración lleguen como números a la DB
-        resultado = listarQuerys(query, (int(id_user), int(id_actividad), int(duracion), fecha, humedad, temperatura, pasos, estres, id_administrador, nombre_actividades,nombre_usuario))
+        # Usamos float() para sensores y int() para IDs
+        resultado = listarQuerys(query, (int(id_user), int(id_actividad), int(duracion), fecha, float(humedad), float(temperatura), float(pasos), int(estres), id_administrador, nombre_actividades, nombre_usuario))
 
         if resultado:
             return jsonify({"ok": True})

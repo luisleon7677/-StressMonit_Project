@@ -73,8 +73,8 @@
           </a>
         </li>
         <li>
-          <a href="/list_employees"
-            class="nav-link-custom {% if request.endpoint=='list_employees' or request.endpoint=='movil_monitoring' %}activo{% endif %}">
+          <a href="/configurate_iot"
+            class="nav-link-custom {% if request.endpoint in ['list_employees', 'movil_monitoring', 'configurate_iot'] %}activo{% endif %}">
             <span class="material-symbols-outlined">monitoring</span>
             <span class="nav-text">Monitoreo</span>
           </a>

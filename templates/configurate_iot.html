@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card-custom border-0 shadow-sm p-4 text-center">
+                <div class="icon-box mx-auto mb-4"
+                    style="width: 80px; height: 80px; background: rgba(74, 105, 189, 0.1); border-radius: 24px; display: flex; justify-content: center; align-items: center;">
+                    <span class="material-symbols-outlined"
+                        style="font-size: 40px; color: #4A69BD;">settings_input_antenna</span>
+                </div>
+
+                <h2 class="fw-bold mb-3" style="color: #2d3436;">Configuración IoT</h2>
+                <p class="text-muted mb-4">Ingresa la dirección IP de tu dispositivo para vincularlo al sistema de
+                    monitoreo.</p>
+
+                <!-- Mensajes Flash -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show border-0 rounded-3 mb-4"
+                    role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('configurate_iot') }}" method="POST">
+                    <div class="mb-4 text-start">
+                        <label for="ip" class="form-label small fw-bold text-uppercase ls-wide text-muted">IP del
+                            Dispositivo</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0"><span class="material-symbols-outlined"
+                                    style="font-size: 20px;">router</span></span>
+                            <input type="text" class="form-control bg-light border-0 shadow-none py-2" name="ip" id="ip"
+                                placeholder="Ej: 192.168.1.10" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-3 shadow-sm"
+                        style="background: #4A69BD; border: none;">
+                        Vincular Dispositivo
+                    </button>
+                </form>
+
+                <div class="mt-4 pt-3 border-top">
+                    <div class="d-flex align-items-center justify-content-center gap-2 opacity-50">
+                        <span class="material-symbols-outlined small">verified_user</span>
+                        <span class="x-small fw-bold text-uppercase">Mindra Secure Link</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-custom {
+        background: #ffffff;
+        border-radius: 20px;
+    }
+
+    .ls-wide {
+        letter-spacing: 0.05em;
+    }
+
+    .x-small {
+        font-size: 0.7rem;
+    }
+</style>
+{% endblock %}
