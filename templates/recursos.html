@@ -21,21 +21,14 @@
     <td>
       <div class="text-truncate" style="max-width: 400px;">{{ recurso.contenido }}</div>
     </td>
-    <td class="text-center">
-      <div class="dropdown">
-        <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
-          <span class="material-symbols-outlined">more_vert</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-          <li>
-            <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method="POST"
-              onsubmit="return confirm('¿Eliminar este recurso?');">
-              <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
-                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Eliminar
-              </button>
-            </form>
-          </li>
-        </ul>
+    <td class="text-center acciones-cell">
+      <div class="d-flex align-items-center justify-content-center gap-1">
+        <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method="POST" class="d-inline"
+          onsubmit="return confirm('¿Eliminar este recurso?');">
+          <button type="submit" class="btn-accion-icon btn-accion-eliminar" title="Eliminar">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </form>
       </div>
     </td>
   </tr>

@@ -27,30 +27,18 @@
       <span class="badge bg-danger-subtle text-danger px-3">Alto</span>
       {% endif %}
     </td>
-    <td class="text-center">
-      <div class="dropdown">
-        <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
-          <span class="material-symbols-outlined">more_vert</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2"
-              href="{{ url_for('editar_actividad', id=actividad[0]) }}">
-              <span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Editar
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li>
-            <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" method="POST"
-              onsubmit="return confirm('¿Eliminar esta actividad?');">
-              <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
-                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Eliminar
-              </button>
-            </form>
-          </li>
-        </ul>
+    <td class="text-center acciones-cell">
+      <div class="d-flex align-items-center justify-content-center gap-1">
+        <a href="{{ url_for('editar_actividad', id=actividad[0]) }}" class="btn-accion-icon btn-accion-editar"
+          title="Editar">
+          <span class="material-symbols-outlined">edit</span>
+        </a>
+        <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" method="POST" class="d-inline"
+          onsubmit="return confirm('¿Eliminar esta actividad?');">
+          <button type="submit" class="btn-accion-icon btn-accion-eliminar" title="Eliminar">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </form>
       </div>
     </td>
   </tr>

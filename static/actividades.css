@@ -44,8 +44,7 @@
 /* ─── Estilos para columna “Acciones” ───────────────────────── */
 .styled-table th:last-child,
 .styled-table td.acciones-cell {
-  /* Aseguramos espacio mínimo para dos botones side-by-side */
-  min-width: 240px;
+  min-width: 90px;
 }
 
 /* Cabecera con título + botón */

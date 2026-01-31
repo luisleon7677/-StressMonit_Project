@@ -97,7 +97,8 @@ def estresByUsers(id_admin):
         query = """
         SELECT id, nombre_usuario, nombre_actividades, humedad, temperatura, pasos, estres 
         FROM proceso 
-        WHERE id_administrador = %s;
+        WHERE id_administrador = %s
+        ORDER BY id DESC;
         """
         cursor.execute(query, (id_admin,))
         resultados = cursor.fetchall()

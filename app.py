@@ -54,7 +54,7 @@ def movil_monitoring():
         humedad= 23
         temperatura =10
         pasos =4
-        estres = 10
+        estres = 1
         id_administrador = session["user_id"]
 
         # Registro en base de datos
@@ -194,13 +194,14 @@ def inicio():
         fig = px.imshow(df if not df.empty else [[None]],
                     labels=dict(x="Nombre del Empleado", y="Actividad", color="Intensidad"),
                     text_auto=".1f", 
+                    range_color=[0, 2],  # Escala: 0 = estrés bajo, 2 = estrés alto
                     color_continuous_scale=[
-                        [0.0, "#f1f5f9"],  # Casi blanco para bajo estrés
-                        [0.5, "#4A69BD"],  # Azul Mindra para medio
-                        [1.0, "#2d3436"]   # Navy profundo para alerta máxima
+                        [0.0, "#f1f5f9"],  # Casi blanco para estrés bajo (0)
+                        [0.5, "#4A69BD"],  # Azul Mindra para medio (1)
+                        [1.0, "#2d3436"]   # Navy profundo para estrés alto (2)
                     ],
                     aspect='auto',
-                    title="Distribución de Estrés por Equipo")
+                    title="Distribución de Estrés por Actividades")
         
         #ajuste de textos
         # Ajustar estilo de textos

@@ -1,4 +1,10 @@
 
+/* Leyenda de intensidad: asegurar texto visible */
+.leyenda-intensidad button,
+.leyenda-intensidad button span:not(.material-symbols-outlined) {
+  color: #1E1E1E !important;
+}
+
 .Monitoreo-estres{
     color: #1E1E1E;
 }
@@ -32,6 +38,14 @@
 }
 #tablaInicio th{
     background-color: #FCFCFC; /*COLOR DE LA CABEZERA*/
+}
+/* Alinear columna Intensidad: cabecera y valores centrados */
+#tablaInicio th:last-child,
+#tablaInicio td:last-child {
+    text-align: center;
+}
+#tablaInicio td:last-child .badge {
+    display: inline-block;
 }
 .estres-verde {
     background-color: #d4edda;

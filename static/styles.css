@@ -845,3 +845,36 @@ td {
 .x-small {
   font-size: 0.7rem;
 }
+
+/* Iconos de acción en tablas (Recursos, Usuarios, Actividades) */
+.btn-accion-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-accion-icon .material-symbols-outlined {
+  font-size: 20px;
+}
+.btn-accion-icon:hover {
+  background: rgba(74, 105, 189, 0.1);
+  color: var(--primary);
+}
+.btn-accion-editar {
+  text-decoration: none;
+}
+.btn-accion-eliminar:hover {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+.styled-table td.acciones-cell {
+  min-width: 90px;
+}
