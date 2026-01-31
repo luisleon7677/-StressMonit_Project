@@ -1,135 +1,112 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
+{% from "macros.html" import render_table, empty_state %}
 
-{% block content%}
+{% block content %}
+<div class="recursos-container">
+  <div class="titulo-principal d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Gestión de Recursos</h1>
+    <a href="/recursos/registrar" class="btn-primary-custom shadow-sm">
+      <span class="material-symbols-outlined">library_add</span>
+      Nuevo Recurso
+    </a>
+  </div>
 
-<div class="titulo-principal">
-    <h1>Recursos</h1>
-</div>
-<div id="modalTab" class="modal">
-  <button  id="modal" class="close-modal">X</button>
-  <h1>{{titulo}}</h1>
-  <p>{{contenido}}</p>
-  <h6>{{autor}}</h6>
-  
-</div>
+  {% if resultados %}
+  {% call render_table(["ID", "Título", "Autor", "Contenido", "Acciones"], table_id="tablaRecursos") %}
+  {% for recurso in resultados %}
+  <tr>
+    <td><span class="badge bg-light text-dark">{{ recurso.id }}</span></td>
+    <td class="fw-medium">{{ recurso.titulo }}</td>
+    <td class="text-muted">{{ recurso.autor }}</td>
+    <td>
+      <div class="text-truncate" style="max-width: 400px;">{{ recurso.contenido }}</div>
+    </td>
+    <td class="text-center">
+      <div class="dropdown">
+        <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+          <li>
+            <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method="POST"
+              onsubmit="return confirm('¿Eliminar este recurso?');">
+              <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Eliminar
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  {% endcall %}
+  {% else %}
+  {{ empty_state("No se encontraron recursos") }}
+  {% endif %}
 
-
-
-<div class="container-recursos">
-
-    <div class="titulo">
-        <h3>Articulos de estres</h3>
-    </div>
-    <div class="contenido">
-        <!--This button have update the table with a list where to be titles with names-->
-        <form action="{{ url_for('recursosFind')}}" class="d-flex" role="search" >
-          <input class="form-control me-2" type="search" name="titulo" placeholder="Titulo" aria-label="Search"/>
-        
-          <button class="btn" id="btn-search-resource" type="submit">Search</button>
-        </form>
-
-
-
-        <table class="table custom-table" id="tablaRecursos">
-            <thead>
-              <tr class="table-light" id="lightt">
-                <th scope="col">ID</th>
-                <th scope="col">Titulo</th>
-                <th scope="col">Autor</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tablaBody">
-            {% for recurso in resultados %}
-              <tr >
-                <th scope="row">{{recurso.id}}</th>
-                <td>{{recurso.titulo}}</td>
-                <td>{{recurso.autor}}</td>
-                <td >
-                  <div class="column-btns">
-                    <form action="{{ url_for('eliminar_recursos', id=recurso.id) }}" method = "post">
-                      <button class="btn-recursos" onclick="return ConfirmDelete()">Eliminar</button> <!--La funcionalidad es correcta, solo faltan mejorar estilos-->
-                    </form>
-                    <form action="{{ url_for('obtenerRecursoById', id=recurso.id) }}" method = "post" class="btnVer">
-                      <button class="btn-recursos">Ver</button>
-                    </form>
-                  
-                  </div>
-                  
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-            
-          </table>
-          <!--Navegacion en paginacion-->
-          <nav>
-            <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
-          </nav>
-          
-    </div>
-    <div class="boton">
-        <a href="/recursos/registrar">
-            <button>Agregar</button>
-        </a>
-    </div>
-  
-
-    
 </div>
 
 <script>
-  function ConfirmDelete(){
-    var respuesta = confirm("¿Estas seguro que sedeas Eliminar este recurso?");
-    if(respuesta == true){
-      return true;
-    }
-    else{
-      return false;
-    }
+  function ConfirmDelete() {
+    return confirm("¿Estas seguro que deseas eliminar este recurso?");
   }
-  <!--Script para la paginacion-->
+
   const filasPorPagina = 5;
   let paginaActual = 1;
 
   function paginarTabla() {
-    const tabla = document.getElementById('tablaRecursos');
     const cuerpo = document.getElementById('tablaBody');
+    if (!cuerpo) return;
     const filas = Array.from(cuerpo.querySelectorAll('tr'));
     const totalPaginas = Math.ceil(filas.length / filasPorPagina);
 
-    // Ocultar todas las filas
     filas.forEach(fila => fila.style.display = 'none');
-
-    // Mostrar solo las filas correspondientes a la página actual
     const inicio = (paginaActual - 1) * filasPorPagina;
     const fin = inicio + filasPorPagina;
     filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
 
-    // Generar paginación
+    renderPaginacion(totalPaginas);
+  }
+
+  function renderPaginacion(total) {
     const paginacion = document.getElementById('paginacionTabla');
+    if (!paginacion) return;
     paginacion.innerHTML = '';
 
-    for (let i = 1; i <= totalPaginas; i++) {
+    if (total <= 1) return;
+
+    // Botón Anterior
+    const liPrev = document.createElement('li');
+    liPrev.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+    liPrev.innerHTML = `<button class="page-link page-link-custom">‹</button>`;
+    liPrev.onclick = () => { if (paginaActual > 1) { paginaActual--; paginarTabla(); } };
+    paginacion.appendChild(liPrev);
+
+    // Páginas
+    let startPage = Math.max(1, paginaActual - 1);
+    let endPage = Math.min(total, startPage + 2);
+    if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
+
+    for (let i = startPage; i <= endPage; i++) {
       const li = document.createElement('li');
       li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
       const btn = document.createElement('button');
       btn.className = 'page-link page-link-custom';
       btn.textContent = i;
-      btn.addEventListener('click', () => {
-        paginaActual = i;
-        paginarTabla();
-      });
-
+      btn.onclick = () => { paginaActual = i; paginarTabla(); };
       li.appendChild(btn);
       paginacion.appendChild(li);
     }
+
+    // Botón Siguiente
+    const liNext = document.createElement('li');
+    liNext.className = `page-item ${paginaActual === total ? 'disabled' : ''}`;
+    liNext.innerHTML = `<button class="page-link page-link-custom">›</button>`;
+    liNext.onclick = () => { if (paginaActual < total) { paginaActual++; paginarTabla(); } };
+    paginacion.appendChild(liNext);
   }
 
-  // Ejecutar al cargar la página
   document.addEventListener('DOMContentLoaded', paginarTabla);
 </script>
-
-
-
-{%endblock%}
+{% endblock %}

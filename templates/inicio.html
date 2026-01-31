@@ -1,119 +1,207 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
+{% from "macros.html" import render_table, empty_state %}
 
-{% block content%}
-
- 
-<div class="container-fluid inicio">
-
-  <!-- <h1 class="Monitoreo-estres">Monitoreo Estrés</h1> -->
-
-  <div class="mapa-calor">
-    <iframe src="{{ url_for('static', filename='heatmap_interactivo.html') }}"></iframe>
-  </div> 
-
-  <!--Card with information about stress levels-->
-  <div class="card mt-3 mb-3">
-    <div class="card-header">
-      Leyenda de valores
+{% block content %}
+<div class="dashboard-container">
+  <!-- Quick Stats / Overview Section -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card-custom border-0 shadow-sm d-flex flex-column align-items-center text-center py-4">
+        <span class="material-symbols-outlined text-primary mb-2" style="font-size: 2.5rem;">vital_signs</span>
+        <h4 class="h2 fw-bold mb-0">{{ usuarios|length }}</h4>
+        <span class="text-muted small fw-medium">Registros Hoy</span>
+      </div>
     </div>
-    <div class="card-body">
-      <p class="card-text">Los niveles de estrés estan categorizados por colores, desde <br> el nivel bajo hasta el nivel más alto van variando en una escala de color.</p>
-      <button type="button" id="btn-estres-bajo" class="btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Es una metríca aceptable y nos dice que el empleado no se siente muy estresado al realizar la actividad.">
-        Bajo Estrés(0)
-      </button>
-      <button type="button" class="btn" id="btn-estres-medio" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Es un estrés normal y no se considera riesgoso.">
-        Moderado Estrés(1)
-      </button>
-      <button type="button" class="btn" id="btn-estres-alto" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Es una alerta de que la actividad es muy estresante para el empleado, si esto se repite en varios empleados el problema es la actividad, si no es posible que sea solo en el empleado y se debe tratar de manera personal.">
-        Alto Estrés(2)
-      </button>
-      <button type="button" class="btn" id="btn-estres-not" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="No se ha realizado aún un monitoreo del usuario con dicha actividad.">
-        Sin registro
-      </button>
+    <div class="col-md-3">
+      <div class="card-custom border-0 shadow-sm d-flex flex-column align-items-center text-center py-4">
+        <span class="material-symbols-outlined text-success mb-2"
+          style="font-size: 2.5rem;">sentiment_very_satisfied</span>
+        <h4 class="h2 fw-bold mb-0">{% set count = 0 %}{% for u in usuarios %}{% if u[6] == 0 %}{% set count = count + 1
+          %}{% endif %}{% endfor %}{{ count }}</h4>
+        <span class="text-muted small fw-medium">Nivel Bajo</span>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card-custom border-0 shadow-sm d-flex flex-column align-items-center text-center py-4">
+        <span class="material-symbols-outlined text-warning mb-2" style="font-size: 2.5rem;">sentiment_neutral</span>
+        <h4 class="h2 fw-bold mb-0">{% set count = 0 %}{% for u in usuarios %}{% if u[6] == 1 %}{% set count = count + 1
+          %}{% endif %}{% endfor %}{{ count }}</h4>
+        <span class="text-muted small fw-medium">Nivel Moderado</span>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card-custom border-0 shadow-sm d-flex flex-column align-items-center text-center py-4">
+        <span class="material-symbols-outlined text-danger mb-2"
+          style="font-size: 2.5rem;">sentiment_very_dissatisfied</span>
+        <h4 class="h2 fw-bold mb-0">{% set count = 0 %}{% for u in usuarios %}{% if u[6]|int == 2 %}{% set count = count
+          + 1
+          %}{% endif %}{% endfor %}{{ count }}</h4>
+        <span class="text-muted small fw-medium">Nivel Crítico</span>
+      </div>
     </div>
   </div>
 
+  <div class="row mobile-stack g-4">
+    <!-- Map Section -->
+    <div class="col-lg-8">
+      <div class="card-custom border-0 shadow-sm p-0 overflow-hidden mb-4">
+        <div class="card-header bg-white py-3 px-4 d-flex align-items-center justify-content-between border-bottom">
+          <h5 class="fw-bold mb-0 small text-uppercase ls-wide">Mapa de Calor Interactivo</h5>
+          <span class="badge bg-primary-subtle text-primary">Live</span>
+        </div>
+        <div class="mapa-calor" style="height: 500px; min-width: 320px;">
+          <iframe src="{{ url_for('static', filename='heatmap_interactivo.html') }}"
+            style="border:0; width:100%; height:100%;"></iframe>
+        </div>
+      </div>
+    </div>
 
-<div class="tabla-responsive">
-  <table class="table" id="tablaInicio">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Usuario</th>
-        <th scope="col">Actividad</th>
-        <th scope="col">Humedad</th>
-        <th scope="col">Temperatura</th>
-        <th scope="col">Pasos</th>
-        <th scope="col">Estres</th>
-      </tr>
-    </thead>
-    <tbody id="tablaBody">
-        <!-- Iterar sobre los usuarios y mostrarlos en filas de la tabla -->
-        {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario[0] }}</td>  <!-- ID -->
-            <td>{{ usuario[1] }}</td>  <!-- Usuario -->
-            <td>{{ usuario[2] }}</td>  <!-- Actividad -->
-            <td>{{ usuario[3] }}</td>  <!-- Humedad -->
-            <td>{{ usuario[4] }}</td>  <!-- Temperatura -->
-            <td>{{ usuario[5] }}</td>  <!-- Pasos -->
-            <td>{{ usuario[6] }}</td>  <!-- Estrés -->
-        </tr>
-        {% endfor %}
-    
-    </tbody>
-  </table>
-  <!--Navegacion en paginacion-->
-  <nav class="nav-pagination">
-    <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
-  </nav>
+    <!-- Legend & Info Section -->
+    <div class="col-lg-4">
+      <div class="card-custom border-0 shadow-sm h-100 mb-4 p-4">
+        <h6 class="fw-bold mb-4 small text-uppercase ls-wide text-muted">Leyenda de Intensidad</h6>
+        <p class="text-muted small mb-4">La intensidad del color representa el nivel de carga mental detectado.</p>
+
+        <div class="d-grid gap-3">
+          <button type="button"
+            class="btn btn-light d-flex align-items-center justify-content-between p-3 border-0 bg-light-subtle rounded-3"
+            data-bs-toggle="popover" data-bs-title="Estado Óptimo"
+            data-bs-content="Zona de confort: el flujo de trabajo es adecuado.">
+            <div class="d-flex align-items-center gap-3">
+              <span class="rounded-circle" style="width: 12px; height: 12px; background: #cbd5e1;"></span>
+              <span class="fw-semibold small">Baja Intensidad</span>
+            </div>
+            <span class="material-symbols-outlined text-muted" style="font-size: 18px;">info</span>
+          </button>
+
+          <button type="button"
+            class="btn btn-light d-flex align-items-center justify-content-between p-3 border-0 bg-light-subtle rounded-3"
+            data-bs-toggle="popover" data-bs-title="Carga Moderada"
+            data-bs-content="Esfuerzo mental estándar para la actividad.">
+            <div class="d-flex align-items-center gap-3">
+              <span class="rounded-circle" style="width: 12px; height: 12px; background: #64748b;"></span>
+              <span class="fw-semibold small">Carga Moderada</span>
+            </div>
+            <span class="material-symbols-outlined text-muted" style="font-size: 18px;">info</span>
+          </button>
+
+          <button type="button"
+            class="btn btn-light d-flex align-items-center justify-content-between p-3 border-0 bg-light-subtle rounded-3"
+            data-bs-toggle="popover" data-bs-title="Alerta de Carga"
+            data-bs-content="Requiere atención: altos niveles de fatiga o carga mental.">
+            <div class="d-flex align-items-center gap-3">
+              <span class="rounded-circle" style="width: 12px; height: 12px; background: #334155;"></span>
+              <span class="fw-semibold small">Alerta de Carga</span>
+            </div>
+            <span class="material-symbols-outlined text-muted" style="font-size: 18px;">info</span>
+          </button>
+        </div>
+
+        <div class="mt-5 pt-4 text-center border-top">
+          <div class="d-flex align-items-center justify-content-center gap-2 opacity-50">
+            <span class="material-symbols-outlined small">verified_user</span>
+            <span class="x-small fw-bold text-uppercase">Mindra Analysis System</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-    
 
 
+
+<div class="row">
+  <div class="col-12 mt-4">
+    <div class="titulo-principal mb-3">
+      <h2 class="h4 fw-bold">Detalle de Registros Recientes</h2>
+    </div>
+
+    {% if usuarios %}
+    {% call render_table(["ID", "Empleado", "Actividad", "Humedad", "Temperatura", "Pasos", "Intensidad"],
+    table_id="tablaInicio") %}
+    {% for usuario in usuarios %}
+    <tr>
+      <td class="text-muted small">{{ usuario[0] }}</td>
+      <td class="fw-semibold">{{ usuario[1] }}</td>
+      <td>{{ usuario[2] }}</td>
+      <td class="text-center">{{ usuario[3] }}%</td>
+      <td class="text-center">{{ usuario[4] }}°C</td>
+      <td class="text-center">{{ usuario[5] }}</td>
+      <td class="text-center">
+        {% set val = usuario[6]|int %}
+        <span
+          class="badge {% if val >= 2 %}bg-dark{% elif val >= 1 %}bg-secondary{% else %}bg-light text-dark{% endif %} rounded-pill px-3">
+          {{ val }}
+        </span>
+      </td>
+    </tr>
+    {% endfor %}
+    {% endcall %}
+    {% else %}
+    {{ empty_state("No hay registros de actividad hoy") }}
+    {% endif %}
+  </div>
 </div>
+</div>
+
+
 
 <script>
-  <!--Script para la paginacion-->
-  const filasPorPagina = 15;
+  const filasPorPagina = 10; // Reducido un poco para mejor visualización en móvil
   let paginaActual = 1;
 
   function paginarTabla() {
-    const tabla = document.getElementById('tablaInicio');
     const cuerpo = document.getElementById('tablaBody');
     const filas = Array.from(cuerpo.querySelectorAll('tr'));
     const totalPaginas = Math.ceil(filas.length / filasPorPagina);
 
-    // Ocultar todas las filas
     filas.forEach(fila => fila.style.display = 'none');
-
-    // Mostrar solo las filas correspondientes a la página actual
     const inicio = (paginaActual - 1) * filasPorPagina;
     const fin = inicio + filasPorPagina;
     filas.slice(inicio, fin).forEach(fila => fila.style.display = '');
 
-    // Generar paginación
+    renderPaginacion(totalPaginas);
+  }
+
+  function renderPaginacion(total) {
     const paginacion = document.getElementById('paginacionTabla');
     paginacion.innerHTML = '';
 
-    for (let i = 1; i <= totalPaginas; i++) {
+    if (total <= 1) return;
+
+    // Botón Anterior
+    const liPrev = document.createElement('li');
+    liPrev.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+    liPrev.innerHTML = `<button class="page-link page-link-custom">‹</button>`;
+    liPrev.onclick = () => { if (paginaActual > 1) { paginaActual--; paginarTabla(); } };
+    paginacion.appendChild(liPrev);
+
+    // Páginas
+    let startPage = Math.max(1, paginaActual - 1);
+    let endPage = Math.min(total, startPage + 2);
+    if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
+
+    for (let i = startPage; i <= endPage; i++) {
       const li = document.createElement('li');
       li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
       const btn = document.createElement('button');
       btn.className = 'page-link page-link-custom';
       btn.textContent = i;
-      btn.addEventListener('click', () => {
-        paginaActual = i;
-        paginarTabla();
-      });
-
+      btn.onclick = () => { paginaActual = i; paginarTabla(); };
       li.appendChild(btn);
       paginacion.appendChild(li);
     }
+
+    // Botón Siguiente
+    const liNext = document.createElement('li');
+    liNext.className = `page-item ${paginaActual === total ? 'disabled' : ''}`;
+    liNext.innerHTML = `<button class="page-link page-link-custom">›</button>`;
+    liNext.onclick = () => { if (paginaActual < total) { paginaActual++; paginarTabla(); } };
+    paginacion.appendChild(liNext);
   }
 
-  // Ejecutar al cargar la página
   document.addEventListener('DOMContentLoaded', paginarTabla);
 </script>
+
 
 {%endblock%}

@@ -1,142 +1,181 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_table, empty_state %}
+
 {% block content %}
-<link rel="stylesheet" href="/static/usuarios.css">
-
 <div class="usuarios-container">
-  <!-- Título + botón Crear arriba a la derecha -->
-  <div class="titulo-principal">
-    <h1>Lista de Usuarios</h1>
-    <a href="{{ url_for('crear_usuario_route') }}" class="btn-agregar">+ Crear usuario</a>
+  <div class="titulo-principal d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Lista de Usuarios</h1>
+    <a href="{{ url_for('crear_usuario_route') }}" class="btn-primary-custom shadow-sm">
+      <span class="material-symbols-outlined">person_add</span>
+      Crear usuario
+    </a>
   </div>
 
-  <div class="tabla-responsive">
-    <table class="styled-table" id="tablaUsuarios">
-      <thead>
-        <tr class="fila-principal">
-          <th>#</th>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Usuario</th>
-          <th>Contraseña</th>
-          <th>Estrés Promedio</th>
-          <th>Actividades</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaBody">
-        {% for usuario in usuarios %}
-        <tr class="fila-principal">
-          <td>{{ loop.index }}</td>
-          <td>{{ usuario[0] }}</td>
-          <td>{{ usuario[1] }}</td>
-          <td>{{ usuario[2] }}</td>
-          <td>{{ usuario[3] }}</td>
-          <td>{{ avg_dict.get(usuario[1], 0)|round(2) }}</td>
-          <td class="text-center">
-            <button class="btn-detalles-circle"
-                    data-user="{{ usuario[1]|replace(' ', '_') }}">
-              v
-            </button>
-          </td>
-          <td class="text-center">
-  <div class="dropdown acciones-dropdown">
-    <button class="actions-toggle dropdown-toggle"
-            type="button"
-            id="dropdownMenu{{ loop.index }}"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-      &hellip;
-    </button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu{{ loop.index }}">
-    <li>
-      <a class="dropdown-item" href="{{ url_for('editar_usuario_route', id=usuario[0]) }}">
-        Editar
-      </a>
-    </li>
-    <li>
-      <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}"
-            method="POST"
-            onsubmit="return confirm('¿Eliminar este usuario?');">
-        <button type="submit" class="dropdown-item text-danger">
-          Eliminar
+  {% if usuarios %}
+  {% call render_table(["#", "ID", "Nombre", "Usuario", "Métrica", "Actividades", "Acciones"], table_id="tablaUsuarios")
+  %}
+  {% for usuario in usuarios %}
+  <tr class="fila-principal">
+    <td>{{ loop.index }}</td>
+    <td><span class="badge bg-light text-dark">{{ usuario[0] }}</span></td>
+    <td class="fw-medium">{{ usuario[1] }}</td>
+    <td class="text-muted">{{ usuario[2] }}</td>
+    <td>
+      <div class="d-flex align-items-center gap-2">
+        <div class="progress flex-grow-1" style="height: 6px; min-width: 60px;">
+          {% set val = avg_dict.get(usuario[1], 0) or 0 %}
+          <div class="progress-bar {% if val > 2 %}bg-danger{% elif val > 1 %}bg-warning{% else %}bg-success{% endif %}"
+            role="progressbar" style="width: {{ (val/3)*100 }}%"></div>
+        </div>
+        <span class="small fw-bold">{{ val|round(2) }}</span>
+      </div>
+    </td>
+    <td class="text-center">
+      <button class="btn btn-sm btn-outline-secondary rounded-circle btn-detalles-circle"
+        data-user="{{ usuario[1]|replace(' ', '_') }}">
+        <span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+      </button>
+    </td>
+    <td class="text-center">
+      <div class="dropdown">
+        <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
+          <span class="material-symbols-outlined">more_vert</span>
         </button>
-      </form>
-    </li>
-  </ul>
-</div>
-          </td>
-        </tr>
-        <tr class="details-row" id="details-{{ usuario[1]|replace(' ', '_') }}">
-          <td colspan="8">
-            <table class="styled-table">
-              <thead>
-                <tr>
-                  <th>Actividad</th>
-                  <th>Estrés Promedio</th>
-                  <th>Duración Promedio (min)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for item in activities_by_user.get(usuario[1], []) %}
-                <tr>
-                  <td>{{ item.actividad }}</td>
-                  <td>
-                    {% if item.avg_estres is not none %}
-                      {{ item.avg_estres|round(2) }}
-                    {% else %}
-                      -
-                    {% endif %}
-                  </td>
-                  <td>{{ item.avg_duracion_min|round(2) }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2"
+              href="{{ url_for('editar_usuario_route', id=usuario[0]) }}">
+              <span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Editar
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <form action="{{ url_for('eliminar_usuario_route', id=usuario[0]) }}" method="POST"
+              onsubmit="return confirm('¿Eliminar este usuario?');">
+              <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Eliminar
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+  <tr class="details-row" id="details-{{ usuario[1]|replace(' ', '_') }}">
+    <td colspan="7" class="p-0 border-0">
+      <div class="px-4 py-3 bg-light rounded-bottom mx-3 mb-3 shadow-inner">
+        <h6 class="fw-bold small text-uppercase text-muted mb-3">Detalle de Actividades</h6>
+        <table class="table table-sm table-borderless mb-0">
+          <thead>
+            <tr class="text-muted small">
+              <th>Actividad</th>
+              <th class="text-center">Estrés</th>
+              <th class="text-center">Duración</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in activities_by_user.get(usuario[1], []) %}
+            <tr>
+              <td>{{ item.actividad }}</td>
+              <td class="text-center">
+                {% set estres_val = item.avg_estres|default(0, true) %}
+                <span
+                  class="badge {% if estres_val > 2 %}bg-danger{% elif estres_val > 1 %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                  {{ estres_val|round(2) if item.avg_estres is not none else '-' }}
+                </span>
+              </td>
+              <td class="text-center">{{ (item.avg_duracion_min|default(0, true))|round(2) }} min</td>
+            </tr>
+            {% endfor %}
+          </tbody>
 
-    <!-- Paginación -->
-    <nav class="nav-pagination">
-      <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
-    </nav>
-  </div>
+        </table>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  {% endcall %}
+  {% else %}
+  {{ empty_state("No hay usuarios registrados aún") }}
+  {% endif %}
 </div>
+
+<!-- Paginación -->
+<nav class="nav-pagination">
+  <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
+</nav>
 
 <script>
   // Toggle de fila detalles
   document.querySelectorAll('.btn-detalles-circle').forEach(btn => {
     btn.addEventListener('click', () => {
       const row = document.getElementById(`details-${btn.dataset.user}`);
-      row.style.display = row.style.display === 'table-row' ? 'none' : 'table-row';
+      row.classList.toggle('active');
+      btn.style.transform = row.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
     });
   });
 
   // Paginación
   const filasPorPagina = 5;
   let paginaActual = 1;
+
   function paginarTabla() {
     const filas = Array.from(document.querySelectorAll('#tablaBody tr.fila-principal'));
     const totalPaginas = Math.ceil(filas.length / filasPorPagina);
+
+    // Ocultar todas las filas y detalles
     filas.forEach(f => f.style.display = 'none');
-    filas.slice((paginaActual-1)*filasPorPagina, paginaActual*filasPorPagina)
-         .forEach(f => f.style.display = '');
+    document.querySelectorAll('.details-row').forEach(d => d.classList.remove('active'));
+
+    // Mostrar filas de la página actual
+    const inicio = (paginaActual - 1) * filasPorPagina;
+    const fin = inicio + filasPorPagina;
+    filas.slice(inicio, fin).forEach(f => f.style.display = '');
+
+    renderPaginacion(totalPaginas);
+  }
+
+  function renderPaginacion(total) {
     const pag = document.getElementById('paginacionTabla');
     pag.innerHTML = '';
-    for(let i=1; i<=totalPaginas; i++){
+
+    if (total <= 1) return;
+
+    // Botón Anterior
+    const liPrev = document.createElement('li');
+    liPrev.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+    liPrev.innerHTML = `<button class="page-link page-link-custom">‹</button>`;
+    liPrev.onclick = () => { if (paginaActual > 1) { paginaActual--; paginarTabla(); } };
+    pag.appendChild(liPrev);
+
+    // Páginas (limitar en móvil)
+    let startPage = Math.max(1, paginaActual - 1);
+    let endPage = Math.min(total, startPage + 2);
+    if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
+
+    for (let i = startPage; i <= endPage; i++) {
       const li = document.createElement('li');
-      li.className = `page-item ${i===paginaActual?'active':''}`;
+      li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
       const btn = document.createElement('button');
       btn.className = 'page-link page-link-custom';
       btn.textContent = i;
-      btn.onclick = ()=>{ paginaActual=i; paginarTabla(); };
+      btn.onclick = () => { paginaActual = i; paginarTabla(); };
       li.appendChild(btn);
       pag.appendChild(li);
     }
+
+    // Botón Siguiente
+    const liNext = document.createElement('li');
+    liNext.className = `page-item ${paginaActual === total ? 'disabled' : ''}`;
+    liNext.innerHTML = `<button class="page-link page-link-custom">›</button>`;
+    liNext.onclick = () => { if (paginaActual < total) { paginaActual++; paginarTabla(); } };
+    pag.appendChild(liNext);
   }
+
   document.addEventListener('DOMContentLoaded', paginarTabla);
 </script>
+
 
 {% endblock %}

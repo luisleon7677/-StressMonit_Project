@@ -8,38 +8,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Agregar evento para el menú lateral
     menu.addEventListener("click", () => {
-    if (window.innerWidth <= 768) {  
-        // Solo en móvil
-        barraLateral.classList.toggle("active");
+        const isMobile = window.innerWidth <= 768;
 
-        if (barraLateral.classList.contains("active")) {
-            menu.children[0].style.display = "none";  // icono abrir
-            menu.children[1].style.display = "block"; // icono cerrar
+        if (isMobile) {
+            barraLateral.classList.toggle("active");
+            // Toggle icons for mobile
+            const menuIcon = menu.querySelector('ion-icon[name="menu-outline"]');
+            const closeIcon = menu.querySelector('ion-icon[name="close-outline"]');
+            if (menuIcon && closeIcon) {
+                if (barraLateral.classList.contains("active")) {
+                    menuIcon.style.display = "none";
+                    closeIcon.style.display = "block";
+                } else {
+                    menuIcon.style.display = "block";
+                    closeIcon.style.display = "none";
+                }
+            }
         } else {
-            menu.children[0].style.display = "block";
-            menu.children[1].style.display = "none";
-        }
-    } else {
-        // En escritorio se mantiene tu comportamiento original
-        barraLateral.classList.toggle("max-barra-lateral");
+            barraLateral.classList.toggle("mini-barra-lateral");
+            main.classList.toggle("min-main");
 
-        if (barraLateral.classList.contains("max-barra-lateral")) {
-            menu.children[0].style.display = "none";
-            menu.children[1].style.display = "block";
-        } else {
-            menu.children[0].style.display = "block";
-            menu.children[1].style.display = "none";
+            // Adjust barra-secundaria if it exists
+            const barraSecundaria = document.querySelector(".barra-secundaria");
+            if (barraSecundaria) {
+                if (barraLateral.classList.contains("mini-barra-lateral")) {
+                    barraSecundaria.style.left = "80px";
+                    barraSecundaria.style.width = "calc(100% - 80px)";
+                } else {
+                    barraSecundaria.style.left = "260px";
+                    barraSecundaria.style.width = "calc(100% - 260px)";
+                }
+            }
         }
+    });
 
-        if (window.innerWidth <= 320) {
-            barraLateral.classList.add("mini-barra-lateral");
-            main.classList.add("min-main");
-            spans.forEach((span) => {
-                span.classList.add("oculto");
-            });
-        }
-    }
-});
 
     // Agregar evento para el icono de la barra lateral
     icon.addEventListener("click", () => {
@@ -52,11 +54,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Agregar eventos para los enlaces en la barra lateral
     itemBarraLateral.forEach((item) => {
-        item.addEventListener('click',(evento)=>{
+        item.addEventListener('click', (evento) => {
 
-            
-        
-            
+
+
+
         })
     });
 
@@ -73,10 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Confirmación antes de eliminar (versión mejorada)
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Manejar todos los formularios de eliminación
     document.querySelectorAll('form[action^="/eliminar_actividad"]').forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             if (!confirm('¿Estás seguro de que quieres eliminar esta actividad permanentemente?')) {
                 e.preventDefault();
             }

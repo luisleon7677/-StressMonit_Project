@@ -1,37 +1,43 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_table, empty_state %}
+
 {% block content %}
-<link rel="stylesheet" href="/static/usuarios.css">
-
-<div class="usuarios-container">
-    <div class="titulo-principal">
-        <h1>Monitoreo de Empleados</h1>
-        <p>Seleccione un empleado para iniciar el monitoreo de actividades.</p>
+<div class="monitoring-container">
+    <div class="titulo-principal mb-4">
+        <h1 class="h3 fw-bold">Monitoreo de Empleados</h1>
+        <p class="text-muted">Seleccione un usuario para iniciar el registro de métricas en tiempo real.</p>
     </div>
 
-    <div class="tabla-responsive">
-        <table class="styled-table">
-            <thead>
-                <tr class="fila-principal">
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for employee in employees %}
-                <tr class="fila-principal">
-                    <td>{{ loop.index }}</td>
-                    <td>{{ employee[1] }}</td>
-                    <td>
-                        <a href="{{ url_for('movil_monitoring', user=employee[1], id_user=employee[0]) }}"
-                            class="btn-agregar" style="text-decoration: none; display: inline-block;">
-                            Comenzar Monitoreo
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    {% if employees %}
+    <div class="card-custom p-0 overflow-hidden border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 text-muted small" style="width: 60px;">#</th>
+                        <th class="py-3 text-muted small">Nombre del Empleado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                    <tr class="clickable-row"
+                        onclick="location.href='{{ url_for('movil_monitoring', user=employee[1], id_user=employee[0]) }}'"
+                        style="cursor: pointer;">
+                        <td class="px-4 text-muted small">{{ loop.index }}</td>
+                        <td class="py-3">
+                            <div class="d-flex justify-content-between align-items-center pe-3">
+                                <span class="fw-medium">{{ employee[1] }}</span>
+                                <span class="material-symbols-outlined text-primary opacity-50">arrow_forward_ios</span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    {% else %}
+    {{ empty_state("No hay empleados registrados para monitoreo") }}
+    {% endif %}
 </div>
 {% endblock %}

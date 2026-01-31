@@ -1,9 +1,11 @@
 /* -------- Tema blanco + azul para Usuarios -------- */
 .usuarios-container {
-  width: 90%;
-  max-width: 1000px;
-  margin: 2rem auto;
+  width: 95%;
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 0 10px;
 }
+
 
 /* Cabecera con título + botón */
 .titulo-principal {
@@ -12,6 +14,7 @@
   align-items: center;
   margin-bottom: 1rem;
 }
+
 .titulo-principal h1 {
   color: #333;
   font-size: 1.5rem;
@@ -19,26 +22,34 @@
 
 /* Sobrescribimos el flex que hace que el botón crezca */
 .titulo-principal .btn-agregar {
-  flex: 0 0 auto;    /* no crece, no encoge */
-  width: auto;       /* anchura automática, sólo su contenido */
-  margin-left: auto; /* empuja al botón hasta la derecha */
+  flex: 0 0 auto;
+  /* no crece, no encoge */
+  width: auto;
+  /* anchura automática, sólo su contenido */
+  margin-left: auto;
+  /* empuja al botón hasta la derecha */
 }
 
 
 /* Tabla de usuarios */
 .tabla-container {
-    
-    
 
- 
-    margin-bottom: 30px;
-    overflow-x: auto;
+
+
+
+  margin-bottom: 30px;
+  overflow-x: auto;
 }
 
 .tabla-responsive {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
+
 
 table {
   width: 100%;
@@ -46,89 +57,93 @@ table {
 }
 
 .styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 16px;
-    color: white;
-    border: 1px solid #dee2e6;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  color: white;
+  border: 1px solid #dee2e6;
 }
 
-.styled-table th, .styled-table td {
-    padding: 12px 15px;
-    
-    text-align: left;
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+
+  text-align: left;
 }
 
 .styled-table th {
-    background-color: #FCFCFC;
-    color: #1E1E1E;
-    font-weight: bold;
+  background-color: #FCFCFC;
+  color: #1E1E1E;
+  font-weight: bold;
 }
 
 
 
 /* Botones de acción en la tabla */
 .btn-editar {
-    background-color: #4260cd;
-    color: white;
-    padding: 8px 28px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-right: 5px;
-    transition: background-color 0.3s;
+  background-color: #4260cd;
+  color: white;
+  padding: 8px 28px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 5px;
+  transition: background-color 0.3s;
 }
+
 .btn-editar:hover {
-    background-color: #2d4599;
+  background-color: #2d4599;
 }
 
 .btn-eliminar {
-    background-color: #4260cd;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-    width: 90px;
+  background-color: #4260cd;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  width: 90px;
 }
+
 .btn-eliminar:hover {
-    background-color: #2d4599;
+  background-color: #2d4599;
 }
 
 /* Separador */
 .separador {
-    height: 1px;
-    background-color: #444;
-    margin: 30px 0;
-    width: 100%;
+  height: 1px;
+  background-color: #444;
+  margin: 30px 0;
+  width: 100%;
 }
 
 
 
 .btn-agregar {
-    flex: 1;
-    background-color: #4260cd;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
-   
-   
+  flex: 1;
+  background-color: #4260cd;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
+
+
 }
+
 .btn-agregar:hover {
-    background-color: #2d4599;
+  background-color: #2d4599;
 }
 
 /* Card/Table blanca */
 .tabla-container {
- 
+
   border-radius: 0.5rem;
- 
+
   overflow: hidden;
 }
 
@@ -145,7 +160,7 @@ table {
 
 .usuarios-count-bar {
   width: 60px;
- 
+
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -164,13 +179,15 @@ table {
   padding: 0;
 }
 
-.usuarios-count-bar li {
-  color: white;
-  text-align: center;
-  margin: 5px 0;
-  padding: 4px 0;
-  border-bottom: 1px solid #444;
+.details-row {
+  display: none;
+  transition: all 0.3s ease;
 }
+
+.details-row.active {
+  display: table-row;
+}
+
 
 
 
@@ -180,17 +197,24 @@ table {
 /* Aseguramos que el <td> que contiene la subtabla ocupe todo el ancho
    y centre su contenido */
 .details-row td {
-  background-color: white;/* opcional: fondo un poco distinto */
-  padding: 0;                 /* quitamos padding extra */
-  text-align: center;         /* centro horizontal */
-  vertical-align: middle;     /* centro vertical */
+  background-color: white;
+  /* opcional: fondo un poco distinto */
+  padding: 0;
+  /* quitamos padding extra */
+  text-align: center;
+  /* centro horizontal */
+  vertical-align: middle;
+  /* centro vertical */
 }
 
 /* La propia subtabla, centrada y con ancho cómodo */
-.details-row td > table {
-  width: 80%;                 /* ajusta este % a tu gusto */
-  margin: 0 auto;             /* centra la tabla */
+.details-row td>table {
+  width: 80%;
+  /* ajusta este % a tu gusto */
+  margin: 0 auto;
+  /* centra la tabla */
 }
+
 .styled-table {
   width: 100%;
   border-collapse: collapse;
@@ -200,9 +224,12 @@ table {
 /* Celdas y encabezados de la subtabla, centrados */
 .details-row th,
 .details-row td {
-  text-align: center;         /* centro horizontal */
-  vertical-align: middle;     /* centro vertical */
-  padding: 10px 5px;          /* algo de espacio interior */
+  text-align: center;
+  /* centro horizontal */
+  vertical-align: middle;
+  /* centro vertical */
+  padding: 10px 5px;
+  /* algo de espacio interior */
 }
 
 
@@ -216,6 +243,7 @@ table {
   border-radius: 5px;
   cursor: pointer;
 }
+
 .btn-detalles:hover {
   background-color: #357ABD;
 }
@@ -227,12 +255,15 @@ table {
 }
 
 .btn-detalles-circle {
-  background-color: #4260cd;    /* mismo color azul */
+  background-color: #4260cd;
+  /* mismo color azul */
   color: white;
-  width: 32px;                  /* tamaño de círculo */
+  width: 32px;
+  /* tamaño de círculo */
   height: 32px;
   border: none;
-  border-radius: 50%;           /* círculo */
+  border-radius: 50%;
+  /* círculo */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,7 +273,8 @@ table {
 }
 
 .btn-detalles-circle:hover {
-  background-color: #2d4599;    /* hover ligeramente más oscuro */
+  background-color: #2d4599;
+  /* hover ligeramente más oscuro */
 }
 
 /*–– Centro horizontal del botón circular ––*/
@@ -257,11 +289,13 @@ table {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #dee2e6;
 }
+
 .styled-table th {
   background: #f8f9fa;
   color: #495057;
   font-weight: 600;
 }
+
 .styled-table tr:hover {
   background: #f1f3f5;
 }
@@ -269,17 +303,19 @@ table {
 
 /* “v” en círculo azul */
 .btn-detalles-circle {
-  background:#4A69BD;
-  color:#fff;
-  width:32px; height:32px;
-  border:none;
-  border-radius:50%;
-  font-size:0.9rem;
-  cursor:pointer;
-  transition:background 0.2s;
+  background: #4A69BD;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
+
 .btn-detalles-circle:hover {
-  background:#3B4F8A;
+  background: #3B4F8A;
 }
 
 /* Botón de acciones: solo “…” sin marco visible */
@@ -287,8 +323,10 @@ table {
 .actions-toggle {
   background: none;
   border: none;
-  color: #4A69BD;       /* azul de todos los botones */
-  font-size: 1.5rem;    /* ajusta tamaño de puntos */
+  color: #4A69BD;
+  /* azul de todos los botones */
+  font-size: 1.5rem;
+  /* ajusta tamaño de puntos */
   padding: 0;
   line-height: 1;
   cursor: pointer;
@@ -299,36 +337,43 @@ table {
 .details-row td {
   text-align: center;
   vertical-align: middle;
-  padding: 8px 12px;}
+  padding: 8px 12px;
+}
+
 /*botnoes de la paginacion de las tablas*/
- /* Estilos personalizados opcionales */
- .page-link-custom {   /* Boton desactivado */
-    color: white;
-    background-color: #ffffff;
-  }
+/* Estilos personalizados opcionales */
+.page-link-custom {
+  /* Boton desactivado */
+  color: white;
+  background-color: #ffffff;
+}
 
-  .page-link-custom:hover {
-    background-color: #2d4599;
-    color:white;
-  }
+.page-link-custom:hover {
+  background-color: #2d4599;
+  color: white;
+}
 
-  .active .page-link-custom {
-    background-color: white; /* Boton activo */
-    color: black;
-    border-color: black;
-    transform: scale(1.10);
-    transition: transform 0.2s ease;
-  }
-  .nav-pagination{
-    margin-top: 20px;
-  }
+.active .page-link-custom {
+  background-color: white;
+  /* Boton activo */
+  color: black;
+  border-color: black;
+  transform: scale(1.10);
+  transition: transform 0.2s ease;
+}
 
-  /* 1) Alineamos el botón “Agregar” a la izquierda */
+.nav-pagination {
+  margin-top: 20px;
+}
+
+/* 1) Alineamos el botón “Agregar” a la izquierda */
 .usuarios-container .botones-container {
   text-align: left;
-  margin-top: 20px;   /* separa de la tabla */
-/* Elimina el caret que Bootstrap añade */
+  margin-top: 20px;
+  /* separa de la tabla */
+  /* Elimina el caret que Bootstrap añade */
 }
+
 .acciones-dropdown .dropdown-toggle::after {
   display: none;
 }
@@ -337,13 +382,14 @@ table {
 .acciones-dropdown .dropdown-menu {
   min-width: 6rem;
   border-radius: 0.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 .acciones-dropdown .dropdown-item {
   padding: 0.5rem 1rem;
   color: #333;
 }
+
 .acciones-dropdown .dropdown-item:hover {
   background-color: #f1f3f5;
 }
@@ -352,44 +398,51 @@ table {
 .acciones-dropdown .dropdown-item.text-danger {
   color: #E74C3C;
 }
+
 .acciones-dropdown .dropdown-item.text-danger:hover {
-  background-color: rgba(231,76,60,0.1);
+  background-color: rgba(231, 76, 60, 0.1);
 }
 
 
 /* Paginación */
 .page-link-custom {
-  color:#495057;
-  background:#fff;
-  border:1px solid #dee2e6;
-  margin:0 0.25rem;
-  padding:0.25rem 0.5rem;
+  color: #495057;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  margin: 0 0.25rem;
+  padding: 0.25rem 0.5rem;
 }
+
 .page-link-custom:hover {
-  background:#e9ecef;
+  background: #e9ecef;
 }
+
 .page-item.active .page-link-custom {
-  background:#4A69BD;
-  color:#fff;
-  border-color:#4A69BD;
+  background: #4A69BD;
+  color: #fff;
+  border-color: #4A69BD;
 }
 
 /* Centrar */
 .text-center {
-  text-align:center !important;
+  text-align: center !important;
 }
 
 
 /* Hacemos que el botón de acciones sea solo tres puntos */
 .actions-toggle {
-  background: none !important;    /* sin fondo */
-  border: none !important;        /* sin borde */
-  color: #4A69BD !important;      /* texto azul */
+  background: none !important;
+  /* sin fondo */
+  border: none !important;
+  /* sin borde */
+  color: #4A69BD !important;
+  /* texto azul */
   font-size: 1.25rem;
   line-height: 1;
   padding: 0 0.5rem;
   cursor: pointer;
 }
+
 /* Eliminamos el caret que Bootstrap pone con ::after */
 .actions-toggle::after {
   display: none !important;
@@ -411,7 +464,7 @@ table {
   background: #fff;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-row {
@@ -472,6 +525,7 @@ table {
   background-color: #4260cd;
   color: white;
 }
+
 .usuarios-container .btn-editar:hover {
   background-color: #2d4599;
 }
@@ -480,9 +534,11 @@ table {
   background-color: #4260cd;
   color: white;
 }
+
 .usuarios-container .btn-eliminar:hover {
   background-color: #2d4599;
 }
+
 .btn-primary:hover:not(:disabled) {
   background-color: #3B4F8A;
 }
@@ -509,17 +565,22 @@ table {
 .formulario-container .form-actions,
 .usuarios-container .form-actions {
   display: flex;
-  justify-content: flex-start; /* alineados a la izquierda */
-  gap: 1rem;                   /* espacio entre botones */
+  justify-content: flex-start;
+  /* alineados a la izquierda */
+  gap: 1rem;
+  /* espacio entre botones */
   margin-top: 1.5rem;
 }
 
 /* 2) El botón principal deja de hacer flex y ancho 100% */
 .formulario-container .btn-primary,
 .usuarios-container .btn-primary {
-  flex: none;      /* no crecer */
-  width: auto;     /* ancho automático */
-  min-width: 10rem;/* opcional: un ancho mínimo legible */
+  flex: none;
+  /* no crecer */
+  width: auto;
+  /* ancho automático */
+  min-width: 10rem;
+  /* opcional: un ancho mínimo legible */
 }
 
 /* 3) El link “Cancelar” simplemente va pegado a la derecha del botón */
@@ -530,6 +591,7 @@ table {
   color: #495057;
   text-decoration: none;
 }
+
 .formulario-container .link-cancel:hover,
 .usuarios-container .link-cancel:hover {
   text-decoration: underline;

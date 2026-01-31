@@ -1,78 +1,69 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_table, empty_state %}
 
 {% block content %}
-<link rel="stylesheet" href="/static/actividades.css">
-
 <div class="actividades-container">
-  <div class="titulo-principal">
-    <h1>Lista de Actividades</h1>
-    <a href="{{ url_for('crear_actividad_route') }}" class="btn-agregar">+ Agregar actividad</a>
+  <div class="titulo-principal d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold">Lista de Actividades</h1>
+    <a href="{{ url_for('crear_actividad_route') }}" class="btn-primary-custom shadow-sm">
+      <span class="material-symbols-outlined">add_task</span>
+      Agregar actividad
+    </a>
   </div>
 
-  <div class="tabla-responsive">
-    <table class="styled-table" id="tablaActividades">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Dificultad</th>
-          <th class="text-center">Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaBody">
-        {% if actividades %}
-          {% for actividad in actividades %}
-          <tr>
-            <td>{{ actividad[0] }}</td>
-            <td>{{ actividad[1] }}</td>
-            <td>{{ actividad[2] }}</td>
-            <td>
-              {% if actividad[3] == 1.0 %}Bajo
-              {% elif actividad[3] == 2.0 %}Medio
-              {% elif actividad[3] == 3.0 %}Alto
-              {% endif %}
-            </td>
-            <td class="text-center">
-  <div class="dropdown acciones-dropdown">
-    <button class="actions-toggle dropdown-toggle"
-            type="button"
-            id="dropdownMenu{{ loop.index }}"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-      &hellip;
-    </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu{{ loop.index }}">
-                  <li>
-                    <a class="dropdown-item" href="{{ url_for('editar_actividad', id=actividad[0]) }}">
-                      Editar
-                    </a>
-                  </li>
-                  <li>
-                    <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" 
-                          method="POST"
-                          onsubmit="return confirm('¿Eliminar esta actividad?');">
-                      <button type="submit" class="dropdown-item text-danger">
-                        Eliminar
-                      </button>
-                    </form>
-                  </li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="5" class="text-center py-4">No hay actividades registradas</td></tr>
-        {% endif %}
-      </tbody>
-    </table>
-
-    <nav class="nav-pagination">
-      <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
-    </nav>
-  </div>
+  {% if actividades %}
+  {% call render_table(["ID", "Nombre", "Descripción", "Dificultad", "Acciones"], table_id="tablaActividades") %}
+  {% for actividad in actividades %}
+  <tr>
+    <td><span class="badge bg-light text-dark">{{ actividad[0] }}</span></td>
+    <td class="fw-medium">{{ actividad[1] }}</td>
+    <td class="text-muted small">{{ actividad[2] }}</td>
+    <td>
+      {% if actividad[3] == 1.0 %}
+      <span class="badge bg-success-subtle text-success px-3">Bajo</span>
+      {% elif actividad[3] == 2.0 %}
+      <span class="badge bg-warning-subtle text-warning px-3">Medio</span>
+      {% elif actividad[3] == 3.0 %}
+      <span class="badge bg-danger-subtle text-danger px-3">Alto</span>
+      {% endif %}
+    </td>
+    <td class="text-center">
+      <div class="dropdown">
+        <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2"
+              href="{{ url_for('editar_actividad', id=actividad[0]) }}">
+              <span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Editar
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <form action="{{ url_for('eliminar_actividad', id=actividad[0]) }}" method="POST"
+              onsubmit="return confirm('¿Eliminar esta actividad?');">
+              <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Eliminar
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+  {% endcall %}
+  {% else %}
+  {{ empty_state("No hay actividades registradas aún") }}
+  {% endif %}
 </div>
+
+<nav class="nav-pagination">
+  <ul class="pagination justify-content-center" id="paginacionTabla"></ul>
+</nav>
 
 <script>
   const filasPorPagina = 5;
@@ -86,25 +77,49 @@
     filas.forEach(f => f.style.display = 'none');
     const inicio = (paginaActual - 1) * filasPorPagina;
     filas.slice(inicio, inicio + filasPorPagina)
-        .forEach(f => f.style.display = '');
+      .forEach(f => f.style.display = '');
 
+    renderPaginacion(totalPaginas);
+  }
+
+  function renderPaginacion(total) {
     const pag = document.getElementById('paginacionTabla');
     pag.innerHTML = '';
-    for (let i = 1; i <= totalPaginas; i++) {
+
+    if (total <= 1) return;
+
+    // Botón Anterior
+    const liPrev = document.createElement('li');
+    liPrev.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+    liPrev.innerHTML = `<button class="page-link page-link-custom">‹</button>`;
+    liPrev.onclick = () => { if (paginaActual > 1) { paginaActual--; paginarTabla(); } };
+    pag.appendChild(liPrev);
+
+    // Páginas
+    let startPage = Math.max(1, paginaActual - 1);
+    let endPage = Math.min(total, startPage + 2);
+    if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
+
+    for (let i = startPage; i <= endPage; i++) {
       const li = document.createElement('li');
       li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
       const btn = document.createElement('button');
       btn.className = 'page-link page-link-custom';
       btn.textContent = i;
-      btn.addEventListener('click', () => {
-        paginaActual = i;
-        paginarTabla();
-      });
+      btn.onclick = () => { paginaActual = i; paginarTabla(); };
       li.appendChild(btn);
       pag.appendChild(li);
     }
+
+    // Botón Siguiente
+    const liNext = document.createElement('li');
+    liNext.className = `page-item ${paginaActual === total ? 'disabled' : ''}`;
+    liNext.innerHTML = `<button class="page-link page-link-custom">›</button>`;
+    liNext.onclick = () => { if (paginaActual < total) { paginaActual++; paginarTabla(); } };
+    pag.appendChild(liNext);
   }
 
   document.addEventListener('DOMContentLoaded', paginarTabla);
 </script>
+
 {% endblock %}

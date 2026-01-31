@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login – StressMonit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
+
 <body>
   <div class="login-container">
-    <!-- Logo arriba -->
     <img src="{{ url_for('static', filename='logoMindra.png') }}" alt="StressMonit Logo" class="logo">
+    <h2 class="title">StressMonit</h2>
+    <p class="subtitle">Bienvenido de nuevo. Por favor, ingresa tus credenciales.</p>
 
-    <!-- Título de la página -->
-    <h2 class="title">Mindra</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-list">
+      {% for category, msg in messages %}
+      <div class="flash flash-{{ category }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
 
-    <!--Google fonts-->
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
-    </style>
-
-    <!-- Formulario -->
     <form action="{{ url_for('login') }}" method="POST" class="login-form">
-      <label for="username">Usuario</label>
-      <input id="username" type="text"  name="username" placeholder="Usuario"     required>
+      <div class="form-field">
+        <label for="username">Usuario</label>
+        <input id="username" type="text" name="username" placeholder="Nombre de usuario" required autofocus>
+      </div>
 
-      <label for="password">Contraseña</label>
-      <input id="password" type="password" name="password" placeholder="Contraseña" required>
+      <div class="form-field">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" name="password" placeholder="••••••••" required>
+      </div>
 
-      <button type="submit" class="btn">Ingresar</button>
+      <button type="submit" class="btn">Iniciar Sesión</button>
     </form>
 
-    <!-- Link de registro -->
     <p class="register-link">
       ¿Aún no tienes una cuenta?
-      <a href="{{ url_for('register') }}">Regístrate aquí</a>
+      <a href="{{ url_for('register') }}">Crea una ahora</a>
     </p>
   </div>
 </body>
+
 </html>

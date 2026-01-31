@@ -1,46 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" href="/static/actividades.css">
-
-<div class="actividades-container">
-  <!-- Título principal -->
-  <div class="titulo-principal">
-    <h1>Editar Actividad</h1>
+<div class="registration-container" style="max-width: 700px; margin: 0 auto;">
+  <div class="titulo-principal mb-4">
+    <h1 class="h3 fw-bold d-flex align-items-center gap-2">
+      <span class="material-symbols-outlined text-primary">edit_square</span>
+      Editar Actividad
+    </h1>
   </div>
 
-  <div class="separador"></div>
+  <div class="card-custom shadow-sm border-0">
+    <div class="card-body p-4">
+      <form method="POST" class="needs-validation" novalidate>
 
-  <!-- Formulario de edición con estilo idéntico a actividades -->
-  <div class="formulario-container">
-    <h2>Editar Actividad</h2>
-    <form method="POST">
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="{{ actividad[1] }}" required>
-      </div>
+        <div class="mb-4">
+          <label for="nombre" class="form-label fw-semibold">Nombre de la Actividad</label>
+          <input type="text" id="nombre" name="nombre" class="form-control" value="{{ actividad[1] }}" required>
+        </div>
 
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required>{{ actividad[2] }}</textarea>
-      </div>
+        <div class="mb-4">
+          <label for="descripcion" class="form-label fw-semibold">Descripción</label>
+          <textarea id="descripcion" name="descripcion" rows="4" class="form-control"
+            required>{{ actividad[2] }}</textarea>
+        </div>
 
-      <div class="form-group">
-        <label for="grado_dif">Grado de dificultad:</label>
-        <select id="grado_dif" name="grado_dif" required>
-          <option value="1.0" {% raw %}{% if actividad[3] == 1.0 %}selected{% endif %}{% endraw %}>Bajo</option>
-          <option value="2.0" {% raw %}{% if actividad[3] == 2.0 %}selected{% endif %}{% endraw %}>Medio</option>
-          <option value="3.0" {% raw %}{% if actividad[3] == 3.0 %}selected{% endif %}{% endraw %}>Alto</option>
-        </select>
-      </div>
+        <div class="mb-4">
+          <label for="grado_dif" class="form-label fw-semibold">Nivel de Dificultad</label>
+          <select id="grado_dif" name="grado_dif" class="form-select" required>
+            <option value="1.0" {{ 'selected' if actividad[3]==1.0 else '' }}>Fácil / Bajo</option>
+            <option value="2.0" {{ 'selected' if actividad[3]==2.0 else '' }}>Moderado / Medio</option>
+            <option value="3.0" {{ 'selected' if actividad[3]==3.0 else '' }}>Complejo / Alto</option>
+          </select>
+        </div>
 
-      <!-- Botones de acción -->
-      <div class="botones-container">
-        <button type="submit" class="btn-agregar">Guardar Cambios</button>
-        <a href="{{ url_for('actividades') }}" class="btn-eliminar">Cancelar</a>
-      </div>
-    </form>
+        <div class="d-flex align-items-center justify-content-between mt-5 pt-3 border-top">
+          <a href="{{ url_for('actividades') }}"
+            class="text-decoration-none text-muted fw-medium d-flex align-items-center gap-1">
+            <span class="material-symbols-outlined">arrow_back</span> Cancelar
+          </a>
+          <button type="submit" class="btn-primary-custom px-5">
+            <span class="material-symbols-outlined">save</span>
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-
 {% endblock %}

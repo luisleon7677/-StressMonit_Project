@@ -1,70 +1,74 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<!-- Asegúrate de cargar el CSS de actividades para el contenedor y formulario -->
-<link rel="stylesheet" href="/static/actividades.css">
-
-<div class="actividades-container">
-  <!-- Título principal -->
-  <div class="titulo-principal">
-    <h1>Editar Perfil</h1>
+<div class="profile-container" style="max-width: 750px; margin: 0 auto;">
+  <div class="titulo-principal mb-4">
+    <h1 class="h3 fw-bold d-flex align-items-center gap-2">
+      <span class="material-symbols-outlined text-primary">account_circle</span>
+      Mi Perfil de Administrador
+    </h1>
+    <p class="text-muted">Gestiona tu información personal y configuración de cuenta.</p>
   </div>
 
-  <div class="separador"></div>
+  <div class="card-custom shadow-sm border-0">
+    <div class="card-body p-4">
+      <form method="POST" action="{{ url_for('update_profile') }}" class="needs-validation" novalidate>
+        <div class="row g-4">
+          <!-- Nombre -->
+          <div class="col-md-6">
+            <label for="nombre" class="form-label fw-semibold">Nombre Completo</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" value="{{ session.admin_nombre }}"
+              required>
+          </div>
 
-  <!-- Formulario de edición -->
-  <div class="formulario-container">
-    <form method="POST" action="{{ url_for('update_profile') }}">
-      <!-- Nombre -->
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"
-               value="{{ session.admin_nombre }}" required>
-      </div>
+          <!-- Usuario -->
+          <div class="col-md-6">
+            <label for="username" class="form-label fw-semibold">Nombre de Usuario</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ session.admin_username }}"
+              required>
+          </div>
 
-      <!-- Usuario -->
-      <div class="form-group">
-        <label for="username">Usuario:</label>
-        <input type="text" id="username" name="username"
-               value="{{ session.admin_username }}" required>
-      </div>
+          <!-- Correo -->
+          <div class="col-12">
+            <label for="correo" class="form-label fw-semibold">Correo Electrónico</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><span class="material-symbols-outlined small">mail</span></span>
+              <input type="email" id="correo" name="correo" class="form-control" value="{{ session.correo }}" required>
+            </div>
+          </div>
 
-      <!-- Correo -->
-      <div class="form-group">
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo"
-               value="{{ session.correo }}" required>
-      </div>
+          <!-- Cargo -->
+          <div class="col-md-6">
+            <label for="cargo" class="form-label fw-semibold">Cargo / Posición</label>
+            <input type="text" id="cargo" name="cargo" class="form-control" value="{{ session.admin_cargo }}">
+          </div>
 
-      <!-- Cargo -->
-      <div class="form-group">
-        <label for="cargo">Cargo:</label>
-        <input type="text" id="cargo" name="cargo"
-               value="{{ session.admin_cargo }}">
-      </div>
+          <!-- Departamento -->
+          <div class="col-md-6">
+            <label for="departamento" class="form-label fw-semibold">Departamento</label>
+            <input type="text" id="departamento" name="departamento" class="form-control"
+              value="{{ session.departamento }}">
+          </div>
 
-      <!-- Departamento -->
-      <div class="form-group">
-        <label for="departamento">Departamento:</label>
-        <input type="text" id="departamento" name="departamento"
-               value="{{ session.departamento }}">
-      </div>
+          <!-- Edad -->
+          <div class="col-md-4">
+            <label for="edad" class="form-label fw-semibold">Edad</label>
+            <input type="number" id="edad" name="edad" class="form-control" value="{{ session.edad }}" min="18">
+          </div>
+        </div>
 
-      <!-- Edad -->
-      <div class="form-group">
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad" name="edad"
-               value="{{ session.edad }}">
-      </div>
-
-      <!-- Botones -->
-      <div class="botones-container">
-        <button type="submit" class="btn-agregar">Guardar Cambios</button>
-        <a href="{{ url_for('inicio') }}" class="btn-eliminar">Cancelar</a>
-      </div>
-    </form>
+        <div class="d-flex align-items-center justify-content-between mt-5 pt-4 border-top">
+          <a href="{{ url_for('inicio') }}"
+            class="text-decoration-none text-muted fw-medium d-flex align-items-center gap-1">
+            <span class="material-symbols-outlined">arrow_back</span> Dashboard
+          </a>
+          <button type="submit" class="btn-primary-custom px-5">
+            <span class="material-symbols-outlined">save</span>
+            Actualizar Perfil
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-
 {% endblock %}

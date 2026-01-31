@@ -1,60 +1,79 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 
-{% block content%}
-<div class="titulo-principal">
-    <h1>Registro De Recursos</h1>
+{% block content %}
+<div class="registration-container" style="max-width: 800px; margin: 0 auto;">
+  <div class="titulo-principal mb-4">
+    <h1 class="h3 fw-bold d-flex align-items-center gap-2">
+      <span class="material-symbols-outlined text-primary">add_notes</span>
+      Registro de Recursos
+    </h1>
+  </div>
+
+  <div class="card-custom shadow-sm border-0">
+    <div class="card-body p-4">
+      <h5 class="fw-bold mb-4 text-muted small text-uppercase ls-wide">Datos del Recurso</h5>
+
+      <form action="/recursos/registrar/submit" class="needs-validation" method="post" novalidate>
+        <div class="mb-4">
+          <label for="titulo" class="form-label fw-semibold">Título del Articulo</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">title</span></span>
+            <input type="text" name="titulo" id="titulo" placeholder="Ej: Estrategias para reducir el estrés"
+              class="form-control border-start-0" required>
+          </div>
+          <div class="invalid-feedback">Por favor ingresa un título.</div>
+        </div>
+
+        <div class="mb-4">
+          <label for="autor" class="form-label fw-semibold">Autor / Fuente</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">person</span></span>
+            <input type="text" name="autor" id="autor" placeholder="Ej: Dr. Smith" class="form-control border-start-0"
+              required>
+          </div>
+          <div class="invalid-feedback">Por favor completa el autor.</div>
+        </div>
+
+        <div class="mb-4">
+          <label for="myTextarea" class="form-label fw-semibold">Contenido detallado</label>
+          <textarea id="myTextarea" name="contenido" rows="6" placeholder="Escribe aquí el contenido del recurso..."
+            class="form-control" required></textarea>
+          <div class="invalid-feedback">El contenido no puede estar vacío.</div>
+          <div class="form-text mt-2 text-muted small d-flex align-items-center gap-1">
+            <pan class="material-symbols-outlined" style="font-size: 14px;">info</span>
+              Este contenido será visible para todos los empleados.
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-5 pt-3 border-top">
+          <a href="/recursos" class="text-decoration-none text-muted fw-medium d-flex align-items-center gap-1">
+            <span class="material-symbols-outlined">arrow_back</span> Cancelar
+          </a>
+          <button type="submit" class="btn-primary-custom px-5">
+            <span class="material-symbols-outlined">save</span>
+            Guardar Recurso
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
-
-<div class="container-recursos">
-    <div class="titulo">
-        <h3>Datos Generales</h3>
-    </div>
-    <div class="contenido">
-        <form action="/recursos/registrar/submit" class="needs-validation" method="post" novalidate>
-        
-            <input type="text" name="titulo" id="titulo" placeholder="Titulo" class="form-control" required>
-            <div class="invalid-feedback">
-                Por favor complete este campo!
-              </div>
-            <input type="text" name="autor" id="autor" placeholder="Autor" class="form-control" required>
-
-            <div class="invalid-feedback">
-                Por favor complete este campo!
-            </div>
-            <textarea id="myTextarea" name="contenido" rows="4" cols="50" placeholder="Contenido" class="form-control" required></textarea>
-            <div class="invalid-feedback">
-                Por favor complete este campo!
-            </div>
-            <button type="submit" id="button_form">Guardar</button>
-            <div id="emailHelp" class="form-text" style="color: thistle;">* Todos los campos son obligatorios</div>
-        </form>
-    </div>
-</div>
 <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      // Si es válido
-      form.classList.add('was-validated')
-
-    
-
-
-    }, false)
-  })
-})()
+  (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
 </script>
-
-{%endblock%}
+{% endblock %}

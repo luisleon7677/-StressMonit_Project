@@ -1,15 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Monitoreo – StressMonit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --primary: #f04158;
+            --text: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 2rem;
+            text-align: center;
+            background-image: radial-gradient(circle at 50% 10%, rgba(240, 65, 88, 0.05) 0%, transparent 50%);
+        }
+
+        .icon-box {
+            width: 100px;
+            height: 100px;
+            background: rgba(240, 65, 88, 0.1);
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .icon-box span {
+            font-size: 48px;
+            color: var(--primary);
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        p {
+            color: #64748b;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            max-width: 300px;
+        }
+
+        .btn-commence {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 1.25rem 3rem;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            box-shadow: 0 10px 15px -3px rgba(240, 65, 88, 0.3);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-commence:active {
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 
 <body>
-    <H1>Bienbenido al monitoreo de tus empleados</H1>
-    <a href="/list_employees">comenzar</a>
+    <div class="icon-box">
+        <span class="material-symbols-outlined">monitoring</span>
+    </div>
+    <h1>Bienvenido al Monitoreo</h1>
+    <p>Inicia el seguimiento de métricas en tiempo real para tu equipo.</p>
+    <a href="/list_employees" class="btn-commence">
+        Comenzar
+        <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
 </body>
 
 </html>

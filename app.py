@@ -192,16 +192,15 @@ def inicio():
             df = df.pivot_table(index="Actividad", columns="Nombre", values="Estres", aggfunc="mean")
         #Genero el mapa de calor con plotly
         fig = px.imshow(df if not df.empty else [[None]],
-                    labels=dict(x="Nombre", y="Actividad", color="Nivel Estrés"),
-                    text_auto=".1f", #limita la cantidad de decimales
+                    labels=dict(x="Nombre del Empleado", y="Actividad", color="Intensidad"),
+                    text_auto=".1f", 
                     color_continuous_scale=[
-                        [0.0, "#D3DEFF"],  # (bajo estrés)
-                        [0.5, "#849CF4"],  # (estrés medio)
-                        [1.0, "#343497"]   # (alto estrés)
+                        [0.0, "#f1f5f9"],  # Casi blanco para bajo estrés
+                        [0.5, "#4A69BD"],  # Azul Mindra para medio
+                        [1.0, "#2d3436"]   # Navy profundo para alerta máxima
                     ],
-
                     aspect='auto',
-                    title="Mapa de Calor de Estrés")
+                    title="Distribución de Estrés por Equipo")
         
         #ajuste de textos
         # Ajustar estilo de textos

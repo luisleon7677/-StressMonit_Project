@@ -1,51 +1,63 @@
 {% extends "base.html" %}
-{% block content %}
-<link rel="stylesheet" href="/static/usuarios.css">
-<link rel="stylesheet" href="/static/create_usuario.css"><!-- o el mismo archivo donde definiste el formulario -->
 
-<div class="usuarios-container">
-  <div class="titulo-principal">
-    <h1>Editar usuario</h1>
+{% block content %}
+<div class="registration-container" style="max-width: 600px; margin: 0 auto;">
+  <div class="titulo-principal mb-4">
+    <h1 class="h3 fw-bold d-flex align-items-center gap-2">
+      <span class="material-symbols-outlined text-primary">edit_note</span>
+      Editar Usuario
+    </h1>
   </div>
 
-  <form id="edit-user-form" class="form-create-user"
-        method="POST"
-        action="{{ url_for('editar_usuario_route', id=usuario.id) }}">
+  <div class="card-custom shadow-sm border-0">
+    <div class="card-body p-4">
+      <form id="edit-user-form" method="POST" action="{{ url_for('editar_usuario_route', id=usuario.id) }}"
+        class="needs-validation" novalidate>
 
-    <!-- Nombre completo -->
-    <div class="form-group">
-      <label for="nombre">Nombre completo</label>
-      <input type="text"
-             id="nombre"
-             name="nombre"
-             value="{{ usuario.nombre }}"
-             required>
-    </div>
+        <div class="mb-4">
+          <label for="nombre" class="form-label fw-semibold">Nombre Completo</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">badge</span></span>
+            <input type="text" id="nombre" name="nombre" class="form-control border-start-0"
+              value="{{ usuario.nombre }}" required>
+          </div>
+        </div>
 
-    <!-- Usuario -->
-    <div class="form-group">
-      <label for="username">Usuario</label>
-      <input type="text"
-             id="username"
-             name="username"
-             value="{{ usuario.username }}"
-             required>
-    </div>
+        <div class="mb-4">
+          <label for="username" class="form-label fw-semibold">Nombre de Usuario</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">alternate_email</span></span>
+            <input type="text" id="username" name="username" class="form-control border-start-0"
+              value="{{ usuario.username }}" required>
+          </div>
+        </div>
 
-    <!-- Nueva contraseña opcional -->
-    <div class="form-group">
-      <label for="password">Nueva contraseña <small>(opcional)</small></label>
-      <input type="password"
-             id="password"
-             name="password"
-             placeholder="Dejar vacío para mantener">
-    </div>
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">Nueva Contraseña <small
+              class="text-muted">(Opcional)</small></label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">lock</span></span>
+            <input type="password" id="password" name="password" class="form-control border-start-0"
+              placeholder="Dejar vacío para mantener">
+          </div>
+          <div class="form-text mt-1 small text-muted">Ingresa una nueva contraseña solo si deseas cambiarla.</div>
+        </div>
 
-    <!-- Botones -->
-    <div class="form-actions">
-      <button type="submit" class="btn-primary">Guardar cambios</button>
-      <a href="{{ url_for('usuarios') }}" class="link-cancel">Cancelar</a>
+        <div class="d-flex align-items-center justify-content-between mt-5 pt-3 border-top">
+          <a href="{{ url_for('usuarios') }}"
+            class="text-decoration-none text-muted fw-medium d-flex align-items-center gap-1">
+            <span class="material-symbols-outlined">arrow_back</span> Cancelar
+          </a>
+          <button type="submit" class="btn-primary-custom px-5">
+            <span class="material-symbols-outlined">save</span>
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 {% endblock %}

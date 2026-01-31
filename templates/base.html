@@ -41,56 +41,60 @@
   </div>
 
   <!-- Barra lateral -->
-  <div class="barra-lateral">
-
-    <nav class="navegacion">
+  <aside class="barra-lateral">
+    <div class="sidebar-header d-flex align-items-center px-4 py-3">
+      <img src="/static/logoMindra.png" alt="Logo" height="40">
+      <span class="ms-2 fw-bold fs-5 text-primary">Mindra</span>
+    </div>
+    <nav class="navegacion mt-4">
       <ul>
         <li>
-          <a href="/inicio" class="{% if request.endpoint=='inicio' %}activo{% endif %}">
-            <span class="material-symbols-outlined">home </span>
-            Inicio
+          <a href="/inicio" class="nav-link-custom {% if request.endpoint=='inicio' %}activo{% endif %}">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="nav-text">Inicio</span>
           </a>
         </li>
         <li>
-          <a href="/usuarios" class="{% if request.endpoint=='usuarios' %}activo{% endif %}">
-            <span class="material-symbols-outlined"> account_circle </span>
-            Usuarios
+          <a href="/usuarios" class="nav-link-custom {% if request.endpoint=='usuarios' %}activo{% endif %}">
+            <span class="material-symbols-outlined">group</span>
+            <span class="nav-text">Usuarios</span>
           </a>
         </li>
         <li>
-          <a href="/actividades" class="{% if request.endpoint=='actividades' %}activo{% endif %}">
-            <span class="material-symbols-outlined">leaderboard</span>
-            Actividades
+          <a href="/actividades" class="nav-link-custom {% if request.endpoint=='actividades' %}activo{% endif %}">
+            <span class="material-symbols-outlined">exercise</span>
+            <span class="nav-text">Actividades</span>
           </a>
         </li>
         <li>
-          <a href="/recursos" class="{% if request.endpoint=='recursos' %}activo{% endif %}">
-            <span class="material-symbols-outlined">plagiarism</span>
-            Recursos
+          <a href="/recursos" class="nav-link-custom {% if request.endpoint=='recursos' %}activo{% endif %}">
+            <span class="material-symbols-outlined">library_books</span>
+            <span class="nav-text">Recursos</span>
           </a>
         </li>
         <li>
           <a href="/list_employees"
-            class="{% if request.endpoint=='list_employees' or request.endpoint=='movil_monitoring' %}activo{% endif %}">
-            <span class="material-symbols-outlined">visibility</span>
-            Monitoreo
+            class="nav-link-custom {% if request.endpoint=='list_employees' or request.endpoint=='movil_monitoring' %}activo{% endif %}">
+            <span class="material-symbols-outlined">monitoring</span>
+            <span class="nav-text">Monitoreo</span>
           </a>
         </li>
         <li>
-          <a href="/soporte" class="{% if request.endpoint=='soporte' %}activo{% endif %}">
-            <span class="material-symbols-outlined">help</span>
-            Soporte
-          </a>
-        </li>
-        <li>
-          <a href="/logout" class="logout-link">
-            <span class="material-symbols-outlined">logout</span>
-            Cerrar Sesión
+          <a href="/soporte" class="nav-link-custom {% if request.endpoint=='soporte' %}activo{% endif %}">
+            <span class="material-symbols-outlined">support_agent</span>
+            <span class="nav-text">Soporte</span>
           </a>
         </li>
       </ul>
+      <div class="sidebar-footer px-4 mt-auto">
+        <a href="/logout" class="nav-link-custom logout-link opacity-75">
+          <span class="material-symbols-outlined">logout</span>
+          <span class="nav-text">Cerrar Sesión</span>
+        </a>
+      </div>
     </nav>
-  </div>
+  </aside>
+
 
   <!-- Contenedor principal -->
   <main>

@@ -1,66 +1,86 @@
 {% extends "base.html" %}
-{% block content %}
-<link rel="stylesheet" href="/static/usuarios.css">
-<link rel="stylesheet" href="/static/create_usuario.css"><!-- si lo pones aparte -->
 
-<div class="usuarios-container">
-  <div class="titulo-principal">
-    <h1>Crear nuevo usuario</h1>
+{% block content %}
+<div class="registration-container" style="max-width: 600px; margin: 0 auto;">
+  <div class="titulo-principal mb-4">
+    <h1 class="h3 fw-bold d-flex align-items-center gap-2">
+      <span class="material-symbols-outlined text-primary">person_add</span>
+      Crear Nuevo Usuario
+    </h1>
   </div>
 
-  <form id="create-user-form" class="form-create-user"
-        method="POST" action="{{ url_for('crear_usuario_route') }}">
+  <div class="card-custom shadow-sm border-0">
+    <div class="card-body p-4">
+      <form id="create-user-form" method="POST" action="{{ url_for('crear_usuario_route') }}" class="needs-validation"
+        novalidate>
 
-    <!-- Nombre completo -->
-    <div class="form-group">
-      <label for="nombre">Nombre completo</label>
-      <input type="text" id="nombre" name="nombre"
-             placeholder="ej. Leonardo Luis" required>
+        <div class="mb-4">
+          <label for="nombre" class="form-label fw-semibold">Nombre Completo</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">badge</span></span>
+            <input type="text" id="nombre" name="nombre" class="form-control border-start-0"
+              placeholder="Ej: Leonardo Luis" required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="username" class="form-label fw-semibold">Nombre de Usuario</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">alternate_email</span></span>
+            <input type="text" id="username" name="username" class="form-control border-start-0"
+              placeholder="Ej: leonardol" required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><span
+                class="material-symbols-outlined small">lock</span></span>
+            <input type="password" id="password" name="password" class="form-control border-start-0"
+              placeholder="Ej: 12345*698@" required>
+          </div>
+        </div>
+
+        <p id="mensaje-error" class="text-danger small mb-4" style="display:none;"></p>
+
+        <div class="d-flex align-items-center justify-content-between mt-5 pt-3 border-top">
+          <a href="{{ url_for('usuarios') }}"
+            class="text-decoration-none text-muted fw-medium d-flex align-items-center gap-1">
+            <span class="material-symbols-outlined">arrow_back</span> Cancelar
+          </a>
+          <button type="submit" id="btn-submit" class="btn-primary-custom px-5">
+            <span class="material-symbols-outlined">person_add</span>
+            Crear Usuario
+          </button>
+        </div>
+      </form>
     </div>
-
-    <!-- Usuario -->
-    <div class="form-group">
-      <label for="username">Usuario</label>
-      <input type="text" id="username" name="username"
-             placeholder="ej. leonardol" required>
-    </div>
-
-    <!-- Contraseña -->
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" name="password"
-             placeholder="ej. 12345*698@" required>
-    </div>
-
-    <!-- Mensaje de error -->
-    <p id="mensaje-error"></p>
-
-    <!-- Botones -->
-    <div class="form-actions">
-      <button type="submit" class="btn-primary">Crear usuario</button>
-      <a href="{{ url_for('usuarios') }}" class="link-cancel">Cancelar</a>
-    </div>
-  </form>
+  </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const inputs = [
-    document.getElementById('nombre'),
-    document.getElementById('username'),
-    document.getElementById('password')
-  ];
-  const btn = document.querySelector('.btn-primary');
-  const msg = document.getElementById('mensaje-error');
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('create-user-form');
+    const inputs = Array.from(form.querySelectorAll('input[required]'));
+    const btn = document.getElementById('btn-submit');
+    const msg = document.getElementById('mensaje-error');
 
-  function validar() {
-    const faltan = inputs.some(i => !i.value.trim());
-    btn.disabled = faltan;
-    msg.textContent = faltan ? 'Campos requeridos a completar' : '';
-  }
+    function validar() {
+      const faltan = inputs.some(i => !i.value.trim());
+      btn.disabled = faltan;
+      if (faltan) {
+        msg.textContent = 'Todos los campos son obligatorios';
+        msg.style.display = 'block';
+      } else {
+        msg.style.display = 'none';
+      }
+    }
 
-  inputs.forEach(i => i.addEventListener('input', validar));
-  validar();
-});
+    inputs.forEach(i => i.addEventListener('input', validar));
+    validar();
+  });
 </script>
 {% endblock %}

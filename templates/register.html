@@ -1,71 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registro de Administrador</title>
+  <title>Registro Administrador – StressMonit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/register.css">
 </head>
+
 <body>
   <div class="register-container">
-    <!-- Panel del formulario -->
     <div class="form-panel">
-      <h2 class="title">Registro de Administrador</h2>
+      <h2 class="title">Crea tu Cuenta</h2>
 
-      {# Mensajes flash #}
       {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          <ul class="flash-list">
-            {% for category, msg in messages %}
-              <li class="flash flash-{{ category }}">{{ msg }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+      {% if messages %}
+      <div class="flash-list">
+        {% for category, msg in messages %}
+        <div class="flash flash-{{ category }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
       {% endwith %}
 
       <form action="{{ url_for('register') }}" method="POST" class="register-form">
-        <label>
+        <label class="full-width">
           <span>Nombre completo</span>
-          <input type="text" name="nombre" placeholder="Nombre completo" required>
+          <input type="text" name="nombre" placeholder="Juan Pérez" required autofocus>
         </label>
         <label>
           <span>Nombre de usuario</span>
-          <input type="text" name="username" placeholder="Nombre de usuario" required>
+          <input type="text" name="username" placeholder="juan.admin" required>
         </label>
         <label>
           <span>Contraseña</span>
-          <input type="password" name="password" placeholder="Contraseña" required>
+          <input type="password" name="password" placeholder="••••••••" required>
         </label>
-        <label>
+        <label class="full-width">
           <span>Correo electrónico</span>
-          <input type="email" name="correo" placeholder="Correo electrónico" required>
+          <input type="email" name="correo" placeholder="juan@mindra.com" required>
         </label>
         <label>
-          <span>Cargo</span>
-          <input type="text" name="cargo" placeholder="Cargo" required>
+          <span>Cargo Actual</span>
+          <input type="text" name="cargo" placeholder="Gerente de RRHH" required>
         </label>
         <label>
           <span>Departamento</span>
-          <input type="text" name="departamento" placeholder="Departamento" required>
+          <input type="text" name="departamento" placeholder="Administración" required>
         </label>
-        <label>
+        <label class="full-width">
           <span>Edad</span>
-          <input type="number" name="edad" placeholder="Edad" min="18" required>
+          <input type="number" name="edad" placeholder="25" min="18" required>
         </label>
 
-        <button type="submit" class="btn">Registrar Administrador</button>
+        <button type="submit" class="btn">Comenzar Ahora</button>
       </form>
 
       <p class="alternate-link">
-        ¿Ya tienes una cuenta? 
+        ¿Ya tienes una cuenta?
         <a href="{{ url_for('login') }}">Inicia sesión</a>
       </p>
     </div>
 
-    <!-- Panel del logo -->
     <div class="logo-panel">
       <img src="/static/logoMindra.png" alt="StressMonit logo">
     </div>
   </div>
 </body>
+
 </html>

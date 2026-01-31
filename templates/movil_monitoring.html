@@ -1,91 +1,98 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_table %}
+
 {% block content %}
-<link rel="stylesheet" href="/static/usuarios.css">
-<style>
-    .monitoring-card {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        margin-bottom: 20px;
-    }
-
-    .timer-display {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #343497;
-        margin: 10px 0;
-    }
-
-    .btn-control {
-        margin-right: 10px;
-        margin-bottom: 10px;
-        min-width: 120px;
-    }
-
-    .activity-list {
-        max-height: 400px;
-        overflow-y: auto;
-    }
-</style>
-
-<div class="usuarios-container">
-    <div class="titulo-principal">
-        <h1>Sesión de Monitoreo</h1>
+<div class="monitoring-session-container">
+    <div class="titulo-principal mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
-            <span class="badge bg-primary" style="font-size: 1rem;">Empleado: {{ user }}</span>
-            <span class="badge bg-secondary" style="font-size: 1rem;">ID: {{ id_user }}</span>
+            <h1 class="h3 fw-bold d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined text-primary">timer</span>
+                Sesión de Monitoreo
+            </h1>
+            <p class="text-muted mb-0">Seguimiento de actividades en tiempo real</p>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="badge bg-light text-primary border px-3 py-2 d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined small">person</span> {{ user }}
+            </span>
+            <span class="badge bg-light text-muted border px-3 py-2 d-flex align-items-center gap-2">
+                <span class="material-symbols-outlined small">fingerprint</span> ID: {{ id_user }}
+            </span>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="monitoring-card text-center">
-                <h3>Tiempo Transcurrido</h3>
-                <div id="tiempo" class="timer-display">0 segundos</div>
-                <div id="actividadActual" class="mt-2 text-muted">Ninguna actividad seleccionada</div>
+    <div class="row g-4 mobile-stack">
+        <!-- Panel de Control y Tiempo -->
+        <div class="col-lg-5 col-xl-4">
+            <div class="card-custom text-center p-4 mb-4 border-0 shadow-sm session-panel">
+                <h6 class="text-uppercase text-muted small fw-bold mb-3">Tiempo Transcurrido</h6>
+                <div id="tiempo" class="display-2 fw-bold text-primary mb-2 ls-tight">0s</div>
+                <div id="actividadActual" class="text-muted small py-2">
+                    <span class="material-symbols-outlined align-middle small">info</span>
+                    Selecciona una actividad para comenzar
+                </div>
             </div>
 
-            <div class="monitoring-card">
-                <h3>Controles</h3>
-                <div class="d-flex flex-wrap justify-content-center">
-                    <button class="btn btn-warning btn-control" onclick="pausar()">
-                        <span class="material-symbols-outlined align-middle">pause</span> Pausar
-                    </button>
-                    <button class="btn btn-success btn-control" onclick="reanudar()">
-                        <span class="material-symbols-outlined align-middle">play_arrow</span> Reanudar
-                    </button>
-                    <button class="btn btn-danger btn-control" onclick="finalizar()">
-                        <span class="material-symbols-outlined align-middle">stop</span> Finalizar
+            <div class="card-custom p-4 border-0 shadow-sm">
+                <h6 class="text-uppercase text-muted small fw-bold mb-4">Controles de Sesión</h6>
+                <div class="d-grid gap-3">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button
+                                class="btn btn-warning w-100 d-flex flex-column align-items-center py-3 gap-2 shadow-sm border-0 text-white rounded-4"
+                                onclick="pausar()">
+                                <span class="material-symbols-outlined">pause_circle</span>
+                                <span class="small fw-bold">Pausar</span>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button
+                                class="btn btn-success w-100 d-flex flex-column align-items-center py-3 gap-2 shadow-sm border-0 rounded-4"
+                                onclick="reanudar()">
+                                <span class="material-symbols-outlined">play_circle</span>
+                                <span class="small fw-bold">Reanudar</span>
+                            </button>
+                        </div>
+                    </div>
+                    <button
+                        class="btn btn-danger w-100 py-3 d-flex align-items-center justify-content-center gap-2 shadow-sm border-0 rounded-4"
+                        onclick="finalizar()">
+                        <span class="material-symbols-outlined">stop_circle</span>
+                        <span class="fw-bold">Finalizar Sesión</span>
                     </button>
                 </div>
-                <p id="estado" class="text-center mt-3 fw-bold text-primary"></p>
+                <div id="estado" class="mt-4 text-center small fw-medium text-primary p-2 bg-light rounded"
+                    style="display: none;"></div>
             </div>
         </div>
 
-        <div class="col-md-8">
-            <div class="monitoring-card">
-                <h3>Seleccionar Actividad</h3>
-                <p class="text-muted">Haga clic en una actividad para comenzar el monitoreo</p>
-                <div class="tabla-responsive activity-list">
-                    <table class="styled-table">
-                        <thead>
+        <!-- Selección de Actividades -->
+        <div class="col-lg-7 col-xl-8">
+            <div class="card-custom border-0 shadow-sm overflow-hidden p-0">
+                <div class="card-header bg-white border-0 p-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Catálogo de Actividades</h6>
+                    <p class="text-muted small mb-0">Toca una actividad para iniciar el monitoreo</p>
+                </div>
+
+                <div class="table-responsive" style="max-height: 500px;">
+                    <table class="table table-hover align-middle mb-0 activity-table">
+                        <thead class="bg-light">
                             <tr>
-                                <th>#</th>
-                                <th>Actividad</th>
-                                <th>Acción</th>
+                                <th class="px-4 py-3 text-muted small" style="width: 60px;">#</th>
+                                <th class="py-3 text-muted small">Nombre de la Actividad</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for activity in activities %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td><strong>{{ activity[1] }}</strong></td>
-                                <td>
-                                    <button class="btn btn-outline-primary btn-sm"
-                                        onclick="cambiarActividad('{{ activity[0] }}', '{{ activity[1] }}')">
-                                        Monitorear
-                                    </button>
+                            <tr id="row-{{ activity[0] }}" class="clickable-row"
+                                onclick="cambiarActividad('{{ activity[0] }}', '{{ activity[1] }}')">
+                                <td class="px-4 text-muted small">{{ loop.index }}</td>
+                                <td class="py-3">
+                                    <div class="d-flex justify-content-between align-items-center pe-3">
+                                        <div class="fw-semibold">{{ activity[1] }}</div>
+                                        <span
+                                            class="material-symbols-outlined text-muted small play-indicator">play_circle</span>
+                                    </div>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -97,22 +104,35 @@
     </div>
 </div>
 
+
 <script>
-    // Configuración inicial
     const ID_USER = "{{ id_user or '' }}";
     const USER_NAME = "{{ user or '' }}";
 
-    // Estado del monitoreo
     let actividadActualId = null;
     let actividadActualNombre = null;
-
-    // Timer
     let segundos = 0;
     let intervalo = null;
     let enPausa = false;
 
+    function formatTime(s) {
+        if (s < 60) return `${s}s`;
+        const mins = Math.floor(s / 60);
+        const secs = s % 60;
+        return `${mins}m ${secs}s`;
+    }
+
     function pintarTiempo() {
-        document.getElementById("tiempo").innerText = `${segundos} segundos`;
+        document.getElementById("tiempo").innerText = formatTime(segundos);
+    }
+
+    function mostrarEstado(msg, persistent = false) {
+        const el = document.getElementById("estado");
+        el.innerText = msg;
+        el.style.display = "block";
+        if (!persistent) {
+            setTimeout(() => { if (el.innerText === msg) el.style.display = "none"; }, 3000);
+        }
     }
 
     function iniciarConteo() {
@@ -136,10 +156,7 @@
     }
 
     async function enviarPost(idActividad, nombreActividad, tiempoSegundos) {
-        if (!ID_USER) {
-            console.warn("Falta id_user en la URL.");
-            return false;
-        }
+        if (!ID_USER) return false;
 
         const formData = new URLSearchParams();
         formData.append("id_user", ID_USER);
@@ -156,7 +173,7 @@
             });
             return res.ok;
         } catch (e) {
-            console.error("Error en enviarPost:", e);
+            console.error(e);
             return false;
         }
     }
@@ -164,72 +181,67 @@
     async function cambiarActividad(nuevaId, nuevaNombre) {
         try {
             if (actividadActualId !== null) {
-                document.getElementById("estado").innerText =
-                    `Guardando ${actividadActualNombre} (${segundos}s)...`;
-
+                mostrarEstado(`Guardando ${actividadActualNombre}...`, true);
                 await enviarPost(actividadActualId, actividadActualNombre, segundos);
             }
 
+            // UI Feedback para la fila seleccionada
+            document.querySelectorAll('tr').forEach(tr => tr.classList.remove('table-primary-subtle'));
+            document.getElementById(`row-${nuevaId}`).classList.add('table-primary-subtle');
+
             actividadActualId = nuevaId;
             actividadActualNombre = nuevaNombre;
-            document.getElementById("actividadActual").innerText = `Actividad: ${actividadActualNombre}`;
+            document.getElementById("actividadActual").innerHTML = `
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                    Actividad Actual: ${actividadActualNombre}
+                </span>`;
 
             resetConteo();
             enPausa = false;
             iniciarConteo();
-
-            document.getElementById("estado").innerText = `Monitoreando: ${actividadActualNombre}`;
+            mostrarEstado(`Monitoreando: ${actividadActualNombre}`);
         } catch (e) {
-            console.error(e);
-            document.getElementById("estado").innerText = "Error enviando el monitoreo.";
+            mostrarEstado("Error al cambiar actividad");
         }
     }
 
     function pausar() {
         if (actividadActualId === null) return;
         enPausa = true;
-        document.getElementById("estado").innerText = "Pausado";
+        mostrarEstado("Sesión Pausada");
     }
 
     function reanudar() {
         if (actividadActualId === null) {
-            alert("Selecciona una actividad primero.");
+            alert("Por favor, selecciona una actividad para comenzar.");
             return;
         }
         enPausa = false;
         iniciarConteo();
-        document.getElementById("estado").innerText = "Reanudado";
+        mostrarEstado("Sesión Reanudada");
     }
 
     async function finalizar() {
-        if (!confirm("¿Desea finalizar el monitoreo y regresar al resumen?")) return;
+        if (!confirm("¿Deseas finalizar la sesión de monitoreo? Los datos actuales se guardarán automáticamente.")) return;
 
         try {
             if (actividadActualId !== null) {
-                document.getElementById("estado").innerText = "Finalizando y guardando...";
+                mostrarEstado("Guardando y cerrando sesión...", true);
                 await enviarPost(actividadActualId, actividadActualNombre, segundos);
             }
 
             detenerConteo();
-            resetConteo();
-            actividadActualId = null;
-            actividadActualNombre = null;
-            enPausa = false;
-
-            document.getElementById("actividadActual").innerText = "Sesión finalizada";
-            document.getElementById("estado").innerText = "Redirigiendo...";
-
-            // Redirigir al inicio después de un breve delay para asegurar el POST
-            setTimeout(() => {
-                window.location.href = "/inicio";
-            }, 500);
-
+            window.location.href = "/inicio";
         } catch (e) {
-            console.error(e);
-            document.getElementById("estado").innerText = "Error al finalizar.";
-            // Si hay error, igual redirigimos para no dejar al usuario atrapado
             window.location.href = "/inicio";
         }
     }
 </script>
+
+<style>
+    .table-primary-subtle {
+        background-color: rgba(74, 105, 189, 0.1) !important;
+        border-left: 4px solid var(--primary);
+    }
+</style>
 {% endblock %}
