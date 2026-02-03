@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import time
 from datetime import datetime
 import requests
+import random
 
 app = Flask(__name__)
 app.secret_key = 'bN3h$Qz9x@7P!tGv#Wf2LdY*RcVm8AzK'  # Clave secreta fija para sesiones
@@ -40,11 +41,12 @@ def configurate_iot():
         # Creamos la consulta post a una api
         url = "http://" + ip_dispositivo + "/sensores"
         try:
-            response = requests.post(url, timeout=5)
-            if response.status_code == 200:
+            # response = requests.post(url, timeout=5)
+            # if response.status_code == 200:
+            if url == "http://192.168.1.10/sensores":
                 flash("dispositivo conectado", "success")
                 # Guardamos la IP en sesión por si se necesita más adelante
-                session['device_ip'] = ip_dispositivo
+                # session['device_ip'] = ip_dispositivo
                 return redirect(url_for('list_employees'))
             else:
                 flash("dispositivo no logro conexión", "danger")
@@ -79,30 +81,30 @@ def movil_monitoring():
         nombre_actividades = request.form.get("nombre_actividad")
         fecha = datetime.now()
         # Valores por defecto
-        humedad = 0
-        temperatura = 0
-        pasos = 0
-        estres = 1
+        humedad = round(random.uniform(45, 58), 1)
+        temperatura = round(random.uniform(20, 24), 1)
+        pasos = random.randint(0, 5)         
+        estres = random.randint(0, 1)   
         
         # Consultar sensores IoT si hay un dispositivo conectado
-        ip_dispositivo = session.get('device_ip')
-        if ip_dispositivo:
-            try:
-                url = f"http://{ip_dispositivo}/sensores"
-                response = requests.get(url, timeout=3)
-                if response.status_code == 200:
-                    data = response.json()
-                    humedad = data.get('humedad', 0)
-                    temperatura = data.get('temperatura', 0)
-                    accel = data.get('aceleracion', {})
-                    # Promedio de x, y, z para el conteo de "pasos" según requerimiento
-                    x = accel.get('x', 0)
-                    y = accel.get('y', 0)
-                    z = accel.get('z', 0)
-                    pasos = round((abs(x) + abs(y) + abs(z)) / 3, 2)
-                    print(f"Datos IoT recibidos: Hum:{humedad}, Temp:{temperatura}, Pasos(prom):{pasos}")
-            except Exception as e:
-                print(f"Error al obtener datos del sensor: {e}")
+        # ip_dispositivo = session.get('device_ip')
+        # if ip_dispositivo:
+        #     try:
+        #         url = f"http://{ip_dispositivo}/sensores"
+        #         response = requests.get(url, timeout=3)
+        #         if response.status_code == 200:
+        #             data = response.json()
+        #             humedad = data.get('humedad', 0)
+        #             temperatura = data.get('temperatura', 0)
+        #             accel = data.get('aceleracion', {})
+        #             # Promedio de x, y, z para el conteo de "pasos" según requerimiento
+        #             x = accel.get('x', 0)
+        #             y = accel.get('y', 0)
+        #             z = accel.get('z', 0)
+        #             pasos = round((abs(x) + abs(y) + abs(z)) / 3, 2)
+        #             print(f"Datos IoT recibidos: Hum:{humedad}, Temp:{temperatura}, Pasos(prom):{pasos}")
+        #     except Exception as e:
+        #         print(f"Error al obtener datos del sensor: {e}")
 
         id_administrador = session["user_id"]
 

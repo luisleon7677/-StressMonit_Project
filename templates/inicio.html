@@ -117,7 +117,7 @@
     </div>
 
     {% if usuarios %}
-    {% call render_table(["ID", "Empleado", "Actividad", "Humedad", "Temperatura", "Pasos", "Intensidad"],
+    {% call render_table(["ID", "Empleado", "Actividad", "Humedad", "Temperatura", "Intensidad"],
     table_id="tablaInicio") %}
     {% for usuario in usuarios %}
     <tr>
@@ -126,7 +126,7 @@
       <td>{{ usuario[2] }}</td>
       <td class="text-center">{{ usuario[3] }}%</td>
       <td class="text-center">{{ usuario[4] }}°C</td>
-      <td class="text-center">{{ usuario[5] }}</td>
+      <!-- <td class="text-center">{{ usuario[5] }}</td> -->
       <td class="text-center">
         {% set val = usuario[6]|int %}
         <span
