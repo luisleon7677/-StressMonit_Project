@@ -26,7 +26,8 @@ def initialize_pool():
             password=os.getenv("PASSWORD"),
             host=os.getenv("HOST"),
             port=os.getenv("PORT"),
-            database=os.getenv("DBNAME")
+            database=os.getenv("DBNAME"),
+             sslmode="require"
         )
         print("Pool de conexiones creado exitosamente")
     except Exception as e:
