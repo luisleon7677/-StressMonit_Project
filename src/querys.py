@@ -1,92 +1,109 @@
 from src.conexion import get_connection, return_connection
 from werkzeug.security import generate_password_hash, check_password_hash
+from psycopg2 import OperationalError, InterfaceError
 import time
 
-def eliminarRecurso(id,id_admin):
-    #me conecto a base de datos
-    conexion = get_connection()
-    if conexion:
-        try:
-            #creamos el cursor
-            cursor = conexion.cursor()
-            #preparamos la query
-            query = """
-            delete from recursos where id = %s AND id_administrador = %s;
-            """
-            #ingresamos la consulta
-            cursor.execute(query,(id,id_admin,))
-            #confirmo la insersion a base de datos (IMPORTANTE)
-            conexion.commit()
-            #cerrar la conexion
-            cursor.close()
-            return_connection(conexion) #reemplaza al conexion.close()
 
-            print("recurso eliminado")
-            return "Recurso elimindo",200
-            
-        except Exception as e:
-            print(f"Error al eliminar registro: {e}")
-            return None
-def insertarRecursos(titulo,autor, contenido,id_admin):
-    #me conecto a base de datos
-    conexion = get_connection()
-    if conexion:
-        try:
-            #creamos el cursor
-            cursor = conexion.cursor()
-            #preparamos la query
-            query = """
-            insert into recursos (titulo,autor,contenido,id_administrador) values(%s,%s,%s,%s);
-            """
-            #ingresamos la consulta
-            cursor.execute(query,(titulo,autor,contenido,id_admin))
-            #confirmo la insersion a base de datos (IMPORTANTE)
-            conexion.commit()
-            #cerrar la conexion
-            cursor.close()
-            return_connection(conexion)
-            print("recurso insertado")
-            return "Recurso insertado",200
-            
-        except Exception as e:
-            print(f"Error al insertar registro: {e}")
-            return None
+def _is_connection_error(error):
+    message = str(error).lower()
+    return isinstance(error, (OperationalError, InterfaceError)) or (
+        "server closed the connection" in message
+        or "connection already closed" in message
+        or "terminating connection" in message
+    )
 
-#funcion para obtener datos de recursos
+
+def eliminarRecurso(id, id_admin):
+    conexion = get_connection()
+    if not conexion:
+        return None
+    close_conn = False
+    try:
+        cursor = conexion.cursor()
+        query = """
+        delete from recursos where id = %s AND id_administrador = %s;
+        """
+        cursor.execute(query, (id, id_admin,))
+        conexion.commit()
+        cursor.close()
+        print("recurso eliminado")
+        return "Recurso elimindo", 200
+    except Exception as e:
+        print(f"Error al eliminar registro: {e}")
+        close_conn = _is_connection_error(e)
+        try:
+            conexion.rollback()
+        except Exception:
+            pass
+        return None
+    finally:
+        return_connection(conexion, close=close_conn)
+
+
+def insertarRecursos(titulo, autor, contenido, id_admin):
+    conexion = get_connection()
+    if not conexion:
+        return None
+    close_conn = False
+    try:
+        cursor = conexion.cursor()
+        query = """
+        insert into recursos (titulo,autor,contenido,id_administrador) values(%s,%s,%s,%s);
+        """
+        cursor.execute(query, (titulo, autor, contenido, id_admin))
+        conexion.commit()
+        cursor.close()
+        print("recurso insertado")
+        return "Recurso insertado", 200
+    except Exception as e:
+        print(f"Error al insertar registro: {e}")
+        close_conn = _is_connection_error(e)
+        try:
+            conexion.rollback()
+        except Exception:
+            pass
+        return None
+    finally:
+        return_connection(conexion, close=close_conn)
+
+
 def recursosByIdVer(id_recurso):
     conexion = get_connection()
-    if conexion:
-        try:
-            start_time = time.time()  # ⏱️ Inicio del temporizador
-            
-            cursor = conexion.cursor()
-            query = """
-            select titulo,autor,contenido from recursos where id=%s; 
-            """
-            cursor.execute(query, (id_recurso,))
-            resultados = cursor.fetchall()
-            
-            duration = time.time() - start_time  # ⏱️ Fin del temporizador
-            print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
+    if not conexion:
+        return None
 
-            if resultados:
-                print("Recurso por id:")
-                return resultados
-            else:
-                print("No se encontraron resultados")
-                return "No se encontraron datos", 404
+    cursor = None
+    try:
+        start_time = time.time()
+        cursor = conexion.cursor()
+        query = """
+        select titulo,autor,contenido from recursos where id=%s; 
+        """
+        cursor.execute(query, (id_recurso,))
+        resultados = cursor.fetchall()
+        duration = time.time() - start_time
+        print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
 
-        except Exception as e:
-            print(f"Error al realizar consulta: {e}")
-            return None
-
-        finally:
-            if cursor:
+        if resultados:
+            print("Recurso por id:")
+            return resultados
+        print("No se encontraron resultados")
+        return "No se encontraron datos", 404
+    except Exception as e:
+        print(f"Error al realizar consulta: {e}")
+        return_connection(conexion, close=_is_connection_error(e))
+        conexion = None
+        return None
+    finally:
+        if cursor:
+            try:
                 cursor.close()
-            if conexion:
-                return_connection(conexion)
+            except Exception:
+                pass
+        if conexion:
+            return_connection(conexion)
 
-#funcion para obtener data de estres por usuarios
+
 def estresByUsers(id_admin):
     conexion = get_connection()
     if not conexion:
@@ -105,10 +122,11 @@ def estresByUsers(id_admin):
         duration = time.time() - start_time
         print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
         cursor.close()
-        # Si no hay filas, devuelve lista vacía en vez de tupla de error
         return resultados if resultados else []
     except Exception as e:
         print(f"Error al realizar consulta: {e}")
+        return_connection(conexion, close=_is_connection_error(e))
+        conexion = None
         return []
     finally:
         if conexion:
@@ -116,36 +134,48 @@ def estresByUsers(id_admin):
 
 
 def listarQuerys(query, params=None):
-    connection = get_connection()
-    if not connection:
-        print("Error: No se pudo obtener conexión del pool")
+    """Ejecuta una consulta con reintento si Supabase cerró la conexión idle."""
+    last_error = None
 
-    try:
-        with connection:
+    for attempt in range(2):
+        connection = get_connection()
+        if not connection:
+            print("Error: No se pudo obtener conexión del pool")
+            return None
+
+        try:
             with connection.cursor() as cursor:
                 if params:
                     cursor.execute(query, params)
                 else:
                     cursor.execute(query)
-                
-                if query.strip().upper().startswith('SELECT'):
-                    return cursor.fetchall()
+
+                if query.strip().upper().startswith("SELECT"):
+                    result = cursor.fetchall()
                 else:
-                    # El 'with connection' hace commit automático al salir
-                    return True
-                    
-    except Exception as e:
-        print(f"Error en la consulta: {str(e)}")
-        # El 'with connection' hará rollback si hay excepción
-        return None
-    finally:
-        if connection:
+                    connection.commit()
+                    result = True
             return_connection(connection)
+            return result
+        except Exception as e:
+            last_error = e
+            print(f"Error en la consulta: {str(e)}")
+            try:
+                connection.rollback()
+            except Exception:
+                pass
+            return_connection(connection, close=_is_connection_error(e))
+            if not _is_connection_error(e) or attempt == 1:
+                break
+
+    return None
+
 
 def create_user(username, password):
     hashed_pw = generate_password_hash(password)
     query = "INSERT INTO usuarios (username, password) VALUES (%s, %s)"
     return listarQuerys(query, (username, hashed_pw))
+
 
 def verify_password(username, password):
     query = "SELECT password FROM usuarios WHERE username = %s"
@@ -153,6 +183,7 @@ def verify_password(username, password):
     if result and len(result) > 0:
         return check_password_hash(result[0][0], password)
     return False
+
 
 def crear_actividad(nombre, descripcion, grado_dif, id_administrador):
     """Crea una nueva actividad con el administrador asignado"""
@@ -163,12 +194,13 @@ def crear_actividad(nombre, descripcion, grado_dif, id_administrador):
     """
     params = (nombre, descripcion, float(grado_dif), int(id_administrador))
     return listarQuerys(query, params)
-def recursosByTitle(titulo,id_admin):
+
+
+def recursosByTitle(titulo, id_admin):
     conexion = get_connection()
     if not conexion:
         return []
     try:
-        
         start_time = time.time()
         cursor = conexion.cursor()
         query = """
@@ -176,26 +208,17 @@ def recursosByTitle(titulo,id_admin):
         FROM recursos
         WHERE titulo ILIKE '%%'|| %s || '%%' AND id_administrador=%s;
         """
-        cursor.execute(query, (titulo,int(id_admin),))
+        cursor.execute(query, (titulo, int(id_admin),))
         resultados = cursor.fetchall()
         duration = time.time() - start_time
         print(f"🔍 Consulta a Supabase tardó: {duration:.2f} segundos")
         cursor.close()
-        # Si no hay filas, devuelve lista vacía en vez de tupla de error
         return resultados if resultados else []
     except Exception as e:
         print(f"Error al realizar consulta: {e}")
+        return_connection(conexion, close=_is_connection_error(e))
+        conexion = None
         return []
     finally:
         if conexion:
             return_connection(conexion)
-
-
-#Llamamos a la función principal solo si este archivo es ejecutado directamente
-#if __name__ == "__main__":
-#    titulo='Resour'
-#    id=2
-#    print(recursosByTitle(titulo,id))
-  
-#usar este comando para ejecutar: python -m src.querys
-#eso debido a que es un paquete de python
